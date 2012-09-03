@@ -1,0 +1,24 @@
+{
+  "name": "scirpus",
+  "version": "0.0.0",
+  "description": "a simple script which converts to javascript",
+  "main": "index.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": "",
+  "keywords": [
+    "javascript"
+  ],
+  "author": "jiyinyiyong",
+  "license": "MIT",
+  "dependencies": {
+    "escodegen": "0.0.x",
+    "esprima": "0.9.x",
+    "colors": "0.6.x",
+    "guil": "0.0.x"
+  }
+}
