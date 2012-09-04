@@ -24,7 +24,7 @@ count = (arr, choice) ->
     else if (len > 2) and choice['>2']? then choice['>2']
     else if (len > 1) and choice['>1']? then choice['>1']
     else if (len > 0) and choice['>0']? then choice['>0']
-    else -> show 'not suitable tpl'
+    else -> show 'no suitable tpl', arr.join(' ')
   f arr
 
 err = (info) -> throw new Error info
@@ -33,7 +33,7 @@ not_arr = -> err 'not arr'
 not_str = -> err 'not str'
 
 c = (x) ->
-  # show 'c::', x
+  show 'c::', x
   if isStr x then x
   else if x.length is 0 then 'undefined'
   else if (x.length is 1) and (asNum x[0]) then x[0]
@@ -56,7 +56,7 @@ cl = (x) -> "#{c x}\n"
 run_tpl =
   '>0': (arr) ->
     head = arr[0]
-    body = arr[1..].map(c).join(',')
+    body = arr[1..].map(cc).join(',')
     "#{head}(#{body})"
 
 append_tpl =
@@ -72,18 +72,9 @@ append_tpl =
 assign =
   '<1': no_paras
   '=3': (arr) ->
-    if isStr arr[1]
-      head = arr[1]
-      body = c arr[2]
-      "#{head} = #{body}\n"
-    else assign['>1'] arr
-  '>1': (arr) ->
-    unless arr[1..].every isArr then not_arr()
-    first_str = (item) -> isStr item[0]
-    unless arr[1..].every first_str then not_str()
-    method = (item) -> "#{item[0]} = (#{c item[1]})\n"
-    arr[1..].map(method).join('')
-
+    head = c arr[1]
+    body = c arr[2]
+    "#{head} = #{body}\n"
 compare =
   '<3': no_paras
   '>2': (arr) ->
@@ -118,34 +109,25 @@ value =
 
 do_tpl =
   '=1': no_paras
-  '>1': (arr) -> arr[1..].map(c).join('\n')
+  '>1': (arr) -> arr[1..].map(cl).join('')
 
 fn_tpl =
   '=2': no_paras
   '>2': (arr) ->
     head = arr[1].join(',')
-    body = arr[2...-1].map(cl).join('')
-    tail = cl (last arr)
-    "(function(#{head}){#{body}\nreturn #{tail}})"
-
-function_tpl =
-  '<3': no_paras
-  '>2': (arr) ->
-    name = arr[1]
-    head = arr[2].join(',')
-    body = arr[3...-1].map(cl).join('')
-    tail = cl (last arr)
-    "function #{name}(#{head}){#{body}\nreturn #{tail}}"
+    body = c arr[2]
+    "(function(#{head}){#{body}})"
 
 if_tpl =
   '=3': (arr) ->
     head = c arr[1]
-    body = arr[2].map(cl).join('')
+    body = c arr[2]
     "if(#{head}){#{body}}"
   '=4': (arr) ->
     head = c arr[1]
-    body = arr[2].map(cl).join('')
-    more = arr[3].map(cl).join('')
+    body = c arr[2]
+    more = c arr[3]
+    show 'more::::', more
     "if(#{head}){#{body}}else{#{more}}"
 
 while_tpl =
@@ -193,9 +175,7 @@ refer =
     body = arr[2..]
     while body.length > 0
       take = body.shift()
-      head +=
-        if isStr take then ".#{take}"
-        else ".#{take[0]}(#{take[1..].map(c).join(',')})"
+      head += "[#{c take}]"
     head
 
 slice =
@@ -209,6 +189,12 @@ slice =
     from = cc arr[2]
     end = cc arr[3]
     "#{head}.slice(#{from}, #{end})"
+
+return_tpl =
+  '=2' : (arr) -> "return #{cc arr[1]}"
+
+comment =
+  '>0': -> ''
 
 tpl =
   '=': assign
@@ -235,13 +221,14 @@ tpl =
   'undefined': value
   'break': value
   'continue': value
+  'true': value
+  'false': value
   'typeof': run_tpl
-  'return': run_tpl
   'not': run_tpl
   '!': run_tpl
+  '<-': return_tpl
   'do': do_tpl
-  'fn': fn_tpl
-  'function': function_tpl
+  '->': fn_tpl
   'if': if_tpl
   'while': while_tpl
   'each': each_tpl
@@ -249,6 +236,7 @@ tpl =
   'switch': switch_tpl
   '.': refer
   '..': slice
+  '--': comment
 
 exports.to_code = (tree) ->
   tree.map(cl).join('')
