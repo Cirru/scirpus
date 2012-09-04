@@ -7,7 +7,7 @@ escodegen = require 'escodegen'
 global.put = (x...) ->
   console.log  'debug:'.red
   console.log.call console, x
-global.show = console.log 
+global.show = ->
 
 to_aray = (require './src/to_aray').to_aray
 to_tree = (require './src/to_tree').to_tree
@@ -33,8 +33,9 @@ compile = ->
   ret = escodegen.generate (esprima.parse code)
   show '%%%%%%%%%%%%'.blue
   show 'ret::'.red, ret
+  ret
 
 op = interval: 300
-do compile
-fs.watchFile source_file, op, ->
-  do compile
+console.log (do compile)
+# fs.watchFile source_file, op, ->
+#   do compile
