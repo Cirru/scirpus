@@ -57,7 +57,7 @@ run_tpl =
   '>0': (arr) ->
     head = arr[0]
     body = arr[1..].map(cc).join(',')
-    "#{head}(#{body})"
+    "#{head}(#{body})\n"
 
 append_tpl =
   '=1': no_paras
@@ -132,7 +132,7 @@ if_tpl =
 
 while_tpl =
   '<3': no_paras
-  '>3': (arr) ->
+  '>2': (arr) ->
     head = c arr[1]
     body = arr[2..].map(cl).join('')
     "while(#{head}){#{body}}"
@@ -175,7 +175,9 @@ refer =
     body = arr[2..]
     while body.length > 0
       take = body.shift()
-      head += "[#{c take}]"
+      head +=
+        if isStr take then "[#{c take}]"
+        else "[#{c take[0]}](#{c (take[1] or '')})"
     head
 
 slice =
@@ -195,6 +197,9 @@ return_tpl =
 
 comment =
   '>0': -> ''
+
+new_tpl =
+  '=3': (arr) -> "new #{arr[1]}(#{c arr[2]})"
 
 tpl =
   '=': assign
@@ -222,6 +227,7 @@ tpl =
   'break': value
   'continue': value
   'true': value
+  'null': value
   'false': value
   'typeof': run_tpl
   'not': run_tpl
@@ -237,6 +243,7 @@ tpl =
   '.': refer
   '..': slice
   '--': comment
+  'new': new_tpl
 
 exports.to_code = (tree) ->
   tree.map(cl).join('')

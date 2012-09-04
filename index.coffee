@@ -7,7 +7,7 @@ escodegen = require 'escodegen'
 global.put = (x...) ->
   console.log  'debug:'.red
   console.log.call console, x
-global.show = ->
+global.show = console.log
 
 to_aray = (require './src/to_aray').to_aray
 to_tree = (require './src/to_tree').to_tree
@@ -24,18 +24,18 @@ compile = ->
   file = fs.readFileSync source_file, 'utf8'
   array = to_aray (wrap file)
   show '%%%%%%%%%%%%'.yellow
-  show '%%%%%%%%%%%%'.blue
-  show 'array'.red, array
+  show '%%%%%%%%%%%% aray'.red
+  show array
   to_html array, 'html/aray.html'
   code = to_code (to_tree array)
-  show '%%%%%%%%%%%%'.blue
-  show 'code::'.red, code
+  show '%%%%%%%%%%%% code:'.red
+  show code
   ret = escodegen.generate (esprima.parse code)
-  show '%%%%%%%%%%%%'.blue
-  show 'ret::'.red, ret
+  show '%%%%%%%%%%%% ret:'.red
+  show ret
   ret
 
 op = interval: 300
-console.log (do compile)
-# fs.watchFile source_file, op, ->
-#   do compile
+do compile
+fs.watchFile source_file, op, ->
+  do compile
