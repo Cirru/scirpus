@@ -1,12 +1,7 @@
 
-colors = require 'colors'
 esprima = require 'esprima'
 escodegen = require 'escodegen'
-# {inspect} = require 'util'
 
-global.put = (x...) ->
-  console.log  'debug:'.red
-  console.log.call console, x
 global.show = console.log
 
 to_aray = (require './src/to_aray').to_aray
@@ -18,24 +13,22 @@ wrap = (require 'guil').convert
 fs = require 'fs'
 source_file = 'source/source.sp'
 
-compile = ->
-  a = 'compile...'.red
-  # show a, b
-  file = fs.readFileSync source_file, 'utf8'
-  array = to_aray (wrap file)
-  show '%%%%%%%%%%%%'.yellow
-  show '%%%%%%%%%%%% aray'.red
-  show array
-  to_html array, 'html/aray.html'
-  code = to_code (to_tree array)
-  show '%%%%%%%%%%%% code:'.red
-  show code
-  ret = escodegen.generate (esprima.parse code)
-  show '%%%%%%%%%%%% ret:'.red
-  show ret
-  ret
+fill = (item) -> not (item.trim() in [';', ''])
 
-op = interval: 300
-do compile
-fs.watchFile source_file, op, ->
-  do compile
+convert = (file) ->
+  array = to_aray (wrap file)
+  to_html array, 'html/aray.html'
+  code = (to_code (to_tree array))
+  ret = escodegen.generate (esprima.parse code),
+    format: indent: {style: '  ',base: 0}
+  ret.split('\n').filter(fill).join('\n')
+
+path = require 'path'
+filename = path.join process.env.PWD, process.argv[2]
+unless (path.extname filename) is '.sp'
+  throw new Error 'not .sp file'
+else
+  file = fs.readFileSync filename, 'utf8'
+  ret = convert file
+  target = filename[...-3] + '.js'
+  fs.writeFileSync target, ret, 'utf8'

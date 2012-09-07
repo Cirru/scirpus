@@ -33,7 +33,7 @@ not_arr = -> err 'not arr'
 not_str = -> err 'not str'
 
 c = (x) ->
-  show 'c::', x
+  # show 'c::', x
   if isStr x then x
   else if x.length is 0 then 'undefined'
   else if (x.length is 1) and (asNum x[0]) then x[0]
@@ -51,13 +51,13 @@ cc = (x) ->
     ret = count x, (if tpl[head]? then tpl[head] else run_tpl)
     "(#{ret})"
 
-cl = (x) -> "#{c x}\n"
+cl = (x) -> "#{c x};\n"
 
 run_tpl =
   '>0': (arr) ->
     head = arr[0]
     body = arr[1..].map(cc).join(',')
-    "#{head}(#{body})\n"
+    "#{head}(#{body}) \n"
 
 append_tpl =
   '=1': no_paras
@@ -75,6 +75,7 @@ assign =
     head = c arr[1]
     body = c arr[2]
     "#{head} = #{body}\n"
+
 compare =
   '<3': no_paras
   '>2': (arr) ->
@@ -115,7 +116,7 @@ fn_tpl =
   '=2': no_paras
   '>2': (arr) ->
     head = arr[1].join(',')
-    body = c arr[2]
+    body = arr[2..].map(cl).join('')
     "(function(#{head}){#{body}})"
 
 if_tpl =
@@ -127,14 +128,14 @@ if_tpl =
     head = c arr[1]
     body = c arr[2]
     more = c arr[3]
-    show 'more::::', more
+    # show 'more::::', more
     "if(#{head}){#{body}}else{#{more}}"
 
 while_tpl =
   '<3': no_paras
   '>2': (arr) ->
     head = c arr[1]
-    body = arr[2..].map(cl).join('')
+    body = arr[2..].map(cl).join(';')
     "while(#{head}){#{body}}"
 
 each_tpl =
@@ -142,9 +143,9 @@ each_tpl =
   '>3': (arr) ->
     name = cc arr[1]
     head = arr[2]
-    body = arr[3..].map(cl).join('')
+    body = arr[3..].map(cl).join(';')
     value =
-      if head[1]? then "#{head[1]} = #{name}[#{head[0]}]\n"
+      if head[1]? then "#{head[1]} = #{name}[#{head[0]}];\n"
       else ''
     "for(#{head[0]} in #{name}){#{value}\n#{body}}"
 
@@ -153,7 +154,7 @@ try_tpl =
   '=4': (arr) ->
     head = c arr[1]
     name = arr[2]
-    body = c arr[3]
+    body = arr[3..].map(cl).join('')
     "try{#{head}}catch (#{name}){#{body}}"
 
 switch_tpl =
@@ -161,7 +162,7 @@ switch_tpl =
   '>2': (arr) ->
     head = c arr[1]
     method = (item) -> "case #{item[0]}: #{c item[1]};break;"
-    body = arr[2...-1].map(method).join('')
+    body = arr[2...-1].map(method).join(';')
     tail =
       if (last arr)[0] is 'else' then "default: #{c (last arr)[1]}"
       else method (last arr)
@@ -246,4 +247,4 @@ tpl =
   'new': new_tpl
 
 exports.to_code = (tree) ->
-  tree.map(cl).join('')
+  tree.map(cl).join(';')

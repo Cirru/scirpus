@@ -46,29 +46,27 @@ show null
 
 = f5
   -> (x)
-    do
-      show x
-      show (+ x 1)
-      show x
-      <- x
+    show x
+    show (+ x 1)
+    show x
+    <- x
 
 show true
 
 = a 'bug of js show(true)(function...)'
 
-= ret
-  .
-    -> (x) (<- x)
-    ('call')
+.
+  -> (x) (<- x)
+  ('call')
 
 = a 3
 while (< a 100)
-  do
-    show a
-    show 'line'
+  show a
+  show 'line'
 
 try
-  show 'try'
+  do
+    show 'try'
   err
   show xx
 
