@@ -91,5 +91,5 @@ parse = (tokens) ->
   # show 'ret:', ret
   ret
 
-exports.to_aray = (source) ->
+exports.parse = (source) ->
   parse (split source)
