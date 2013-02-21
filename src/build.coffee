@@ -66,7 +66,6 @@ read = (x) ->
 
 run_tpl =
   '>0': (arr) ->
-    console.log "run:", arr
     code.add arr[0]
     code.add "("
     body = arr[1..]
@@ -113,6 +112,7 @@ calculate =
 
 list =
   '>0': (arr) ->
+    console.log arr
     code.add "["
     body = arr[1..]
     if body[0]? then read body.shift()
@@ -125,6 +125,7 @@ json =
   '>0': (arr) ->
     code.add "{"
     code.new 2
+    body = arr[1..]
     write_pair = ->
       item = body.shift()
       code.add "#{item[0]}: "
@@ -134,8 +135,8 @@ json =
       code.add ", "
       code.new 0
       write_pair()
-    code.add "}"
     code.new -2
+    code.add "}"
 
 value =
   '>0': (arr) -> code.add arr[0]
@@ -339,7 +340,7 @@ tpl =
   '*': calculate
   '/': calculate
   '%': calculate
-  '#': list
+  'list': list
   '&': json
   '&&': calculate
   '||': calculate

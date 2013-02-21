@@ -1,6 +1,7 @@
 
 = a
   + 1 2 3
+
 = b
   -> (x)
     + 1 2
@@ -13,4 +14,16 @@ switch x
 
 console.log x (. a d)
 
--- @ sourceURL=a.js
+if (> 3 1) (print "code")
+
++= a 3
+
+list 1 2 3
+
+&
+  a 2
+
+-> (y)
+  <- y
+
+-- @ sourceURL=demo.js

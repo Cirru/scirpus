@@ -20,5 +20,6 @@ unless (path.extname filename) is '.sp'
 else
   do redo = ->
     file = fs.readFileSync filename, 'utf8'
-    console.log (compile file)
-  # fs.watchFile filename, interval: 100, redo
+    target = filename.replace(/\.sp/, ".js")
+    fs.writeFileSync target, (compile file)
+  fs.watchFile filename, interval: 100, redo
