@@ -50,14 +50,16 @@ code =
     # console.log "++", piece
     @data = @data + piece
     # ""
+  int: (n) ->
+    @indent += n
   new: (n) ->
-    @indent = @indent + n
+    @int n
     indentation = make_space @indent
     @data += "\n#{indentation}"
     # console.log "indentation is--:#{indentation}--", n, @indent
 
 read = (x) ->
-  # console.log "read:", x
+    # console.log "read:", x
   if isStr x then code.add x
   else if x.length is 0 then code.add 'undefined'
   else if (x.length is 1) and (asNum x[0])
@@ -85,7 +87,6 @@ append_tpl =
 assign =
   '<3': no_paras
   '=3': (arr) ->
-    code.new 0
     code.add "var "
     read arr[1]
     code.add " = "
@@ -112,7 +113,7 @@ calculate =
 
 list =
   '>0': (arr) ->
-    console.log arr
+    # console.log arr
     code.add "["
     body = arr[1..]
     if body[0]? then read body.shift()
@@ -151,13 +152,13 @@ fn_tpl =
     while head[0]?
       code.add ", #{head.shift()}"
     code.add "){"
-    code.new 2
+    code.int 2
     body.forEach (line) ->
       code.new 0
       read line
       code.add ";"
     code.new -2
-    code.add "}"
+    code.add "})"
 
 call_tpl =
   "<2": no_paras
@@ -175,6 +176,7 @@ do_tpl =
   "<2": no_paras
   ">1": (arr) ->
     body = arr[1..]
+    if body[0]? then read body.shift() 
     body.forEach (line, index) ->
       code.new 0
       read line
@@ -184,16 +186,23 @@ if_tpl =
   '=3': (arr) ->
     head = arr[1]
     body = arr[2]
-    "if(#{head}){#{body}}"
-    code.add "if("
+    code.add "if"
     read arr[1]
-    code.add "){"
+    code.add "{"
     code.new 2
     read arr[2]
     code.new -2
     code.add "}"
   '=4': (arr) ->
-    @["=3"] arr
+    head = arr[1]
+    body = arr[2]
+    code.add "if"
+    read arr[1]
+    code.add "{"
+    code.new 2
+    read arr[2]
+    code.new -2
+    code.add "}"
     code.add "else{"
     code.new 2
     read arr[3]
@@ -203,13 +212,13 @@ if_tpl =
 while_tpl =
   '<3': no_paras
   '>2': (arr) ->
-    head = c arr[1]
-    body = arr[2..].map(cl).join(';')
-    code.new 0, "while(#{head}){#{body}}"
-    code.add "while("
+    head = arr[1]
+    body = arr[2..]
+    code.add "while"
     read head
-    code.add "){"
-    code.new 2
+    console.log head
+    code.add "{"
+    code.int 2
     body.forEach (line) ->
       code.new 0
       read line
@@ -280,7 +289,10 @@ switch_tpl =
       code.add "default:"
       code.new 2
       read body[0][1]
-      code.new -2
+      code.add ";"
+      code.new 0
+      code.add "break;"
+      code.int -2
     code.new -2
     code.add "}"
 
@@ -311,7 +323,6 @@ return_tpl =
   '=2' : (arr) ->
     code.add "return "
     read arr[1]
-    code.add ";"
 
 comment =
   '>0': (arr) -> code.add "//#{arr[1..].join " "}"
