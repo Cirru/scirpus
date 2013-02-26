@@ -1,6 +1,6 @@
 {
   "name": "scirpus",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "a simple script which converts to javascript",
   "main": "lib/index.js",
   "directories": {
@@ -16,7 +16,7 @@
   "author": "jiyinyiyong",
   "license": "MIT",
   "dependencies": {
-    "she": "0.1.x"
+    "cirru-parser": "0.2.x"
   },
   "bin": {
     "scirpus": "./lib/bin.js"

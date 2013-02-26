@@ -1,7 +1,7 @@
 
 {build} = require './build'
 {parse} = require './parse'
-{convert} = require 'she'
+{wrap} = require 'cirru-parser'
 
 fs = require 'fs'
 source_file = '../source/source.sp'
@@ -9,7 +9,9 @@ source_file = '../source/source.sp'
 fill = (item) -> not (item.trim() in [';', ''])
 
 compile = (file) ->
-  array = parse (convert file)
+  text = wrap file
+  console.log text
+  array = parse text
   # console.log array
   code = build array
 
