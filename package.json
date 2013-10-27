@@ -1,13 +1,10 @@
 {
   "name": "scirpus",
   "version": "0.1.0",
-  "description": "a simple script which converts to javascript",
-  "main": "lib/index.js",
-  "directories": {
-    "doc": "docs"
-  },
+  "description": "Generate JavaScript from Cirru Grammer",
+  "main": "src/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "node-dev dev.coffee"
   },
   "repository": "",
   "keywords": [
@@ -16,9 +13,8 @@
   "author": "jiyinyiyong",
   "license": "MIT",
   "dependencies": {
-    "cirru-parser": "0.2.x"
   },
   "bin": {
-    "scirpus": "./lib/bin.js"
+    "scirpus": "./bin/index.js"
   }
 }
