@@ -18,15 +18,13 @@ main = ->
   source = fs.readFileSync source_file, "utf8"
   tree = cirru.parse source
   ast = scirpus.transform tree
-  console.log "@@@@ ast:", (stringify ast)
+  console.log "@@@@ AST @@@@"
+  console.log (stringify ast)
+  fs.writeFile "./test/ast.json", (stringify ast), ->
   res = escodegen.generate ast, opts
-  console.log "@@@@ generated", (stringify res)
-  head = "\n//# sourceMappingURL=data:application/json;base64,"
-  buffer = new Buffer (JSON.stringify res.map)
-  base64_code = buffer.toString "base64"
-  file = res.code + head + base64_code
-  console.log file
-  fs.writeFile "./compiled/demo.js", file, "utf8", ->
+  tail = "\n//# sourceMappingURL=./demo.js.map"
+  fs.writeFile "./compiled/demo.js", (res.code + tail), ->
+  fs.writeFile "./compiled/demo.js.map", (stringify res.map), ->
 
 fs.watchFile source_file, interval: 200, main
 
