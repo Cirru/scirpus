@@ -1,7 +1,9 @@
 {
   "version": 3,
-  "sources": [],
+  "sources": [
+    "../cirru/demo.cr"
+  ],
   "names": [],
-  "mappings": "",
+  "mappings": ";AAGE,C,IAAK,C,GAAE,C",
   "sourceRoot": "./"
 }

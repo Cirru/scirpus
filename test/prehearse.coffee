@@ -33,4 +33,4 @@ wrap = ->
   
 
 fs.watchFile source_file, interval: 200, wrap
-do wrap
+do main
