@@ -1,4 +1,6 @@
 
+# base on Mozilla Parsing API
+# https://developer.mozilla.org/en-US/docs/SpiderMonkey/Parser_API
 # helpers
 
 type = (x) ->
@@ -52,6 +54,10 @@ grammers =
     expand_member_expression object, property
 
   var: (args) ->
+    kind = "var"
+    decs = args[1..].map (pair) ->
+      pair.map tell
+    expand_variable_declaration decs, kind
 
 # expands
 
@@ -89,6 +95,17 @@ expand_member_expression = (object, property) ->
   property: property
   computed: no
 
+expand_variable_declaration = (decs, kind) ->
+  type: "VariableDeclaration"
+  declarations: decs.map (pair) ->
+    expand_variable_declrator pair[0], pair[1]
+  kind: kind
+
+expand_variable_declrator = (pattern, init) ->
+  type: "VariableDeclarator"
+  id: pattern
+  init: init or null
+
 # main tell feature
 
 tell = (exp) ->
@@ -109,12 +126,12 @@ tell = (exp) ->
 
 tell_from_word = (exp) ->
   text = exp.text
-  if text.match(/a-zA-Z_$/)?
+  if text.match(/^[a-zA-Z_\$]/)?
     expand_identifier exp
   else if text.match /^[0-9\/]/
     expand_literal exp
   else
-    error "#{exp} also not identifier.."
+    error "#{stringify exp} also not identifier.."
 
 tell_from_grammer = (exp) ->
   func = exp[0]
@@ -123,12 +140,26 @@ tell_from_grammer = (exp) ->
   else
     error "#{stringify func.text} not implemented"
 
+tell_statement = (exp) ->
+  if is_exp exp
+    head = exp[0]
+    if is_token head
+      console.log "head...", head.text
+      if head.text in ["var", "let"]
+        tell exp
+      else
+        type: "ExpressionStatement"
+        expression: tell exp
+    else
+      type: "ExpressionStatement"
+      expression: tell exp
+  else
+    error "#{stringify exp} not in grammer"
+
 # export function
 
 transform = (tree) ->
   type: "Program"
-  body: tree.map (exp) ->
-    type: "ExpressionStatement"
-    expression: (tell exp)
+  body: tree.map tell_statement
 
 exports.transform = transform
