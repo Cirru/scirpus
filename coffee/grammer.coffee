@@ -39,6 +39,13 @@ exports.grammer = (name) ->
     left: tell.guess args[0]
     right: tell.guess args[1]
 
+  else if name is "=" then (args) ->
+    x = args[0]
+    type: "Literal"
+    value: x.text
+    raw: x.text
+    loc: (t.copy_loc x)
+
   else
     console.log "not ready"
 

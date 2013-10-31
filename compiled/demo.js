@@ -1,3 +1,4 @@
 ;
-1 + (1 + 2);
+;
+'code like this';
 //# sourceMappingURL=./demo.js.map
