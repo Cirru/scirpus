@@ -1,13 +1,7 @@
 {
   "version": 3,
-  "sources": [
-    "../cirru/demo.cr"
-  ],
-  "names": [
-    "console",
-    "log",
-    "b"
-  ],
-  "mappings": "AACGA,O,CAAQC,G,CAAK,C;IACLC,C,GAAE,C",
+  "sources": [],
+  "names": [],
+  "mappings": "",
   "sourceRoot": "./"
 }

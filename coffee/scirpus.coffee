@@ -43,6 +43,9 @@ grammers =
 
   if: (args...) ->
 
+  "//": ->
+    expand_empty_statement()
+
   ":": (args) ->
     left = expand_identifier args[0]
     right = tell args[1]
@@ -106,6 +109,9 @@ expand_variable_declrator = (pattern, init) ->
   id: pattern
   init: init or null
 
+expand_empty_statement = ->
+  type: "EmptyStatement"
+
 # main tell feature
 
 tell = (exp) ->
@@ -145,7 +151,7 @@ tell_statement = (exp) ->
     head = exp[0]
     if is_token head
       console.log "head...", head.text
-      if head.text in ["var", "let"]
+      if head.text in ["var", "let", "//"]
         tell exp
       else
         type: "ExpressionStatement"

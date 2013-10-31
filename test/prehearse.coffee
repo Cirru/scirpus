@@ -18,14 +18,19 @@ main = ->
   source = fs.readFileSync source_file, "utf8"
   tree = cirru.parse source
   ast = scirpus.transform tree
-  console.log "@@@@ AST @@@@"
-  console.log (stringify ast)
   fs.writeFile "./test/ast.json", (stringify ast), ->
   res = escodegen.generate ast, opts
   tail = "\n//# sourceMappingURL=./demo.js.map"
   fs.writeFile "./compiled/demo.js", (res.code + tail), ->
   fs.writeFile "./compiled/demo.js.map", (stringify res.map), ->
 
-fs.watchFile source_file, interval: 200, main
+wrap = ->
+  try
+    do main
+    console.log "done"
+  catch err
+    console.log err
+  
 
-do main
+fs.watchFile source_file, interval: 200, wrap
+do wrap
