@@ -85,8 +85,9 @@ registry.empty = (code) ->
   type: "EmptyStatement"
 
 registry.block = (code) ->
+  console.log "block:", code[1]
   type: "BlockStatement"
-  body: code.map (x) ->
+  body: code[1].map (x) ->
     translate x # Statement
 
 registry.expression = (code) ->
@@ -179,12 +180,12 @@ registry.debugger = (code) ->
 
 registry["func-dec"] = (code) ->
   type: "FunctionDeclaration"
-  id: translate code[0] # Identifier
-  params: code[1].map (x) ->
+  id: translate code[1] # Identifier
+  params: code[2].map (x) ->
     translate x # Pattern
   defaults: [] # Expression.. but what is this?
   rest: null # still, what's this?
-  body: translate x # BlockStatement | Expression
+  body: translate code[3] # BlockStatement | Expression
   generator: no
   expression: no
 
@@ -219,11 +220,11 @@ registry.object = (code) ->
 registry["func-exp"] = (code) ->
   type: "FunctionExpression"
   id: code[1] # Identifier
-  params: code[1].map (x) ->
+  params: code[2].map (x) ->
     translate x # Pattern
   defaults: [] # Expression.. but what is this?
   rest: null # still, what's this?
-  body: translate x # BlockStatement | Expression
+  body: translate code[2] # BlockStatement | Expression
   generator: no
   expression: no
 

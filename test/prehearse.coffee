@@ -17,6 +17,7 @@ opts =
 main = ->
   source = fs.readFileSync source_file, "utf8"
   tree = cirru.parse source
+  console.log stringify tree
   ast = scirpus.transform tree
   fs.writeFile "./test/ast.json", (stringify ast), ->
   res = escodegen.generate ast, opts
@@ -30,7 +31,8 @@ wrap = ->
     console.log "done"
   catch err
     console.log err
+    console.log err.stack.replace(/\n/, "\n")
   
 
 fs.watchFile source_file, interval: 200, wrap
-do main
+do wrap

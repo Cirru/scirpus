@@ -1,12 +1,6 @@
 
-Scirpus, JavaScript code in Cirru grammer
+Scirpus, JavaScript AST in Cirru grammer
 ------
-
-### Status
-
-By now it just a proof-of-design project.
-
-See sourcemaped code in http://jiyinyiyong.github.io/scirpus/compiled/
 
 ### About
 
