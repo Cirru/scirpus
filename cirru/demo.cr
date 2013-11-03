@@ -1,6 +1,6 @@
 
-// (. console log) 12
+empty ok
 
-// + 1 (+ 1 2)
+expression $ literal 2
 
-= "code like this"
+expression $ literal "string"
