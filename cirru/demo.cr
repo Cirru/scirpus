@@ -1,6 +1,5 @@
 
-empty ok
+expression $ call (. console log)
+  (= 1) 1
+  $
 
-expression $ literal 2
-
-expression $ literal "string"

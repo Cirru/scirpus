@@ -3,7 +3,10 @@
   "sources": [
     "../cirru/demo.cr"
   ],
-  "names": [],
-  "mappings": ";AAGqB,C;AAEC,Q",
+  "names": [
+    "console",
+    "log"
+  ],
+  "mappings": "AACqBA,O,CAAQC,G,CACxB,G,EAAG,C",
   "sourceRoot": "./"
 }

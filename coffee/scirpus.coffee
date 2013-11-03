@@ -10,6 +10,12 @@ exports.transform = (code) ->
 isString = (x) ->
   (typeof x) is "string"
 
+isArray = (x) ->
+  Array.isArray x
+
+isNumber = (x) ->
+  (typeof x) is "number"
+
 isToken = (code) ->
   hasText = isString code.text
   hasLine = hasLineInfo code
@@ -27,16 +33,25 @@ guessNumber = (x) ->
   guess = Number x
   if isNaN guess then x else guess
 
+asText = (code) ->
+  code.text
+
 # Grammers for Cirru
 
 registry = {}
 
 translate = (code) ->
-  name = code[0].text
-  if name? and registry[name]?
-    registry[name] code
-  else
-    null
+  if (isArray code)
+    name = code[0].text
+    if name? and registry[name]?
+      registry[name] code
+    else
+      null
+  else if isToken code
+    guess = guessNumber code.text
+    if isNumber guess then registry.literal [null, code]
+    else registry.identifier [null, code]
+  else null
 
 # Node objects
 
@@ -162,7 +177,7 @@ registry.debugger = (code) ->
 
 # Declarations
 
-registry.func = (code) ->
+registry["func-dec"] = (code) ->
   type: "FunctionDeclaration"
   id: translate code[0] # Identifier
   params: code[1].map (x) ->
@@ -189,9 +204,132 @@ registry.decorator = (code) ->
 registry.this = (code) ->
   type: "ThisExpression"
 
+registry.array = (code) ->
+  type: "ArrayExpression"
+  elements: code[1].map (x) ->
+    translate x # Expression
+
+registry.object = (code) ->
+  type: "ObjectExpression"
+  properties: code[1].map (x) ->
+    kind: asText x[0] # init, get , set
+    key: translate x[1] # Literal | Identifier
+    value: translate x[2] # Expression
+
+registry["func-exp"] = (code) ->
+  type: "FunctionExpression"
+  id: code[1] # Identifier
+  params: code[1].map (x) ->
+    translate x # Pattern
+  defaults: [] # Expression.. but what is this?
+  rest: null # still, what's this?
+  body: translate x # BlockStatement | Expression
+  generator: no
+  expression: no
+
+registry.arrow = (code) ->
+  type: "ArrowExpression"
+  params: code[1].map (x) ->
+    translate x # Pattern
+  defaults: [] # Expression.. but what is this?
+  rest: null # still, what's this?
+  body: translate x # BlockStatement | Expression
+  generator: no
+  expression: no
+
+registry.sequence = (code) ->
+  type: "SequenceExpression"
+  expressions: code[1].map (x) ->
+    translate x # Expression
+
+registry.unary = (code) ->
+  type: "UnaryExpression"
+  operator: asText code[0] # UnaryOperator
+  prefix: yes
+  argument: translate code[1] # Expression
+
+registry.binary = (code) ->
+  type: "BinaryExpression"
+  operator: asText code[1] # BinaryOperator
+  left: translate code[2] # Expression
+  right: translate code[3] # Expression
+
+registry.assign = (code) ->
+  type: "AssignExpression"
+  operator: asText code[1] # AssignmentOperator
+  left: translate code[2] # Expression
+  right: translate code[3] # Expression
+
+registry.update = (code) ->
+  type: "UpdateExpression"
+  operator: asText code[1] # UpdateOperator
+  argument: translate code[2] # Expression
+  prefix: no
+
+registry.logical = (code) ->
+  type: "LogicalExpression"
+  operator: asText code[1] # LogicalOperator
+  left: translate code[2] # Expression
+  right: translate code[3] # Expression
+
+registry.cond = (code) ->
+  type: "ConditionalExpression"
+  test: translate code[1] # Expression
+  consequent: translate code[2] # Expression
+  alternate: translate code[3] # Expression
+
+registry.new = (code) ->
+  type: "NewExpression"
+  callee: translate code[1] # Expression
+  arguments: code[2].map (x) ->
+    translate x # Expression
+
+registry.call = (code) ->
+  type: "CallExpression"
+  callee: translate code[1] # Expression
+  arguments: code[2].map (x) ->
+    translate x # Expression
+
+registry.member = (code) ->
+  type: "MemberExpression"
+  object: translate code[1] # Expression
+  property: translate code[2] # Identifier | Expression
+  computed: yes
+
+registry["."] = (code) -> # splited from member
+  type: "MemberExpression"
+  object: translate code[1] # Expression
+  property: translate code[2] # Identifier | Expression
+  computed: no
+
+# some SpiderMonkey-specific ones here
+
 # Patterns
 
+registry["object-pattern"] = (code) ->
+  type: "ObjectPattern"
+  properties: code[1].map (x) ->
+    key: translate x[0] # Literal | Identifier
+    value: translate x[1] # Patterns
+
+registry["array-pattern"] = (code) ->
+  type: "ArrayPattern"
+  elements: code[1].map (x) ->
+    translate x # Pattern
+
 # Clauses
+
+registry.case = (code) ->
+  type: "SwitchCase"
+  test: translate code[1] # Expression
+  consequent: code[2].map (x) ->
+    translate x # Statement
+
+registry.catch = (code) ->
+  type: "CatchClause"
+  param: translate code[1] # Pattern
+  guard: null
+  body: translate code[2] # BlockStatement
 
 # Miscellaneous
 
@@ -205,3 +343,11 @@ registry.literal = (code) ->
   type: "Literal"
   raw: code[1].text
   value: guessNumber code[1].text
+
+# string
+
+registry["="] = (code) ->
+  loc: copyLoc code[1]
+  type: "Literal"
+  raw: code[1].text
+  value: code[1].text
