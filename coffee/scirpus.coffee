@@ -25,7 +25,7 @@ isExpression = (code) ->
   not (isToken code)
 
 hasLineInfo = (code) ->
-  hasStart = code.start? and code.start.x?
+  hasStart = code.x? and code.y?
   hasEnd = code.end? and code.end.x?
   hasStart and hasEnd
 
@@ -63,7 +63,7 @@ copyLoc = (code) ->
 
 SourceLocation = (code) ->
   source: code.text
-  start: Position code.start
+  start: Position y: code.y, x: code.x
   end: Position code.end
 
 Position = (pos) ->
@@ -85,7 +85,6 @@ registry.empty = (code) ->
   type: "EmptyStatement"
 
 registry.block = (code) ->
-  console.log "block:", code[1]
   type: "BlockStatement"
   body: code[1].map (x) ->
     translate x # Statement

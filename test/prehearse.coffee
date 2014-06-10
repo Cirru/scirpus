@@ -4,13 +4,13 @@ cirru = require "cirru-parser"
 scirpus = require "../coffee/scirpus"
 escodegen = require "escodegen"
 
-source_file = "./cirru/demo.cr"
+source_file = "./cirru/demo.cirru"
 
 stringify = (x) ->
   JSON.stringify x, null, 2
 
 opts =
-  sourceMap: "../cirru/demo.cr"
+  sourceMap: "../cirru/demo.cirru"
   sourceMapRoot: "./"
   sourceMapWithCode: yes
 
@@ -32,7 +32,7 @@ wrap = ->
   catch err
     console.log err
     console.log err.stack.replace(/\n/, "\n")
-  
+
 
 fs.watchFile source_file, interval: 200, wrap
 do wrap

@@ -13,4 +13,4 @@ func-dec fibo (n)
 expression
   call
     . console log
-    (call fibo (12)
+    (call fibo (12))
