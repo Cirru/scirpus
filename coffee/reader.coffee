@@ -21,11 +21,19 @@ readInfo = (opts) ->
   jsFile = filename.replace '.cirru', '.js'
   mapFile = filename.replace '.cirru', '.js.map'
 
-  info.jsFile = path.join dest, jsFile
-  info.mapFile = path.join dest, mapFile
+  info.mapFile = mapFile
+  info.jsPath = path.join dest, jsFile
+  info.mapPath = path.join dest, mapFile
   info.relativePath = path.relative dest, info.source
 
   info
+
+hideFile = (ast) ->
+  if ast instanceof Array
+    ast.map hideFile
+  else
+    delete ast.file
+    ast
 
 exports.read = (opts) ->
 
@@ -33,5 +41,7 @@ exports.read = (opts) ->
 
   code = fs.readFileSync info.source, 'utf8'
   ast = parse code, info.source
+
+  ast = hideFile ast
 
   {ast, info}

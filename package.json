@@ -1,23 +1,24 @@
 {
   "name": "scirpus",
-  "version": "0.2.3",
+  "version": "0.3.0",
   "description": "Generate JavaScript from Cirru Grammer",
-  "main": "js/scirpus.js",
+  "main": "js/compiler.js",
   "scripts": {
-    "test": "node-dev test/prehearse.coffee"
+    "test": "coffee make.coffee test"
   },
   "repository": {
     "type": "git",
     "url": "git://github.com/Cirru/scirpus.git"
   },
   "keywords": [
-    "javascript", "cirru"
+    "javascript",
+    "cirru"
   ],
   "author": "jiyinyiyong",
   "license": "MIT",
   "dependencies": {
     "cirru-parser": "^0.9.0-1",
-    "escodegen": "*"
+    "escodegen": "^1.3.3"
   },
   "devDependencies": {
     "mission": "0.0.7",

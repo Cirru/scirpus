@@ -1,0 +1,18 @@
+
+var a
+  number 1
+
+set a
+  number 2
+
+var a
+  string one
+
+set a
+  string two
+
+var a
+  bool yes
+
+set a
+  bool no

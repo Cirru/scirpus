@@ -1,0 +1,11 @@
+{
+  "version": 3,
+  "sources": [
+    "../cirru/variable.cirru"
+  ],
+  "names": [
+    "a"
+  ],
+  "mappings": "AACA,IAAIA,CAAJ,GACS,CADT,C;AAGIA,CAAJ,GACS,CADT,C;AAGA,IAAIA,CAAJ,GACS,KADT,C;AAGIA,CAAJ,GACS,KADT,C;AAGA,IAAIA,CAAJ,GACO,IADP,C;AAGIA,CAAJ,GACO,KADP",
+  "sourceRoot": "./"
+}

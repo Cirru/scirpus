@@ -10,9 +10,9 @@ mission.time()
 target.test = ->
   compiler = require './coffee/compiler'
   compiler.compile
-    from: 'scirpus/cirru/demo.cirru'
-    to: 'scirpus/js'
-    base: '../'
+    from: 'cirru/variable.cirru'
+    to: 'compiled'
+    base: './'
 
 target.coffee = ->
   mission.coffee
