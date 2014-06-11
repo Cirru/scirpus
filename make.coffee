@@ -7,6 +7,13 @@ mission = require 'mission'
 
 mission.time()
 
+target.test = ->
+  compiler = require './coffee/compiler'
+  compiler.compile
+    from: 'scirpus/cirru/demo.cirru'
+    to: 'scirpus/js'
+    base: '../'
+
 target.coffee = ->
   mission.coffee
     find: /\.coffee$/, from: 'coffee/', to: 'js/', extname: '.js'
