@@ -7,12 +7,18 @@ mission = require 'mission'
 
 mission.time()
 
+tests = [
+  'variable'
+  'control'
+]
+
 target.test = ->
   compiler = require './coffee/compiler'
-  compiler.compile
-    from: 'cirru/variable.cirru'
-    to: 'compiled'
-    base: './'
+  for test in tests
+    compiler.compile
+      from: "cirru/#{test}.cirru"
+      to: 'compiled'
+      base: './'
 
 target.coffee = ->
   mission.coffee

@@ -2,13 +2,15 @@
 b = require './builder'
 reader = require './reader'
 generator = require './generator'
-s = {}
+tool = require './tool'
+deeper = require './deeper'
 
 local = {}
 
 exports.compile = (opts) ->
   data = reader.read opts
 
+  local = {}
   ast =
     type: 'Program'
     body: data.ast.map extract
@@ -16,34 +18,33 @@ exports.compile = (opts) ->
   generator.write data.info, ast
 
 extract = (expr) ->
-  head = expr[0].text
-  func = s[head]
-  if func? then func expr
-  else throw new Error "#{head} is not found"
+  head = expr[0]
+  func = s[head.text]
+  if func?
+    return func expr
 
-xy = (start, end) ->
-  if start? and end?
-    start:
-      column: start.x
-      line: start.y + 1
-    end:
-      column: end.x
-      line: end.y + 1
-  else null
+  pattern = head.text.match /(\w+)(\.\w+)+/
+  if pattern?
+    deeper.member head
+    console.log
+  throw new Error "#{head.text} is not found"
+
+xy = (expr) ->
+  tool.findBound expr
 
 s.var = (expr) ->
   head = expr[0]
   name = expr[1]
   value = expr[2]
 
-  loc: xy head, name.end
+  loc: xy expr
   type: 'VariableDeclaration'
   kind: 'var'
   declarations: [
-    loc: xy head, head.end
+    loc: xy head
     type: 'VariableDeclarator'
     id:
-      loc: xy name, name.end
+      loc: xy name
       type: 'Identifier'
       name: name.text
     init: extract value
@@ -53,7 +54,7 @@ s.number = (expr) ->
   head = expr[0]
   value = expr[1]
 
-  loc: xy value, value.end
+  loc: xy value
   type: 'Literal'
   value: Number value.text
   raw: value.text
@@ -62,7 +63,7 @@ s.string = (expr) ->
   head = expr[0]
   value = expr[1]
 
-  loc: xy value, value.end
+  loc: xy value
   type: 'Literal'
   value: value.text
   raw: value.text
@@ -72,14 +73,14 @@ s.set = (expr) ->
   name = expr[1]
   value = expr[2]
 
-  loc: xy head, name.end
+  loc: xy expr
   type: 'ExpressionStatement'
   expression:
-    loc: xy head, head.end
+    loc: xy head
     type: 'AssignmentExpression'
     operator: '='
     left:
-      loc: xy name, name.end
+      loc: xy name
       type: 'Identifier'
       name: name.text
     right: extract value
@@ -88,7 +89,7 @@ s.bool = (expr) ->
   head = expr[0]
   value = expr[1]
 
-  loc: xy value, value.end
+  loc: xy value
   type: 'Literal'
   value: value.text in ['yes', 'true']
   row: value.text
