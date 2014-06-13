@@ -1,9 +1,11 @@
 
-b = require './builder'
+builder = require './builder'
 reader = require './reader'
 generator = require './generator'
-tool = require './tool'
 deeper = require './deeper'
+tool = require './tool'
+
+xy = tool.findBound
 
 local = {}
 
@@ -13,83 +15,82 @@ exports.compile = (opts) ->
   local = {}
   ast =
     type: 'Program'
-    body: data.ast.map extract
+    body: data.ast.map (expr) ->
+      extract expr, no # not expression
 
   generator.write data.info, ast
 
-extract = (expr) ->
-  head = expr[0]
-  func = s[head.text]
-  if func?
-    return func expr
+exports.extract = extract = (expr, isExpr) ->
+  # console.log 'extracting', expr, isExpr
+  # it could be token
+  unless expr instanceof Array
+    if expr.text.match /^[\d#]$/
+      return builderLiteral expr
+    else
+      return buildIdentifier expr
 
-  pattern = head.text.match /(\w+)(\.\w+)+/
+  # then it is a array
+  [head, body...] = expr
+
+  func = builder[head.text]
+
+  if func?
+    return func expr, isExpr
+
+  pattern = head.text.match /^\w+$/
   if pattern?
-    deeper.member head
-    console.log
+    if isExpr
+      return extract expr, yes
+    else
+      return buildExpressStatement expr
+
+  pattern = head.text.match /^\w+(\.\w+)+$/
+  if pattern?
+    transformed = deeper.member head
+    if isExpr
+      return buildCall [transformed, body...]
+    else
+      return buildCallStatement [transformed, body...]
+
   throw new Error "#{head.text} is not found"
 
-xy = (expr) ->
-  tool.findBound expr
-
-s.var = (expr) ->
-  head = expr[0]
-  name = expr[1]
-  value = expr[2]
-
+buildIdentifier = (expr) ->
   loc: xy expr
-  type: 'VariableDeclaration'
-  kind: 'var'
-  declarations: [
-    loc: xy head
-    type: 'VariableDeclarator'
-    id:
-      loc: xy name
-      type: 'Identifier'
-      name: name.text
-    init: extract value
-  ]
+  type: 'Identifier'
+  name: expr.text
 
-s.number = (expr) ->
-  head = expr[0]
-  value = expr[1]
-
-  loc: xy value
+builderLiteral = (expr) ->
+  if expr.text is '#t'
+    value = true
+  else if expr.text is '#f'
+    value = false
+  else if expr.text.match /\d+(\.\d+)?/
+    value = Number expr.text
+  loc: xy expr
   type: 'Literal'
-  value: Number value.text
-  raw: value.text
+  value: value
+  raw: expr.text
 
-s.string = (expr) ->
-  head = expr[0]
-  value = expr[1]
+buildCall = (expr) ->
+  [head, body...] = expr
+  loc: xy expr
+  type: 'CallExpression'
+  callee: extract head
+  arguments: body.map (child) ->
+    extract child, yes
 
-  loc: xy value
-  type: 'Literal'
-  value: value.text
-  raw: value.text
-
-s.set = (expr) ->
-  head = expr[0]
-  name = expr[1]
-  value = expr[2]
-
+buildCallStatement = (expr) ->
+  [head, body...] = expr
   loc: xy expr
   type: 'ExpressionStatement'
   expression:
-    loc: xy head
-    type: 'AssignmentExpression'
-    operator: '='
-    left:
-      loc: xy name
-      type: 'Identifier'
-      name: name.text
-    right: extract value
+    loc: xy expr
+    type: 'CallExpression'
+    callee: extract head, yes
+    arguments: body.map (child) ->
+      extract child, yes
 
-s.bool = (expr) ->
-  head = expr[0]
-  value = expr[1]
-
-  loc: xy value
-  type: 'Literal'
-  value: value.text in ['yes', 'true']
-  row: value.text
+buildExpressStatement = (expr) ->
+  loc: xy expr
+  type: 'ExpressionStatement'
+  expression: extract expr, yes
