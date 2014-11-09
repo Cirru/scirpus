@@ -22,7 +22,8 @@
   },
   "devDependencies": {
     "mission": "0.0.7",
-    "shelljs": "^0.3.0"
+    "shelljs": "^0.3.0",
+    "uglifyjs": "^2.3.6"
   },
   "bugs": {
     "url": "https://github.com/Cirru/scirpus/issues"
