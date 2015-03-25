@@ -1,31 +1,35 @@
 {
   "name": "scirpus",
-  "version": "0.3.0",
-  "description": "Generate JavaScript from Cirru Grammer",
-  "main": "js/compiler.js",
+  "version": "0.4.0",
+  "description": "Generate JavaScript AST from Cirru Grammer",
+  "main": "main.js",
   "scripts": {
-    "test": "coffee make.coffee test"
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "jiyinyiyong",
+  "license": "MIT",
+  "keywords": [
+    "workflow"
+  ],
+  "devDependencies": {
+    "cirru-script-loader": "0.0.3",
+    "coffee-loader": "^0.7.2",
+    "coffee-script": "^1.9.0",
+    "gulp": "^3.8.11",
+    "gulp-cirru-html": "0.0.4",
+    "webpack": "^1.5.3",
+    "webpack-dev-server": "^1.7.0",
+    "escodegen": "^1.3.3"
+  },
+  "dependencies": {
+    "cirru-parser": "^0.9.0-1"
   },
   "repository": {
     "type": "git",
-    "url": "git://github.com/Cirru/scirpus.git"
-  },
-  "keywords": [
-    "javascript",
-    "cirru"
-  ],
-  "author": "jiyinyiyong",
-  "license": "MIT",
-  "dependencies": {
-    "cirru-parser": "^0.9.0-1",
-    "escodegen": "^1.3.3"
-  },
-  "devDependencies": {
-    "mission": "0.0.7",
-    "shelljs": "^0.3.0",
-    "uglifyjs": "^2.3.6"
+    "url": "https://github.com/Cirru/scirpus.git"
   },
   "bugs": {
     "url": "https://github.com/Cirru/scirpus/issues"
-  }
+  },
+  "homepage": "https://github.com/Cirru/scirpus"
 }
