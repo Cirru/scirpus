@@ -4,6 +4,10 @@ Scirpus, JavaScript AST in Cirru grammer
 
 Demo: http://repo.tiye.me/scirpus
 
+### Goal
+
+Write JavaScript AST in Cirru grammar. Then it can be used as an IR for cross-language transforms.
+
 ### About
 
 Scirpus is going to convert Cirru code to JavaScript IR, and generate code with escodegen.
@@ -13,7 +17,7 @@ For details, refer to resources below:
 * http://esprima.org/demo/parse.html
 * https://developer.mozilla.org/en-US/docs/SpiderMonkey/Parser_API
 
-### Usage
+### Usage(, this project is currently during refactoring)
 
 CommonJS:
 
