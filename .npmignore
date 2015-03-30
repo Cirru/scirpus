@@ -1,7 +1,7 @@
 
-cirru/
-coffee/
-compiled/
-test/
-calabash.coffee
-index.html
+/gulpfile.coffee
+/webpack.*
+/compiled
+/src
+/example
+/index.*

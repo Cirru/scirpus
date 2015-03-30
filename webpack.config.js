@@ -14,14 +14,13 @@ module.exports = {
     filename: '[name].js',
     publicPath: 'http://localhost:8080/build/'
   },
-  devtool: 'eval-source-map',
   resolve: {
     extensions: ['', '.js', '.cirru']
   },
   module: {
     loaders: [
-      {test: /\.coffee$/, loader: 'coffee'},
-      {test: /\.cirru$/, loader: 'cirru-script'}
+      {test: /\.cirru$/, loader: 'cirru-script'},
+      {test: /\.json$/, loader: 'json'},
     ]
   },
   plugins: [

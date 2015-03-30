@@ -1,12 +1,13 @@
 
-= map
+= map $ object
   :Literal $ \ (value)
     object (:type :Literal)
       :value value
       :raw $ String value
 
-  :Identifier $ \ (value)
-    object $ :Identifier value
+  :Identifier $ \ (name)
+    object (:type :Identifier)
+      :name name
 
   :BinaryExpression $ \ (operator left right)
     object (:type :BinaryExpression)
@@ -20,7 +21,8 @@
   :Program $ \ (data)
     object (:type :Program) $ :body (resolve data)
 
-  :do $ \ list (list.map resolve)
+  :each $ \ list
+    list.map resolve
 
   :AssignmentExpression $ \ (operator left right)
     object (:operator operator)
@@ -58,8 +60,7 @@
   :ThrowStatement $ \ (argument)
     object (:type :ThrowStatement) $ :argument (resolve argument)
 
-  :TryStatement
-    \ $ block handler finalizer
+  :TryStatement $ \ (block handler finalizer)
     object (:type :TryStatement)
       :block $ resolve block
       :handler $ resolve handler
@@ -75,8 +76,8 @@
       :body $ resolve body
       :test $ resolve test
 
-  :ForStatement $
-    \ (init test update body) $ object (:type :ForStatement)
+  :ForStatement $ \ (init test update body)
+    object (:type :ForStatement)
       :init $ resolve init
       :test $ resolve test
       :update $ resolve update
@@ -98,17 +99,20 @@
   :DebuggerStatement $ \ ()
     object $ :type :DebuggerStatement
 
-  :FunctionDeclaration (\ id params body) $ object (:type :FunctionDeclaration)
-    :id $ resolve id
-    :params $ resolve params
-    :defaults $ array
-    :rest null
-    :body $ resolve body
-    :generator false
-    :expression false
+  :FunctionDeclaration $ \ (id params body)
+    object (:type :FunctionDeclaration)
+      :id $ resolve id
+      :params $ resolve params
+      :defaults $ array
+      :rest null
+      :body $ resolve body
+      :generator false
+      :expression false
 
   :VariableDeclaration $ \ (declarations)
-    object (:type :VariableDeclaration) $ :declarations (resolve declarations)
+    object (:type :VariableDeclaration)
+      :declarations (resolve declarations)
+      :kind :var
 
   :VariableDeclarator $ \ (id init)
     object (:type :VariableDeclarator)
@@ -156,7 +160,7 @@
     object (:type :UnaryExpression)
       :operator operator
       :prefix true
-      argument $ resolve argument
+      :argument $ resolve argument
 
   :UpdateExpression $ \ (operator argument)
     object (:type :UpdateExpression)
@@ -218,7 +222,11 @@
   = name $ . data 0
   = func $ . map name
   if (? func)
-    do $ func.apply @ (data.slice 1)
+    do $ func.apply this (data.slice 1)
 
-    do $ throw
-      new Error $ ++: :not-defined func
+    do
+      throw $ new Error (++: :not-defined func)
+      return false
+
+= exports.resolve $ \ (data)
+  resolve data
