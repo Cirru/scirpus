@@ -12,6 +12,7 @@
     "workflow"
   ],
   "devDependencies": {
+    "cirru-parser": "^0.10.2",
     "cirru-script": "^0.1.26",
     "cirru-script-loader": "0.0.4",
     "escodegen": "^1.6.1",

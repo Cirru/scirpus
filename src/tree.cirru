@@ -1,17 +1,20 @@
 
+= valueLib $ require :./value
+
 = map $ object
   :Literal $ \ (value)
+    = value $ resolve value
     object (:type :Literal)
       :value value
       :raw $ String value
 
   :Identifier $ \ (name)
     object (:type :Identifier)
-      :name name
+      :name $ resolve name
 
   :BinaryExpression $ \ (operator left right)
     object (:type :BinaryExpression)
-      :operator operator
+      :operator $ resolve operator
       :left $ resolve left
       :right $ resolve right
 
@@ -219,6 +222,10 @@
       :body $ resolve body
 
 = resolve $ \ (data)
+  console.log :resolve data
+  if (is (valueLib.getType data) :string)
+    do $ return (valueLib.decode data)
+
   = name $ . data 0
   = func $ . map name
   if (? func)
