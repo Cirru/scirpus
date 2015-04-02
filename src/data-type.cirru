@@ -27,3 +27,4 @@
     :else $ do
       console.log ":Run into" text
       thorw $ new Error ":can not decode as value"
+      return

@@ -26,7 +26,8 @@
   "dependencies": {
     "babel": "^4.7.16",
     "cirru-parser": "^0.10.2",
-    "gulp-rename": "^1.2.0"
+    "gulp-rename": "^1.2.0",
+    "lodash": "^3.6.0"
   },
   "repository": {
     "type": "git",

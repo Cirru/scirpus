@@ -28,7 +28,9 @@
     list.map resolve
 
   :AssignmentExpression $ \ (operator left right)
-    object (:operator operator)
+    object
+      :type :AssignmentExpression
+      :operator operator
       :left left
       :right right
 
