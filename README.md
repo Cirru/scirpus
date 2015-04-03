@@ -2,11 +2,15 @@
 Scirpus, JavaScript AST in Cirru grammer
 ------
 
-Demo: http://repo.tiye.me/scirpus
+Working in progress...
+
+Demo(not ready): http://repo.tiye.me/scirpus
 
 ### Goal
 
 Write JavaScript AST in Cirru grammar. Then it can be used as an IR for cross-language transforms.
+
+Also read: http://segmentfault.com/a/1190000002646285
 
 ### About
 

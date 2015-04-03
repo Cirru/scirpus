@@ -1,4 +1,6 @@
 
 object
   :a 1
-  :b 2
+  :b $ array 2 3
+  :c $ object
+    :d 4

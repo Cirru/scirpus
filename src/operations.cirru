@@ -122,7 +122,27 @@
   :when $ \ ()
   :\ $ \ ()
   :\\ $ \ ()
-  :object $ \ ()
+
+  :object $ \ (args environment)
+    assert.array args ":args for object"
+    object
+      :type :ObjectExpression
+      :properties $ args.map $ \ (pair)
+        assert.array pair ":object property"
+        = name $ . pair 0
+        = init $ . pair 1
+        assert.string name ":object property key"
+        object
+          :type :Property
+          :key $ object
+            :type :Identifier
+            :name $ name.substr 1
+          :computed false
+          :value $ decideSolution init :expression
+          :kind :init
+          :method false
+          :shorthand false
+
   :. $ \ ()
   :and $ \ (args environment)
     assert.array args ":args for and"
@@ -155,6 +175,9 @@
   :not $ \ ()
   :if $ \ ()
   :-- $ \ ()
+    object
+      :type :Identifier
+      :name :undefined
 
 = exports.transform $ \ (tree)
   = environment :statement
