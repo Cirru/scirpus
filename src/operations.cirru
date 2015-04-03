@@ -1,4 +1,6 @@
 
+= _ $ require :lodash
+
 = assert $ require :./assert
 = dataType $ require :./data-type
 
@@ -12,13 +14,22 @@
   contructor args environment
 
 = readToken $ \ (text)
-  = value $ dataType.decode text
-  object
-    :type :Literal
-    :value value
-    :raw $ String text
+  if (text.match /^\w)
+    do $ return
+      object
+        :type :Identifier
+        :name text
+    do
+      = value $ dataType.decode text
+      return $ object
+        :type :Literal
+        :value value
+        :raw $ String text
 
 = decideSolution $ \ (x environment)
+  assert.oneOf environment
+    array :statement :expression
+    , ":environment"
 
   if (is environment :expression) $ do
     if (_.isArray x) $ do
@@ -71,16 +82,76 @@
             decideSolution init :expression
             , null
 
-  :+ $ \ ()
-  :* $ \ ()
+  :array $ \ (args environment)
+    assert.array args ":array args"
+    object
+      :type :ArrayExpression
+      :elements $ args.map $ \ (item)
+        decideSolution item :expression
+
+  :+ $ \ (args environment)
+    assert.array args ":args for +"
+    assert.result (> args.length 0) ":args for + should no be empty"
+
+    if (is args.length 1)
+      do $ return
+        decideSolution (. args 0) :expression
+
+    = self $ . dictionary :+
+    object
+      :type :BinaryExpression
+      :operator :+
+      :left $ self (_.initial args) :expression
+      :right $ decideSolution (_.last args) :expression
+
+  :* $ \ (args environment)
+    assert.array args ":args for *"
+    assert.result (> args.length 0) ":args for * should not be empty"
+
+    if (is args.length 1) $ do
+      return $ decideSolution (. args 0) :expression
+
+    = self $ . dictionary :*
+    object
+      :type :BinaryExpression
+      :operator :*
+      :left $ self (_.initial args) :expression
+      :right $ decideSolution (_.last args) :expression
+
   :- $ \ ()
   :when $ \ ()
   :\ $ \ ()
   :\\ $ \ ()
   :object $ \ ()
   :. $ \ ()
-  :and $ \ ()
-  :or $ \ ()
+  :and $ \ (args environment)
+    assert.array args ":args for and"
+    assert.result (> args.length 0) ":args for and should not be empty"
+
+    if (is args.length 1) $ do
+      return $ decideSolution (. args 0) :expression
+
+    = self $ . dictionary :and
+    object
+      :type :LogicalExpression
+      :operator :&&
+      :left $ self (_.initial args) :expression
+      :right $ decideSolution (_.last args) :expression
+
+  :or $ \ (args environment)
+    assert.array args ":args for or"
+    assert.result (> args.length 0) ":args for or should not be empty"
+
+    if (is args.length 1) $ do
+      return $ decideSolution (. args 0) :expression
+
+    = self $ . dictionary :or
+    object
+      :type :LogicalExpression
+      :operator :||
+      :left $ self (_.initial args) :expression
+      :right $ decideSolution (_.last args) :expression
+
   :not $ \ ()
   :if $ \ ()
   :-- $ \ ()

@@ -24,7 +24,7 @@
     :undefined undefined
     :null null
     :Infinity Infinity
-    :else $ do
+    else
       console.log ":Run into" text
-      thorw $ new Error ":can not decode as value"
-      return
+      throw $ new Error ":can not decode as value"
+      return a
