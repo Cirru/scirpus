@@ -5,7 +5,7 @@
 = operations $ require :./operations
 
 = req $ new XMLHttpRequest
-req.open :GET :./example/object.cirru
+req.open :GET :./examples/unary.cirru
 req.send
 = req.onload $ \ (res)
   = ast $ parser.pare req.responseText

@@ -172,7 +172,15 @@
       :left $ self (_.initial args) :expression
       :right $ decideSolution (_.last args) :expression
 
-  :not $ \ ()
+  :not $ \ (args environment)
+    assert.array args ":not"
+
+    object
+      :type :UnaryExpression
+      :operator :!
+      :argument $ decideSolution (_.first args) :expression
+      :prefix true
+
   :if $ \ ()
   :-- $ \ ()
     object
