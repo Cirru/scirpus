@@ -143,7 +143,18 @@
           :method false
           :shorthand false
 
-  :. $ \ ()
+  :. $ \ (args environment)
+    assert.array args ":args for member"
+
+    = object $ . args 0
+    = property $ . args 1
+
+    object
+      :type :MemberExpression
+      :computed true
+      :object $ decideSolution object :expression
+      :property $ decideSolution property :expression
+
   :and $ \ (args environment)
     assert.array args ":args for and"
     assert.result (> args.length 0) ":args for and should not be empty"
