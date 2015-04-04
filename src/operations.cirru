@@ -415,6 +415,18 @@
       :type :ThrowStatement
       :argument $ decideSolution argument :expression
 
+  :while $ \ (args environment)
+    assert.array args :while
+    = test $ . args 0
+    = body $ args.slice 1
+    object
+      :type :WhileStatement
+      :test $ decideSolution test :expression
+      :body $ object
+        :type :BlockStatement
+        :body $ body.map $ \ (item)
+          decideSolution item :statement
+
 = exports.transform $ \ (tree)
   = environment :statement
   = list $ tree.map $ \ (line)
