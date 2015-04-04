@@ -119,7 +119,6 @@
       :right $ decideSolution (_.last args) :expression
 
   :- $ \ ()
-  :when $ \ ()
   :\ $ \ ()
   :\\ $ \ ()
 
@@ -192,7 +191,46 @@
       :argument $ decideSolution (_.first args) :expression
       :prefix true
 
-  :if $ \ ()
+  :if $ \ (args environment)
+    assert.array args ":if"
+
+    = test $ . args 0
+    = consequent $ . args 1
+    = alternate $ . args 2
+
+    object
+      :type :IfStatement
+      :test $ decideSolution test :expression
+      :consequent $ decideSolution consequent :expression
+      :alternate $ if (? alternate)
+        decideSolution consequent :expression
+        , null
+
+  :do $ \ (args environment)
+    assert.array args ":do"
+
+    object
+      :type :BlockStatement
+      :body $ args.map $ \ (line)
+        decideSolution line :statement
+
+  :cond $ \ (args environment)
+    assert.array args :cond
+
+    = test $ . args 0
+    = consequent $ . args 1
+    = alternate $ . args 2
+
+    assert.defined test ":test of cond"
+    assert.defined consequent ":test of consequent"
+    assert.defined alternate ":test of alternate"
+
+    object
+      :type :ConditionalExpression
+      :test $ decideSolution test :expression
+      :consequent $ decideSolution consequent :expression
+      :alternate $ decideSolution alternate :expression
+
   :-- $ \ ()
     object
       :type :Identifier

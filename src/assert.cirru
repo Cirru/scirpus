@@ -38,3 +38,9 @@
     console.log comment x
     throw $ new Error ":result if not true"
     return
+
+= exports.defined $ \ (x comment)
+  if (not (? x)) $ do
+    console.log x
+    throw $ new Error ":need value"
+    return

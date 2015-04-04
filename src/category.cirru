@@ -1,10 +1,10 @@
 
 = exports.expression $ array
-  , := :array :+ :* :- :when :\ :\\ :object :.
-  , :and :or :not
+  , := :array :+ :* :- :cond :\ :\\ :object :.
+  , :and :or :not :do
 
 = exports.statement $ array
   , :var :if
 
-= exports.nothing $ array
+= exports.special $ array
   , :--
