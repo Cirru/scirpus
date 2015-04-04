@@ -383,6 +383,38 @@
       :left $ decideSolution (. args 0) :expression
       :right $ decideSolution (. args 1) :expression
 
+  :debugger $ \ (args environment)
+    object
+      :type :DebuggerStatement
+
+  :continue $ \ (args environment)
+    object
+      :type :ContinueStatement
+      :label null
+
+  :break $ \ (args environment)
+    object
+      :type :BreakStatement
+      :label null
+
+  :new $ \ (args environment)
+    assert.array args :new
+    = callee $ . args 0
+    = arguments $ args.slice 1
+    object
+      :type :NewExpression
+      :callee $ decideSolution callee :expression
+      :arguments $ arguments.map $ \ (item)
+        decideSolution item :expression
+
+  :throw $ \ (args environment)
+    assert.array args :throw
+    = argument $ . args 0
+    assert.defined argument ":argument of throw"
+    object
+      :type :ThrowStatement
+      :argument $ decideSolution argument :expression
+
 = exports.transform $ \ (tree)
   = environment :statement
   = list $ tree.map $ \ (line)
