@@ -7,11 +7,17 @@
 = transformOperation $ \ (ast environment)
   assert.array ast :transform
   = head $ _.first ast
-  assert.string head :operation
   = contructor $ . dictionary head
-  assert.func contructor ":operation in dictionary"
-  = args $ ast.slice 1
-  contructor args environment
+  if
+    and
+      _.isString head
+      _.isFunction contructor
+    do
+      = args $ ast.slice 1
+      contructor args environment
+    do
+      = contructor $ . dictionary :__call_expression__
+      contructor ast environment
 
 = readToken $ \ (text)
   if (text.match /^\w)
@@ -33,7 +39,7 @@
 
   if (is environment :expression) $ do
     if (_.isArray x) $ do
-      return $ transformOperation x
+      return $ transformOperation x :expression
     if (_.isString x) $ do
       return $ readToken x
   if (is environment :statement) $ do
@@ -119,8 +125,55 @@
       :right $ decideSolution (_.last args) :expression
 
   :- $ \ ()
-  :\ $ \ ()
-  :\\ $ \ ()
+
+  :\ $ \ (args environment)
+    assert.array args :function
+
+    = params $ . args 0
+    = body $ args.slice 1
+    assert.array params :params
+
+    object
+      :type :FunctionExpression
+      :id null
+      :params $ params.map $ \ (item)
+        assert.string item ":one of params"
+        makeIdentifier item
+      :defaults $ array
+      :generator false
+      :expression false
+      :body $ object
+        :type :BlockStatement
+        :body $ body.map $ \ (line)
+          decideSolution line :statement
+
+  :return $ \ (args environment)
+    assert.array args :return
+    = argument $ . args 0
+    object
+      :type :ReturnStatement
+      :argument $ decideSolution argument :expression
+
+  :\\ $ \ (args environment)
+    assert.array args :function
+
+    = params $ . args 0
+    = body $ args.slice 1
+    assert.array params :params
+
+    object
+      :type :ArrowFunctionExpression
+      :id null
+      :params $ params.map $ \ (item)
+        assert.string item ":one of params"
+        makeIdentifier item
+      :defaults $ array
+      :generator false
+      :expression true
+      :body $ object
+        :type :BlockStatement
+        :body $ body.map $ \ (line)
+          decideSolution line :statement
 
   :object $ \ (args environment)
     assert.array args ":args for object"
@@ -231,10 +284,21 @@
       :consequent $ decideSolution consequent :expression
       :alternate $ decideSolution alternate :expression
 
-  :-- $ \ ()
+  :-- $ \ (args environment)
     object
       :type :Identifier
       :name :undefined
+
+  :__call_expression__ $ \ (args environment)
+    assert.array args :__call_expression__
+    = callee $ . args 0
+    = arguments $ args.slice 1
+
+    object
+      :type :CallExpression
+      :callee $ decideSolution callee :expression
+      :arguments $ arguments.map $ \ (item)
+        decideSolution item :expression
 
 = exports.transform $ \ (tree)
   = environment :statement

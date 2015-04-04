@@ -2,7 +2,7 @@ doctype
 
 html
   head
-    title "Webpack Workflow"
+    title "Sirpus"
     meta (:charset utf-8)
     script (:defer)
       :src (@ main)
