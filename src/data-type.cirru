@@ -18,6 +18,12 @@
   if (text.match /^[-\d]+)
     do $ return $ Number text
 
+  if (text.match /^\/)
+    do
+      = content $ text.substr 1
+      = content $ content.replace /\/ :\/
+      return $ new RegExp (text.substr 1)
+
   switch text
     :true true
     :false false

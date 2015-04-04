@@ -5,4 +5,4 @@ var
   c true
   d null
   e undefined
-  f /\d
+  f /\d/\w
