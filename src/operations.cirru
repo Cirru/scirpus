@@ -154,6 +154,21 @@
       :left $ self (_.initial args) :expression
       :right $ decideSolution (_.last args) :expression
 
+  :% $ \ (args environment)
+    assert.array args ":args for %"
+    assert.result (> args.length 0) ":args for % should no be empty"
+
+    if (is args.length 1)
+      do $ return
+        decideSolution (. args 0) :expression
+
+    = self $ . dictionary :%
+    object
+      :type :BinaryExpression
+      :operator :%
+      :left $ self (_.initial args) :expression
+      :right $ decideSolution (_.last args) :expression
+
   :\ $ \ (args environment)
     assert.array args :function
 
@@ -327,6 +342,46 @@
       :callee $ decideSolution callee :expression
       :arguments $ arguments.map $ \ (item)
         decideSolution item :expression
+
+  :is $ \ (args environment)
+    assert.array args :is
+    object
+      :type :BinaryExpression
+      :operator :===
+      :left $ decideSolution (. args 0) :expression
+      :right $ decideSolution (. args 1) :expression
+
+  :> $ \ (args environment)
+    assert.array args :>
+    object
+      :type :BinaryExpression
+      :operator :>=
+      :left $ decideSolution (. args 0) :expression
+      :right $ decideSolution (. args 1) :expression
+
+  :>= $ \ (args environment)
+    assert.array args :>=
+    object
+      :type :BinaryExpression
+      :operator :>=
+      :left $ decideSolution (. args 0) :expression
+      :right $ decideSolution (. args 1) :expression
+
+  :< $ \ (args environment)
+    assert.array args :<
+    object
+      :type :BinaryExpression
+      :operator :<
+      :left $ decideSolution (. args 0) :expression
+      :right $ decideSolution (. args 1) :expression
+
+  :<= $ \ (args environment)
+    assert.array args :<=
+    object
+      :type :BinaryExpression
+      :operator :<=
+      :left $ decideSolution (. args 0) :expression
+      :right $ decideSolution (. args 1) :expression
 
 = exports.transform $ \ (tree)
   = environment :statement
