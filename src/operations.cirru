@@ -475,6 +475,26 @@
       , :0
     decideSolution code :expression
 
+  :try $ \ (args environment)
+    assert.array args :try
+    = block $ . args 0
+    = handler $ . args 1
+    assert.array args ":handler of try"
+    = param $ . handler 0
+    = body $ handler.slice 1
+    assert.string param ":param of try"
+    assert.array body ":body of try"
+    object
+      :type :TryStatement
+      :block $ decideSolution block :expression
+      :handler $ object
+        :type :CatchClause
+        :param $ makeIdentifier param
+        :body $ object
+          :type :BlockStatement
+          :body $ body.map $ \ (item)
+            decideSolution item :statement
+
 = exports.transform $ \ (tree)
   = environment :statement
   = list $ tree.map $ \ (line)
