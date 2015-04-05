@@ -32,10 +32,18 @@
         :name text
     do
       = value $ dataType.decode text
-      return $ object
-        :type :Literal
-        :value value
-        :raw $ String text
+      if (_.isRegExp value)
+        do $ return $ object
+          :type :Literal
+          :value value
+          :raw $ String value
+          :regex $ object
+            :pattern $ text.substr 1
+            :flags :
+        do $ return $ object
+          :type :Literal
+          :value value
+          :raw $ String value
 
 = decideSolution $ \ (x environment)
   assert.oneOf environment
