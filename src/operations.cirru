@@ -5,7 +5,6 @@
 = dataType $ require :./data-type
 = listUtil $ require :./list-util
 = category $ require :./category
-= assemble $ require :./assemble
 
 = transformOperation $ \ (ast environment)
   assert.array ast :transform
@@ -27,7 +26,7 @@
     do $ if (text.match /\.)
       do
         = names $ text.split :.
-        return $ assemble.Members names
+        return $ buildMembers names
       do $ return $ object
         :type :Identifier
         :name text
@@ -64,6 +63,24 @@
 
   return result
 
+= makeIdentifier $ \ (name)
+  object
+    :type :Identifier
+    :name name
+
+= buildMembers $ \ (names)
+  if (< names.length 1)
+    do
+      throw $ new Error ":failed with empty names"
+  if (is names.length 1)
+    do $ return $ decideSolution (_.first names) :expression
+
+  return $ object
+    :type :MemberExpression
+    :computed false
+    :object $ buildMembers (_.initial names)
+    :property $ makeIdentifier (_.last names)
+
 = buildChain $ \ (names)
   if (is names.length 1)
     do $ return $ decideSolution (_.first names) :expression
@@ -81,7 +98,7 @@
       :type :MemberExpression
       :computed false
       :object $ buildChain initial
-      :property $ assemble.Identifier method
+      :property $ makeIdentifier method
     :arguments $ arguments.map $ \ (item)
       decideSolution item :expression
 
@@ -93,7 +110,7 @@
     object
       :type :AssignmentExpression
       :operator :=
-      :left $ assemble.Identifier name
+      :left $ makeIdentifier name
       :right $ decideSolution value :expression
 
   :var $ \ (args environment)
@@ -107,7 +124,7 @@
         = init $ . pair 1
         object
           :type :VariableDeclarator
-          :id $ assemble.Identifier name
+          :id $ makeIdentifier name
           :init $ if init
             decideSolution init :expression
             , null
@@ -205,13 +222,13 @@
       :id null
       :params $ params.map $ \ (item)
         if (_.isString item)
-          do $ assemble.Identifier item
+          do $ makeIdentifier item
           do
             = param $ . item 0
             assert.string param ":rest of params"
             object
               :type :RestElement
-              :argument $ assemble.Identifier param
+              :argument $ makeIdentifier param
       :defaults $ array
       :generator false
       :expression false
@@ -239,13 +256,13 @@
       :id null
       :params $ params.map $ \ (item)
         if (_.isString item)
-          do $ assemble.Identifier item
+          do $ makeIdentifier item
           do
             = param $ . item 0
             assert.string param ":rest of params"
             object
               :type :RestElement
-              :argument $ assemble.Identifier param
+              :argument $ makeIdentifier param
       :defaults $ array
       :generator false
       :expression true
@@ -482,7 +499,7 @@
     object
       :type :ForInStatement
       :left $ decideSolution leftCode :expression
-      :right $ assemble.Identifier right
+      :right $ makeIdentifier right
       :body $ object
         :type :BlockStatement
         :body $ bodyCode.map $ \ (item)
@@ -524,7 +541,7 @@
       :block $ decideSolution block :expression
       :handler $ object
         :type :CatchClause
-        :param $ assemble.Identifier param
+        :param $ makeIdentifier param
         :body $ object
           :type :BlockStatement
           :body $ body.map $ \ (item)
