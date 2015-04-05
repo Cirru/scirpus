@@ -454,6 +454,27 @@
           decideSolution item :expression
       :each false
 
+  :? $ \ (args environment)
+    assert.array args :?
+    = value $ . args 0
+    object
+      :type :BinaryExpression
+      :operator :!=
+      :left $ decideSolution value :expression
+      :right $ object
+        :type :Literal
+        :value null
+        :raw :null
+
+  :in $ \ (args environment)
+    assert.array args :in
+    = collection $ . args 0
+    = value $ . args 1
+    = code $ array :>=
+      array (array :. collection ::indexOf) value
+      , :0
+    decideSolution code :expression
+
 = exports.transform $ \ (tree)
   = environment :statement
   = list $ tree.map $ \ (line)
