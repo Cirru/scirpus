@@ -200,8 +200,14 @@
       :type :FunctionExpression
       :id null
       :params $ params.map $ \ (item)
-        assert.string item ":one of params"
-        makeIdentifier item
+        if (_.isString item)
+          do $ makeIdentifier item
+          do
+            = param $ . item 0
+            assert.string param ":rest of params"
+            object
+              :type :RestElement
+              :argument $ makeIdentifier param
       :defaults $ array
       :generator false
       :expression false
@@ -228,8 +234,14 @@
       :type :ArrowFunctionExpression
       :id null
       :params $ params.map $ \ (item)
-        assert.string item ":one of params"
-        makeIdentifier item
+        if (_.isString item)
+          do $ makeIdentifier item
+          do
+            = param $ . item 0
+            assert.string param ":rest of params"
+            object
+              :type :RestElement
+              :argument $ makeIdentifier param
       :defaults $ array
       :generator false
       :expression true

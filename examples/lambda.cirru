@@ -14,3 +14,5 @@ __call_expression__ f 1
 f 1
 
 (. a 2) 3
+
+\ (a $ b)
