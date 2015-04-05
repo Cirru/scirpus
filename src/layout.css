@@ -1,0 +1,26 @@
+
+body {
+  margin: 0;
+  display: flex;
+  flex-direction: row;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+}
+
+textarea {
+    flex: 1;
+    border: none;
+    outline: none;
+    resize: none;
+    align-items: stretch;
+    display: flex;
+    font-size: 14px;
+    font-family: Menlo, monospace;
+    padding: 1em;
+}
+
+textarea#compiled {
+    background: hsl(0, 0%, 96%);
+    font-size: 12px;
+}
