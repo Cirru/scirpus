@@ -3,6 +3,7 @@
 
 = assert $ require :./assert
 = dataType $ require :./data-type
+= listUtil $ require :./list-util
 
 = transformOperation $ \ (ast environment)
   assert.array ast :transform
@@ -426,6 +427,32 @@
         :type :BlockStatement
         :body $ body.map $ \ (item)
           decideSolution item :statement
+
+  :for $ \ (args environment)
+    assert.array args :for
+    = names $ . args 0
+    = body $ args.slice 1
+
+    assert.array names
+    = right $ . names 0
+    = left $ . names 1
+    = valueName $ . names 2
+    assert.string left ":left of for"
+    assert.string valueName ":valueName of for"
+    = leftCode $ array :var (array left)
+    = bodyCode $ listUtil.prepend body
+      array :var
+        array valueName $ array :. right left
+
+    object
+      :type :ForInStatement
+      :left $ decideSolution leftCode :expression
+      :right $ makeIdentifier right
+      :body $ object
+        :type :BlockStatement
+        :body $ bodyCode.map $ \ (item)
+          decideSolution item :expression
+      :each false
 
 = exports.transform $ \ (tree)
   = environment :statement
