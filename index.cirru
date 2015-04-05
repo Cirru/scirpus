@@ -2,8 +2,9 @@ doctype
 
 html
   head
-    title "Sirpus"
+    title "Scirpus"
     meta (:charset utf-8)
-    script (:defer)
-      :src (@ main)
+    @if (@ dev)
+      script (:defer) $ :src http://localhost:8080/build/main.js
+      script (:defer) $ :src (@ main)
   body

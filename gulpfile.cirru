@@ -9,6 +9,9 @@ gulp.task :html $ \ ()
 
   = data $ object
     :main $ ++: config.output.publicPath assets.main
+    :dev $ not $ is process.env.WEB_ENV :min
+
+  console.log data
 
   ... gulp
     :src :./index.cirru

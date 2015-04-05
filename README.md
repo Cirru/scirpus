@@ -6,6 +6,8 @@ Working in progress...
 
 Demo(not ready): http://repo.tiye.me/scirpus
 
+**Note: this project is written in CirruScript, rather than Scirpus itself.**
+
 ### Goal
 
 Write JavaScript AST in Cirru grammar. Then it can be used as an IR for cross-language transforms.

@@ -23,8 +23,11 @@
 
 = readToken $ \ (text)
   if (text.match /^\w)
-    do $ return
-      object
+    do $ if (text.match /\.)
+      do
+        = names $ text.split :.
+        return $ buildMembers names
+      do $ return $ object
         :type :Identifier
         :name text
     do
@@ -64,6 +67,19 @@
   object
     :type :Identifier
     :name name
+
+= buildMembers $ \ (names)
+  if (< names.length 1)
+    do
+      throw $ new Error ":failed with empty names"
+  if (is names.length 1)
+    do $ return $ decideSolution (_.first names) :expression
+
+  return $ object
+    :type :MemberExpression
+    :computed false
+    :object $ buildMembers (_.initial names)
+    :property $ makeIdentifier (_.last names)
 
 = dictionary $ object
   := $ \ (args environment)
