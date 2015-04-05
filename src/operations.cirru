@@ -360,7 +360,7 @@
       :test $ decideSolution test :expression
       :consequent $ decideSolution consequent :expression
       :alternate $ if (? alternate)
-        decideSolution consequent :expression
+        decideSolution alternate :expression
         , null
 
   :do $ \ (args environment)
