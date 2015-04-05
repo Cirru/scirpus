@@ -11,3 +11,5 @@ html
       script (:defer) $ :src http://localhost:8080/build/main.js
       script (:defer) $ :src (@ main)
   body
+    textarea#source
+    textarea#compiled

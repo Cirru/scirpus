@@ -1,6 +1,4 @@
 
-fs = require('fs');
-
 module.exports = {
   entry: {
     main: [
@@ -21,14 +19,8 @@ module.exports = {
     loaders: [
       {test: /\.cirru$/, loader: 'cirru-script'},
       {test: /\.json$/, loader: 'json'},
+      {test: /\.css$/, loader: 'style!css'},
     ]
   },
-  plugins: [
-    function() {
-       this.plugin('done', function(stats) {
-        content = JSON.stringify(stats.toJson().assetsByChunkName, null, 2)
-        return fs.writeFileSync('assets.json', content)
-      })
-    }
-  ]
+  plugins: []
 }

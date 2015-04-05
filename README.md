@@ -1,39 +1,36 @@
 
-Scirpus, JavaScript AST in Cirru grammer
+Scirpus, ES6(subset) AST in Cirru grammar
 ------
 
-Working in progress...
+Demo: http://repo.cirru.org/scirpus/
 
-Demo(not ready): http://repo.tiye.me/scirpus
+Read [`examples/`](https://github.com/Cirru/scirpus/tree/master/examples).
 
-**Note: this project is written in CirruScript, rather than Scirpus itself.**
+**Note: this project is written in old version of CirruScript, rather than Scirpus itself.**
 
 ### Goal
 
-Write JavaScript AST in Cirru grammar. Then it can be used as an IR for cross-language transforms.
+Write JavaScript AST in Cirru grammar. Then it can be used as an IR for cross-language compilations.
 
-Also read: http://segmentfault.com/a/1190000002646285
+Also read:
 
-### About
-
-Scirpus is going to convert Cirru code to JavaScript IR, and generate code with escodegen.
-For details, refer to resources below:
-
+* http://segmentfault.com/a/1190000002646285
 * https://speakerdeck.com/constellation/escodegen-and-esmangle-using-mozilla-javascript-ast-as-an-ir
 * http://esprima.org/demo/parse.html
-* https://developer.mozilla.org/en-US/docs/SpiderMonkey/Parser_API
+* https://github.com/estree/estree/blob/master/spec.md
 
-### Usage(, this project is currently during refactoring)
+### Usage
 
 CommonJS:
 
-```
+```text
 npm install --save scirpus
 ```
+
 ```coffee
 scirpus = require 'scirpus'
 ast = scirpus.transform [['cirru tree']]
-# then generate JS from AST
+# generates ES6 AST from Cirru AST
 ```
 
 ### License

@@ -1,7 +1,7 @@
 
 = gulp $ require :gulp
 
-= config $ require :./webpack.config
+= config $ require :./webpack.min
 
 gulp.task :html $ \ ()
   = html $ require :gulp-cirru-html
@@ -10,8 +10,6 @@ gulp.task :html $ \ ()
   = data $ object
     :main $ ++: config.output.publicPath assets.main
     :dev $ not $ is process.env.WEB_ENV :min
-
-  console.log data
 
   ... gulp
     :src :./index.cirru
@@ -27,3 +25,21 @@ gulp.task :script $ \ ()
     :pipe $ script $ object (:dest :../lib)
     :pipe $ rename $ object (:extname :.js)
     :pipe $ gulp.dest :lib
+
+gulp.task :rsync $ \ (cb)
+  = wrapper $ require :rsyncwrapper
+  wrapper.rsync
+    object
+      :ssh true
+      :src $ array :index.html :dist :examples
+      :recursive true
+      :args $ array :--verbose
+      :dest :tiye:~/repo/cirru/scirpus/
+      :deleteAll true
+    \ (error stdout stderr cmd)
+      if (? error)
+        do $ throw error
+      if (? stderr)
+        do $ console.error stderr
+        do $ console.log cmd
+      cb

@@ -1,7 +1,9 @@
 
-/gulpfile.coffee
-/webpack.*
-/compiled
+/build
+/dist
+/examples
 /src
-/example
+/assets.json
+/gulpfile.*
 /index.*
+/webpack.*
