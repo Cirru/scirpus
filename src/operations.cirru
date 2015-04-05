@@ -4,6 +4,7 @@
 = assert $ require :./assert
 = dataType $ require :./data-type
 = listUtil $ require :./list-util
+= category $ require :./category
 
 = transformOperation $ \ (ast environment)
   assert.array ast :transform
@@ -38,24 +39,26 @@
     array :statement :expression
     , ":environment"
 
-  if (is environment :expression) $ do
-    if (_.isArray x) $ do
-      return $ transformOperation x :expression
-    if (_.isString x) $ do
-      return $ readToken x
+  if (_.isArray x) $ do
+    = result $ transformOperation x :expression
+  if (_.isString x) $ do
+    = result $ readToken x
+  if (not (? result))
+    do
+      console.log x
+      throw $ new Error ":cannot decide a solution"
+
   if (is environment :statement) $ do
     if (_.isArray x) $ do
-      return $ object
-        :type :ExpressionStatement
-        :expression $ transformOperation x :expression
-    if (_.isString x) $ do
-      return $ object
-        :type :ExpressionStatement
-        :expression $ readToken x
+      = head $ . x 0
+      if
+        and (_.isString head)
+          not $ in category.statement head
+        do $ return $ object
+          :type :ExpressionStatement
+          :expression result
 
-  console.log x
-  throw $ new Error ":cannot decide a solution"
-  return
+  return result
 
 = makeIdentifier $ \ (name)
   object
@@ -495,6 +498,26 @@
           :body $ body.map $ \ (item)
             decideSolution item :statement
 
+  :switch $ \ (args environment)
+    assert.array args :switch
+    = discriminant $ . args 0
+    = cases $ args.slice 1
+    assert.array cases ":cases of switch"
+    object
+      :type :SwitchStatement
+      :discriminant $ decideSolution discriminant :expression
+      :cases $ cases.map $ \ (item)
+        assert.array item ":case of switch"
+        = test $ . item 0
+        = consequent $ item.slice 1
+        = consequentCode $ listUtil.append consequent (array :break)
+        object
+          :type :SwitchCase
+          :test $ if (is test :else) null
+            decideSolution test :expression
+          :consequent $ consequentCode.map $ \ (item)
+            decideSolution item :statement
+
 = exports.transform $ \ (tree)
   = environment :statement
   = list $ tree.map $ \ (line)
@@ -502,4 +525,3 @@
   object
     :type :Program
     :body list
-
