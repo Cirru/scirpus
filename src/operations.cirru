@@ -576,8 +576,17 @@
             decideSolution item :statement
 
   :... $ \ (args environment)
-    assert.array args ":chain"
-    buildChain args
+    if (is args.length 1)
+      do
+        assert.array args :spread
+        = argument $ . args 0
+        assert.string :argument ":argument of spread"
+        object
+          :type :SpreadElement
+          :argument $ makeIdentifier argument
+      do
+        assert.array args ":chain"
+        buildChain args
 
 = exports.transform $ \ (tree)
   = environment :statement

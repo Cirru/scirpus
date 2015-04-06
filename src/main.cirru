@@ -8,7 +8,7 @@
 require :./layout.css
 
 = req $ new XMLHttpRequest
-req.open :GET :./examples/chain.cirru
+req.open :GET :./examples/lambda.cirru
 = req.onload $ \ (res)
   = code req.responseText
   = source.value code
@@ -30,8 +30,8 @@ req.send
       = compiled.value display
       console.log :result: display
       console.log ":generated code:"
-      -- "console.log $ babel.fromAst result null (object)"
-      console.log $ escodegen.generate result
+      console.log $ babel.fromAst result null (object)
+      -- "console.log $ escodegen.generate result"
     , err
     do
       = message err.message
