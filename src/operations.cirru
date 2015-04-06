@@ -249,7 +249,9 @@
     = argument $ . args 0
     object
       :type :ReturnStatement
-      :argument $ decideSolution argument :expression
+      :argument $ if (? argument)
+        decideSolution argument :expression
+        , null
 
   :\\ $ \ (args environment)
     assert.array args :function
@@ -408,6 +410,14 @@
     object
       :type :BinaryExpression
       :operator :===
+      :left $ decideSolution (. args 0) :expression
+      :right $ decideSolution (. args 1) :expression
+
+  :isnt $ \ (args environment)
+    assert.array args :isnt
+    object
+      :type :BinaryExpression
+      :operator :!==
       :left $ decideSolution (. args 0) :expression
       :right $ decideSolution (. args 1) :expression
 
