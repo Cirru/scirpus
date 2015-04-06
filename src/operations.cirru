@@ -114,11 +114,10 @@
   := $ \ (args environment)
     = name $ . args 0
     = value $ . args 1
-    assert.string name :variable
     object
       :type :AssignmentExpression
       :operator :=
-      :left $ makeIdentifier name
+      :left $ decideSolution name :expression
       :right $ decideSolution value :expression
 
   :var $ \ (args environment)
