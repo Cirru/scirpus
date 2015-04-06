@@ -416,7 +416,7 @@
     assert.array args :>
     object
       :type :BinaryExpression
-      :operator :>=
+      :operator :>
       :left $ decideSolution (. args 0) :expression
       :right $ decideSolution (. args 1) :expression
 
