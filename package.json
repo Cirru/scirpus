@@ -1,6 +1,6 @@
 {
   "name": "scirpus",
-  "version": "0.4.10",
+  "version": "0.4.11",
   "description": "Generate JavaScript AST from Cirru Grammer",
   "main": "lib/operations.js",
   "scripts": {
@@ -12,18 +12,20 @@
     "workflow"
   ],
   "devDependencies": {
-    "babel": "^4.7.16",
+    "babel-core": "^5.0.9",
     "cirru-parser": "^0.10.2",
-    "cirru-script": "0.2.x",
-    "cirru-script-loader": "0.1.x",
+    "cirru-script": "^0.2.1",
+    "cirru-script-loader": "^0.1.0",
     "css-loader": "^0.9.1",
+    "del": "^1.1.1",
     "escodegen": "^1.6.1",
     "gulp": "^3.8.11",
-    "gulp-cirru-html": "0.0.4",
-    "gulp-cirru-script": "0.0.2-2",
+    "gulp-cirru-script": "^0.1.1",
     "gulp-rename": "^1.2.0",
     "json-loader": "^0.5.1",
     "rsyncwrapper": "^0.4.2",
+    "run-sequence": "^1.0.2",
+    "stir-template": "^0.1.2",
     "style-loader": "^0.9.0",
     "webpack": "^1.7.3",
     "webpack-dev-server": "^1.7.0"

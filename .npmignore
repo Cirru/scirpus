@@ -1,9 +1,8 @@
 
 /build
-/dist
 /examples
 /src
-/assets.json
 /gulpfile.*
 /index.*
 /webpack.*
+/template.cirru

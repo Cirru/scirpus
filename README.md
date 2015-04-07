@@ -6,8 +6,6 @@ Demo: http://repo.cirru.org/scirpus/
 
 Read [`examples/`](https://github.com/Cirru/scirpus/tree/master/examples).
 
-**Note: this project is written in old version of CirruScript, rather than Scirpus itself.**
-
 ### Goal
 
 Write JavaScript AST in Cirru grammar. Then it can be used as an IR for cross-language compilations.

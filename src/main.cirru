@@ -1,43 +1,45 @@
 
-= parser $ require :cirru-parser
-= escodegen $ require :escodegen
-= babel $ require :babel/browser
-
-= operations $ require :./operations
+var
+  parser $ require :cirru-parser
+  escodegen $ require :escodegen
+  babel $ require :babel-core/browser
+  operations $ require :./operations
+  req $ new XMLHttpRequest
+  source $ document.querySelector :#source
+  compiled $ document.querySelector :#compiled
 
 require :./layout.css
 
-= req $ new XMLHttpRequest
 req.open :GET :./examples/lambda.cirru
 = req.onload $ \ (res)
-  = code req.responseText
+  var $ code req.responseText
   = source.value code
-  render code
+  tryRender code
 
 req.send
 
-= source $ document.querySelector :#source
-= compiled $ document.querySelector :#compiled
+var $ render $ \ (code)
+  var
+    ast $ parser.pare code
+    result $ operations.transform ast
+    display $ JSON.stringify result null 2
+  console.log :ast: ast
 
-= render $ \ (code)
+  = compiled.value display
+  console.log :result: display
+  console.log ":generated code:"
+  console.log $ . (babel.fromAst result null (object)) :code
+  -- "console.log $ escodegen.generate result"
+
+var $ tryRender $ \ (code)
   try
-    do
-      = ast $ parser.pare code
-      console.log :ast: ast
-      = result $ operations.transform ast
-      = display $ JSON.stringify result null 2
-
-      = compiled.value display
-      console.log :result: display
-      console.log ":generated code:"
-      console.log $ babel.fromAst result null (object)
-      -- "console.log $ escodegen.generate result"
-    , err
-    do
-      = message err.message
-      = stack err.stack
+    do $ render code
+    err
+      var
+        message err.message
+        stack err.stack
       = compiled.value $ + message ":\n\n" stack
 
 source.addEventListener :input $ \ (event)
-  render event.target.value
+  tryRender event.target.value
 

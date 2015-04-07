@@ -1,5 +1,6 @@
 
-= _ $ require :lodash
+var
+  _ $ require :lodash
 
 = exports.string $ \ (x comment)
   if
