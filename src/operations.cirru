@@ -156,6 +156,20 @@ var $ dictionary $ object
       :elements $ args.map $ \ (item)
         return $ decideSolution item :expression
 
+  :array~ $ \ (args environment)
+    assert.array args :ArrayPattern
+    return $ object
+      :type :ArrayPattern
+      :elements $ args.map $ \ (item)
+        if (_.isString item) $ do
+          return $ decideSolution item :expression
+        assert.array item ":item in ArrayPattern"
+        assert.result (is item.length 1) ":an only item in array"
+        assert.string (. item 0) ":simple string in ArrayPattern"
+        return $ object
+          :type :RestElement
+          :argument $ makeIdentifier (. item 0)
+
   :+ $ \ (args environment)
     assert.array args ":args for +"
     assert.result (> args.length 0) ":args for + should no be empty"
@@ -320,6 +334,22 @@ var $ dictionary $ object
             :name $ name.substr 1
           :computed false
           :value $ decideSolution init :expression
+          :kind :init
+          :method false
+          :shorthand false
+
+  :object~ $ \ (args environment)
+    assert.array args ":args for ObjectPattern"
+    return $ object
+      :type :ObjectPattern
+      :properties $ args.map $ \ (property)
+        assert.string property ":property in ObjectPattern"
+        var $ pattern $ makeIdentifier property
+        return $ object
+          :type :Property
+          :key pattern
+          :computed false
+          :value pattern
           :kind :init
           :method false
           :shorthand false
