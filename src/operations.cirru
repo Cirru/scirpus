@@ -139,12 +139,11 @@ var $ dictionary $ object
       :declarations $ args.map $ \ (pair)
         var
           name $ . pair 0
-        assert.string name :variable
         var
           init $ . pair 1
         return $ object
           :type :VariableDeclarator
-          :id $ makeIdentifier name
+          :id $ decideSolution name :expression
           :init $ cond init
             decideSolution init :expression
             , null

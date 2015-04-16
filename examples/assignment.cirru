@@ -4,6 +4,7 @@
 var (b 2) (c)
 
 = (object~ a b) c
+var $ (object~ a b) c
 
 = (array~ a b) c
 
