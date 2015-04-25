@@ -25,6 +25,8 @@ var $ transformOperation $ \ (ast environment)
       return $ contructor ast environment
 
 var $ readToken $ \ (text)
+  if (is text :super) $ do
+    return $ object (:type :Super)
   if (text.match /^\w)
     do $ if (text.match /\.)
       do
@@ -88,8 +90,8 @@ var $ buildMembers $ \ (names)
   if (< names.length 1)
     do
       throw $ new Error ":failed with empty names"
-  if (is names.length 1)
-    do $ return $ decideSolution (_.first names) :expression
+  if (is names.length 1) $ do
+    return $ decideSolution (_.first names) :expression
 
   return $ object
     :type :MemberExpression
@@ -668,6 +670,53 @@ var $ dictionary $ object
       do
         assert.array args ":chain"
         return $ buildChain args
+
+  :class $ \ (args environment)
+    assert.array args :class
+    var
+      className $ _.first args
+      superClass null
+      classMethods $ _.tail args
+    if (_.isArray className) $ do
+      assert.result (is className.length 2) ":class declarations"
+      = superClass $ _.last className
+      = className $ _.first className
+    return $ object
+      :type :ClassDeclaration
+      :id $ makeIdentifier className
+      :superClass $ cond (? superClass)
+        makeIdentifier superClass
+        , null
+      :body $ object
+        :type :ClassBody
+        :body $ classMethods.map $ \ (pair)
+          assert.result (is pair.length 2) ":MethodDefinition"
+          var
+            keyName $ _.first pair
+            prefix $ array
+            definition $ _.last pair
+            kind :method
+            isStatic false
+          if (_.isArray keyName) $ do
+            = prefix $ _.initial keyName
+            = keyName $ _.last keyName
+          if (in prefix :get) $ do
+            = kind :get
+          if (in prefix :set) $ do
+            = kind :set
+          if (in prefix :static) $ do
+            = isStatic true
+          if (is keyName :constructor) $ do
+            = kind :constructor
+          assert.string keyName ":keyName in class"
+          assert.array definition ":definition in class"
+          return $ object
+            :type :MethodDefinition
+            :key $ makeIdentifier keyName
+            :value $ decideSolution definition :expression
+            :kind kind
+            :static isStatic
+            :computed false
 
 = exports.transform $ \ (tree)
   var

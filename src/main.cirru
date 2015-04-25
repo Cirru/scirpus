@@ -10,7 +10,7 @@ var
 
 require :./layout.css
 
-req.open :GET :./examples/assignment.cirru
+req.open :GET :./examples/class.cirru
 = req.onload $ \ (res)
   var $ code req.responseText
   = source.value code
@@ -29,7 +29,7 @@ var $ render $ \ (code)
   console.log :result: display
   console.log ":generated code:"
   console.log $ . (babel.fromAst result null (object)) :code
-  -- "console.log $ escodegen.generate result"
+  -- console.log $ escodegen.generate result
 
 var $ tryRender $ \ (code)
   try
