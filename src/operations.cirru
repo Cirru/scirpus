@@ -135,10 +135,25 @@ var $ dictionary $ object
 
   :var $ \ (args environment)
     assert.array args ":variable declarations"
+    var
+      first $ . args 0
+      init $ . args 1
+    if (_.isString first) $ do
+      return $ object
+        :type :VariableDeclaration
+        :kind :var
+        :declarations $ array
+          object
+            :type :VariableDeclarator
+            :id $ makeIdentifier first
+            :init $ cond init
+              decideSolution init :expression
+              , null
     return $ object
       :type :VariableDeclaration
       :kind :var
       :declarations $ args.map $ \ (pair)
+        assert.array pair ":declarations in var"
         var
           name $ . pair 0
         var
