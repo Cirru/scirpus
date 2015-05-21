@@ -27,6 +27,9 @@ var $ transformOperation $ \ (ast environment)
 var $ readToken $ \ (text)
   if (is text :super) $ do
     return $ object (:type :Super)
+  if (is text :this) $ do
+    return $ object
+      :type :ThisExpression
   if (text.match /^\w)
     do $ if (text.match /\.)
       do
