@@ -736,6 +736,11 @@ var $ dictionary $ object
             :static isStatic
             :computed false
 
+= (. dictionary :[]) dictionary.array
+= (. dictionary :[]~) (. dictionary :array~)
+= (. dictionary :{}) dictionary.object
+= (. dictionary :{}~) (. dictionary :object~)
+
 = exports.transform $ \ (tree)
   var
     environment :statement
