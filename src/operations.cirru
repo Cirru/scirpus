@@ -68,8 +68,8 @@ var $ decideSolution $ \ (x environment)
       result $ readToken x
   if (not (? result))
     do
-      console.log x
-      throw $ new Error ":cannot decide a solution"
+      var inStr $ JSON.stringify x
+      throw $ new Error $ + ":Unknown chunk: " inStr
 
   if (is environment :statement) $ do
     if (_.isArray x) $ do
@@ -92,7 +92,7 @@ var $ makeIdentifier $ \ (name)
 var $ buildMembers $ \ (names)
   if (< names.length 1)
     do
-      throw $ new Error ":failed with empty names"
+      throw $ new Error ":Cannot build MemberExpression with nothing"
   if (is names.length 1) $ do
     return $ decideSolution (_.first names) :expression
 
