@@ -36,6 +36,6 @@ var
     :null $ return null
     :Infinity $ return Infinity
     else
-      console.log ":Run into" text
-      throw $ new Error ":can not decode as value"
+      throw $ new Error $ + ":not a valid value: "
+        JSON.stringify text
       return a

@@ -2,46 +2,43 @@
 var
   _ $ require :lodash
 
+var fmt $ \ (x)
+  return $ JSON.stringify x
+
 = exports.string $ \ (x comment)
   if
     not $ _.isString x
     do
-      console.log comment x
-      throw $ new Error ":suppose to be string"
+      throw $ new Error $ + ":expects string but got " (fmt x) ": at " comment
       return
 
 = exports.array $ \ (x comment)
   if
     not $ _.isArray x
     do
-      console.log comment x
-      throw $ new Error ":suppose to be array"
+      throw $ new Error $ + ":expects array but got " (fmt x) ": at " comment
       return
 
 = exports.func $ \ (x comment)
   if
     not $ _.isFunction x
     do
-      console.log comment x
-      throw $ new Error ":suppose to be function"
+      throw $ new Error $ + ":expects function but got " (fmt x) ": at " comment
       return
 
 = exports.oneOf $ \ (x xs comment)
   if
     not $ in xs x
     do
-      console.log comment xs x
-      throw $ new Error ":did not match oneOf"
+      throw $ new Error $ + (fmt x) ": is not oneOf " (fmt xs) ": at " comment
       return
 
 = exports.result $ \ (x comment)
   if (not x) $ do
-    console.log comment x
-    throw $ new Error ":result if not true"
+    throw $ new Error $ + ":expects true but got " (fmt x) ": at " comment
     return
 
 = exports.defined $ \ (x comment)
   if (not (? x)) $ do
-    console.log x
-    throw $ new Error ":need value"
+    throw $ new Error $ + ":value not defined at " comment
     return
