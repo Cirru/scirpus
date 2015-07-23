@@ -675,6 +675,44 @@ var $ dictionary $ object
           :consequent $ consequentCode.map $ \ (item)
             return $ decideSolution item :statement
 
+  :case $ \ (args environment)
+    assert.array args :case
+    var
+      discriminant $ . args 0
+      cases $ args.slice 1
+    assert.array cases  ":cases of case"
+    return $ object
+      :type :ExpressionStatement
+      :expression $ object
+        :type :CallExpression
+        :arguments $ array
+        :callee $ object
+          :type :ArrowFunctionExpression
+          :id null
+          :params $ array
+          :defaults $ array
+          :generator false
+          :expression true
+          :body $ object
+            :type :BlockStatement
+            :body $ array
+              object
+                :type :SwitchStatement
+                :discriminant $ decideSolution discriminant :expression
+                :cases $ cases.map $ \ (item)
+                  assert.array item ":case of switch"
+                  var
+                    test $ . item 0
+                    consequent $ item.slice 1
+                  return $ object
+                    :type :SwitchCase
+                    :test $ cond (is test :else) null
+                      decideSolution test :expression
+                    :consequent $ consequent.map $ \ (item)
+                      return $ object
+                        :type :ReturnStatement
+                        :argument $ decideSolution item :expression
+
   :... $ \ (args environment)
     if (is args.length 1)
       do
