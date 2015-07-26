@@ -10,7 +10,7 @@ var
 
 require :./layout.css
 
-req.open :GET :./examples/switch.cirru
+req.open :GET :./examples/lambda.cirru
 = req.onload $ \ (res)
   var $ code req.responseText
   = source.value code

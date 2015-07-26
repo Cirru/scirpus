@@ -293,7 +293,13 @@ var $ dictionary $ object
       :expression false
       :body $ object
         :type :BlockStatement
-        :body $ body.map $ \ (line)
+        :body $ body.map $ \ (line index)
+          if
+            and
+              is index (- body.length 1)
+              isnt (. line 0) :return
+            do
+              = line $ [] :return line
           return $ decideSolution line :statement
 
   :return $ \ (args environment)
@@ -333,7 +339,13 @@ var $ dictionary $ object
       :expression true
       :body $ object
         :type :BlockStatement
-        :body $ body.map $ \ (line)
+        :body $ body.map $ \ (line index)
+          if
+            and
+              is index (- body.length 1)
+              isnt (. line 0) :return
+            do
+              = line $ [] :return line
           return $ decideSolution line :statement
 
   :object $ \ (args environment)
