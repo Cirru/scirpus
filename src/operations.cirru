@@ -30,7 +30,8 @@ var $ readToken $ \ (text)
   if (is text :this) $ do
     return $ object
       :type :ThisExpression
-  if (text.match /^\w)
+  if
+    and (text.match /^\w) (not (text.match /^\d))
     do $ if (text.match /\.)
       do
         var
