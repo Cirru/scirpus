@@ -719,10 +719,12 @@ var $ dictionary $ object
                   :type :SwitchCase
                   :test $ cond (is test :else) null
                     decideSolution test :expression
-                  :consequent $ consequent.map $ \ (item)
-                    return $ object
-                      :type :ReturnStatement
-                      :argument $ decideSolution item :expression
+                  :consequent $ consequent.map $ \ (item index)
+                    return $ cond (is index (- consequent.length 1))
+                      object
+                        :type :ReturnStatement
+                        :argument $ decideSolution item :expression
+                      decideSolution item :expression
 
   :... $ \ (args environment)
     if (is args.length 1)
