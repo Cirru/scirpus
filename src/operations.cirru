@@ -27,9 +27,11 @@ var $ transformOperation $ \ (ast environment)
 var $ readToken $ \ (text)
   if (is text :super) $ do
     return $ object (:type :Super)
-  if (is text :this) $ do
-    return $ object
+  if
+    or (is text :this) (is text :@)
+    do $ return $ object
       :type :ThisExpression
+  = text $ text.replace /^@ :this.
   if
     and (text.match /^\w) (not (text.match /^\d))
     do $ if (text.match /\.)
