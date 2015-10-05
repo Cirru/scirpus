@@ -4,3 +4,5 @@ if a
   do false
 
 cond a true false
+
+cond a true

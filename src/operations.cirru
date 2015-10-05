@@ -474,13 +474,19 @@ var $ dictionary $ object
 
     assert.defined test ":test of cond"
     assert.defined consequent ":test of consequent"
-    assert.defined alternate ":test of alternate"
+
+    if (? alternate)
+      do $ var alternateAst
+        decideSolution alternate :expression
+      do $ var alternateAst $ object
+        :type :Identifier
+        :name :undefined
 
     return $ object
       :type :ConditionalExpression
       :test $ decideSolution test :expression
       :consequent $ decideSolution consequent :expression
-      :alternate $ decideSolution alternate :expression
+      :alternate alternateAst
 
   :-- $ \ (args environment)
     return $ object

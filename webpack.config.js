@@ -1,4 +1,6 @@
 
+var path = require('path')
+
 module.exports = {
   entry: {
     main: [
@@ -20,6 +22,9 @@ module.exports = {
       {test: /\.cirru$/, loader: 'cirru-script'},
       {test: /\.json$/, loader: 'json'},
       {test: /\.css$/, loader: 'style!css'},
+    ],
+    noParse: [
+      path.resolve('./node_modules/babel-core/browser.js')
     ]
   },
   plugins: []
