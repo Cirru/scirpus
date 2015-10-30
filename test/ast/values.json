@@ -1,0 +1,93 @@
+{
+  "type": "File",
+  "program": {
+    "type": "Program",
+    "sourceType": "script",
+    "body": [
+      {
+        "type": "VariableDeclaration",
+        "declarations": [
+          {
+            "type": "VariableDeclarator",
+            "id": {
+              "type": "Identifier",
+              "name": "a"
+            },
+            "init": {
+              "type": "NumberLiteral",
+              "extra": {
+                "rawValue": 1,
+                "raw": "1"
+              },
+              "value": 1
+            }
+          },
+          {
+            "type": "VariableDeclarator",
+            "id": {
+              "type": "Identifier",
+              "name": "b"
+            },
+            "init": {
+              "type": "StringLiteral",
+              "extra": {
+                "rawValue": "2",
+                "raw": "\"2\""
+              },
+              "value": "2"
+            }
+          },
+          {
+            "type": "VariableDeclarator",
+            "id": {
+              "type": "Identifier",
+              "name": "c"
+            },
+            "init": {
+              "type": "BooleanLiteral",
+              "value": true
+            }
+          },
+          {
+            "type": "VariableDeclarator",
+            "id": {
+              "type": "Identifier",
+              "name": "d"
+            },
+            "init": {
+              "type": "NullLiteral"
+            }
+          },
+          {
+            "type": "VariableDeclarator",
+            "id": {
+              "type": "Identifier",
+              "name": "e"
+            },
+            "init": {
+              "type": "Identifier",
+              "name": "undefined"
+            }
+          },
+          {
+            "type": "VariableDeclarator",
+            "id": {
+              "type": "Identifier",
+              "name": "f"
+            },
+            "init": {
+              "type": "RegexLiteral",
+              "extra": {
+                "raw": "/\\d\\/\\w/"
+              },
+              "pattern": "\\d\\/\\w",
+              "flags": ""
+            }
+          }
+        ],
+        "kind": "var"
+      }
+    ],
+    "directives": []
+  }
+}

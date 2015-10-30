@@ -1,0 +1,211 @@
+{
+  "type": "File",
+  "program": {
+    "type": "Program",
+    "sourceType": "script",
+    "body": [
+      {
+        "type": "SwitchStatement",
+        "discriminant": {
+          "type": "Identifier",
+          "name": "a"
+        },
+        "cases": [
+          {
+            "type": "SwitchCase",
+            "consequent": [
+              {
+                "type": "ExpressionStatement",
+                "expression": {
+                  "type": "CallExpression",
+                  "callee": {
+                    "type": "MemberExpression",
+                    "object": {
+                      "type": "Identifier",
+                      "name": "console"
+                    },
+                    "property": {
+                      "type": "Identifier",
+                      "name": "log"
+                    },
+                    "computed": false
+                  },
+                  "arguments": [
+                    {
+                      "type": "NumberLiteral",
+                      "extra": {
+                        "rawValue": 1,
+                        "raw": "1"
+                      },
+                      "value": 1
+                    }
+                  ]
+                }
+              },
+              {
+                "type": "BreakStatement",
+                "label": null
+              }
+            ],
+            "test": {
+              "type": "NumberLiteral",
+              "extra": {
+                "rawValue": 1,
+                "raw": "1"
+              },
+              "value": 1
+            }
+          },
+          {
+            "type": "SwitchCase",
+            "consequent": [
+              {
+                "type": "ExpressionStatement",
+                "expression": {
+                  "type": "CallExpression",
+                  "callee": {
+                    "type": "MemberExpression",
+                    "object": {
+                      "type": "Identifier",
+                      "name": "console"
+                    },
+                    "property": {
+                      "type": "Identifier",
+                      "name": "log"
+                    },
+                    "computed": false
+                  },
+                  "arguments": [
+                    {
+                      "type": "StringLiteral",
+                      "extra": {
+                        "rawValue": "else",
+                        "raw": "\"else\""
+                      },
+                      "value": "else"
+                    }
+                  ]
+                }
+              },
+              {
+                "type": "BreakStatement",
+                "label": null
+              }
+            ],
+            "test": null
+          }
+        ]
+      },
+      {
+        "type": "ExpressionStatement",
+        "expression": {
+          "type": "CallExpression",
+          "callee": {
+            "body": {
+              "type": "BlockStatement",
+              "body": [
+                {
+                  "type": "SwitchStatement",
+                  "discriminant": {
+                    "type": "Identifier",
+                    "name": "a"
+                  },
+                  "cases": [
+                    {
+                      "type": "SwitchCase",
+                      "consequent": [
+                        {
+                          "type": "ReturnStatement",
+                          "argument": {
+                            "type": "StringLiteral",
+                            "extra": {
+                              "rawValue": "one",
+                              "raw": "\"one\""
+                            },
+                            "value": "one"
+                          }
+                        }
+                      ],
+                      "test": {
+                        "type": "NumberLiteral",
+                        "extra": {
+                          "rawValue": 1,
+                          "raw": "1"
+                        },
+                        "value": 1
+                      }
+                    },
+                    {
+                      "type": "SwitchCase",
+                      "consequent": [
+                        {
+                          "type": "ReturnStatement",
+                          "argument": {
+                            "type": "BinaryExpression",
+                            "left": {
+                              "type": "StringLiteral",
+                              "extra": {
+                                "rawValue": "got ",
+                                "raw": "\"got \""
+                              },
+                              "value": "got "
+                            },
+                            "operator": "+",
+                            "right": {
+                              "type": "StringLiteral",
+                              "extra": {
+                                "rawValue": "two",
+                                "raw": "\"two\""
+                              },
+                              "value": "two"
+                            }
+                          }
+                        }
+                      ],
+                      "test": {
+                        "type": "NumberLiteral",
+                        "extra": {
+                          "rawValue": 2,
+                          "raw": "2"
+                        },
+                        "value": 2
+                      }
+                    },
+                    {
+                      "type": "SwitchCase",
+                      "consequent": [
+                        {
+                          "type": "ReturnStatement",
+                          "argument": {
+                            "type": "StringLiteral",
+                            "extra": {
+                              "rawValue": "somthing else",
+                              "raw": "\"somthing else\""
+                            },
+                            "value": "somthing else"
+                          }
+                        }
+                      ],
+                      "test": null
+                    }
+                  ]
+                }
+              ],
+              "directives": []
+            },
+            "params": [],
+            "extra": {
+              "parenthesized": true
+            },
+            "generator": false,
+            "expression": false,
+            "type": "FunctionExpression",
+            "id": null
+          },
+          "arguments": []
+        }
+      }
+    ],
+    "directives": []
+  }
+}

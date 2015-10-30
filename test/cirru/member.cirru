@@ -7,6 +7,4 @@
 
 . (. a 1) 2
 
-console.log 1 2 @ @a @a.b
-
 a.b c.d

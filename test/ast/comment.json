@@ -1,0 +1,17 @@
+{
+  "type": "File",
+  "program": {
+    "body": [],
+    "directives": [],
+    "innerComments": [
+      {
+        "type": "CommentLine",
+        "value": " this is a comment",
+        "ignore": true
+      }
+    ],
+    "sourceType": "script",
+    "leadingComments": null,
+    "type": "Program"
+  }
+}

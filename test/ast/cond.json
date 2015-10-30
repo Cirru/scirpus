@@ -1,0 +1,61 @@
+{
+  "type": "File",
+  "program": {
+    "type": "Program",
+    "sourceType": "script",
+    "body": [
+      {
+        "type": "IfStatement",
+        "test": {
+          "type": "Identifier",
+          "name": "a"
+        },
+        "consequent": {
+          "type": "BlockStatement",
+          "body": [
+            {
+              "type": "ExpressionStatement",
+              "expression": {
+                "type": "BooleanLiteral",
+                "value": true
+              }
+            }
+          ],
+          "directives": []
+        },
+        "alternate": {
+          "type": "BlockStatement",
+          "body": [
+            {
+              "type": "ExpressionStatement",
+              "expression": {
+                "type": "BooleanLiteral",
+                "value": false
+              }
+            }
+          ],
+          "directives": []
+        }
+      },
+      {
+        "type": "ExpressionStatement",
+        "expression": {
+          "type": "ConditionalExpression",
+          "test": {
+            "type": "Identifier",
+            "name": "a"
+          },
+          "consequent": {
+            "type": "BooleanLiteral",
+            "value": true
+          },
+          "alternate": {
+            "type": "BooleanLiteral",
+            "value": false
+          }
+        }
+      }
+    ],
+    "directives": []
+  }
+}

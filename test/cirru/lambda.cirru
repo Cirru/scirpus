@@ -1,16 +1,10 @@
 
-\ (a)
-  return b
-
-\\ (a)
-  return b
+\ (a) (return b)
 
 \ (a) b
 \\ (a) b
 
-var
-  f $ \ (x)
-    return (+ x 1)
+var f $ \ (x) (+ x 1)
 
 __call_expression__ f 1
 

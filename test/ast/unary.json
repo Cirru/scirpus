@@ -1,0 +1,22 @@
+{
+  "type": "File",
+  "program": {
+    "type": "Program",
+    "sourceType": "script",
+    "body": [
+      {
+        "type": "ExpressionStatement",
+        "expression": {
+          "type": "UnaryExpression",
+          "operator": "!",
+          "prefix": true,
+          "argument": {
+            "type": "Identifier",
+            "name": "a"
+          }
+        }
+      }
+    ],
+    "directives": []
+  }
+}

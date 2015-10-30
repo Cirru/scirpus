@@ -13,6 +13,7 @@
   ],
   "devDependencies": {
     "babel-core": "^5.1.10",
+    "babylon": "^6.0.2",
     "cirru-parser": "^0.10.2",
     "cirru-script": "^0.2.3",
     "cirru-script-loader": "^0.1.0",
@@ -22,6 +23,7 @@
     "gulp": "^3.8.11",
     "gulp-cirru-script": "^0.1.1",
     "gulp-rename": "^1.2.0",
+    "immutable": "^3.7.5",
     "json-loader": "^0.5.1",
     "rsyncwrapper": "^0.4.2",
     "run-sequence": "^1.0.2",
@@ -31,6 +33,7 @@
     "webpack-dev-server": "^1.7.0"
   },
   "dependencies": {
+    "babel-generator": "^6.0.12",
     "lodash": "^3.6.0"
   },
   "repository": {

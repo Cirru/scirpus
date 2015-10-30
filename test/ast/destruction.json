@@ -1,0 +1,117 @@
+{
+  "type": "File",
+  "program": {
+    "type": "Program",
+    "sourceType": "script",
+    "body": [
+      {
+        "type": "VariableDeclaration",
+        "declarations": [
+          {
+            "type": "VariableDeclarator",
+            "id": {
+              "type": "ObjectPattern",
+              "properties": [
+                {
+                  "method": false,
+                  "shorthand": true,
+                  "computed": false,
+                  "extra": {
+                    "shorthand": true
+                  },
+                  "value": {
+                    "type": "Identifier",
+                    "name": "a"
+                  },
+                  "type": "ObjectProperty",
+                  "key": {
+                    "type": "Identifier",
+                    "name": "a"
+                  }
+                },
+                {
+                  "method": false,
+                  "shorthand": true,
+                  "computed": false,
+                  "extra": {
+                    "shorthand": true
+                  },
+                  "value": {
+                    "type": "Identifier",
+                    "name": "b"
+                  },
+                  "type": "ObjectProperty",
+                  "key": {
+                    "type": "Identifier",
+                    "name": "b"
+                  }
+                }
+              ]
+            },
+            "init": {
+              "type": "Identifier",
+              "name": "c"
+            }
+          }
+        ],
+        "kind": "var"
+      },
+      {
+        "type": "VariableDeclaration",
+        "declarations": [
+          {
+            "type": "VariableDeclarator",
+            "id": {
+              "type": "ArrayPattern",
+              "elements": [
+                {
+                  "type": "Identifier",
+                  "name": "a"
+                },
+                {
+                  "type": "Identifier",
+                  "name": "b"
+                }
+              ]
+            },
+            "init": {
+              "type": "Identifier",
+              "name": "c"
+            }
+          }
+        ],
+        "kind": "var"
+      },
+      {
+        "type": "VariableDeclaration",
+        "declarations": [
+          {
+            "type": "VariableDeclarator",
+            "id": {
+              "type": "ArrayPattern",
+              "elements": [
+                {
+                  "type": "Identifier",
+                  "name": "a"
+                },
+                {
+                  "type": "RestElement",
+                  "argument": {
+                    "type": "Identifier",
+                    "name": "b"
+                  }
+                }
+              ]
+            },
+            "init": {
+              "type": "Identifier",
+              "name": "c"
+            }
+          }
+        ],
+        "kind": "var"
+      }
+    ],
+    "directives": []
+  }
+}

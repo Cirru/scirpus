@@ -1,0 +1,300 @@
+{
+  "type": "File",
+  "program": {
+    "type": "Program",
+    "sourceType": "script",
+    "body": [
+      {
+        "type": "ExpressionStatement",
+        "expression": {
+          "body": {
+            "type": "BlockStatement",
+            "body": [
+              {
+                "type": "ReturnStatement",
+                "argument": {
+                  "type": "Identifier",
+                  "name": "b"
+                }
+              }
+            ],
+            "directives": []
+          },
+          "params": [
+            {
+              "type": "Identifier",
+              "name": "a"
+            }
+          ],
+          "extra": {
+            "parenthesized": true
+          },
+          "generator": false,
+          "expression": false,
+          "type": "FunctionExpression",
+          "id": null
+        }
+      },
+      {
+        "type": "ExpressionStatement",
+        "expression": {
+          "body": {
+            "type": "Identifier",
+            "name": "b"
+          },
+          "params": [
+            {
+              "type": "Identifier",
+              "name": "a"
+            }
+          ],
+          "generator": false,
+          "expression": true,
+          "type": "ArrowFunctionExpression",
+          "id": null
+        }
+      },
+      {
+        "type": "ExpressionStatement",
+        "expression": {
+          "body": {
+            "type": "BlockStatement",
+            "body": [
+              {
+                "type": "ReturnStatement",
+                "argument": {
+                  "type": "Identifier",
+                  "name": "b"
+                }
+              }
+            ],
+            "directives": []
+          },
+          "params": [
+            {
+              "type": "Identifier",
+              "name": "a"
+            }
+          ],
+          "extra": {
+            "parenthesized": true
+          },
+          "generator": false,
+          "expression": false,
+          "type": "FunctionExpression",
+          "id": null
+        }
+      },
+      {
+        "type": "ExpressionStatement",
+        "expression": {
+          "body": {
+            "type": "BlockStatement",
+            "body": [
+              {
+                "type": "ReturnStatement",
+                "argument": {
+                  "type": "Identifier",
+                  "name": "b"
+                }
+              }
+            ],
+            "directives": []
+          },
+          "params": [
+            {
+              "type": "Identifier",
+              "name": "a"
+            }
+          ],
+          "extra": {
+            "parenthesized": true
+          },
+          "generator": false,
+          "expression": false,
+          "type": "FunctionExpression",
+          "id": null
+        }
+      },
+      {
+        "type": "VariableDeclaration",
+        "declarations": [
+          {
+            "type": "VariableDeclarator",
+            "id": {
+              "type": "Identifier",
+              "name": "f"
+            },
+            "init": {
+              "body": {
+                "type": "BlockStatement",
+                "body": [
+                  {
+                    "type": "ReturnStatement",
+                    "argument": {
+                      "type": "BinaryExpression",
+                      "left": {
+                        "type": "Identifier",
+                        "name": "x"
+                      },
+                      "operator": "+",
+                      "right": {
+                        "type": "NumberLiteral",
+                        "extra": {
+                          "rawValue": 1,
+                          "raw": "1"
+                        },
+                        "value": 1
+                      }
+                    }
+                  }
+                ],
+                "directives": []
+              },
+              "params": [
+                {
+                  "type": "Identifier",
+                  "name": "x"
+                }
+              ],
+              "generator": false,
+              "expression": false,
+              "type": "FunctionExpression",
+              "id": {
+                "type": "Identifier",
+                "name": "f"
+              }
+            }
+          }
+        ],
+        "kind": "var"
+      },
+      {
+        "type": "ExpressionStatement",
+        "expression": {
+          "type": "CallExpression",
+          "callee": {
+            "type": "Identifier",
+            "name": "f"
+          },
+          "arguments": [
+            {
+              "type": "NumberLiteral",
+              "extra": {
+                "rawValue": 1,
+                "raw": "1"
+              },
+              "value": 1
+            }
+          ]
+        }
+      },
+      {
+        "type": "ExpressionStatement",
+        "expression": {
+          "type": "CallExpression",
+          "callee": {
+            "type": "Identifier",
+            "name": "f"
+          },
+          "arguments": [
+            {
+              "type": "NumberLiteral",
+              "extra": {
+                "rawValue": 1,
+                "raw": "1"
+              },
+              "value": 1
+            }
+          ]
+        }
+      },
+      {
+        "type": "ExpressionStatement",
+        "expression": {
+          "type": "CallExpression",
+          "callee": {
+            "type": "MemberExpression",
+            "object": {
+              "type": "Identifier",
+              "name": "a"
+            },
+            "property": {
+              "type": "NumberLiteral",
+              "extra": {
+                "rawValue": 2,
+                "raw": "2"
+              },
+              "value": 2
+            },
+            "computed": true
+          },
+          "arguments": [
+            {
+              "type": "NumberLiteral",
+              "extra": {
+                "rawValue": 3,
+                "raw": "3"
+              },
+              "value": 3
+            }
+          ]
+        }
+      },
+      {
+        "type": "ExpressionStatement",
+        "expression": {
+          "body": {
+            "type": "BlockStatement",
+            "body": [],
+            "directives": []
+          },
+          "params": [
+            {
+              "type": "Identifier",
+              "name": "a"
+            },
+            {
+              "type": "RestElement",
+              "argument": {
+                "type": "Identifier",
+                "name": "b"
+              }
+            }
+          ],
+          "extra": {
+            "parenthesized": true
+          },
+          "generator": false,
+          "expression": false,
+          "type": "FunctionExpression",
+          "id": null
+        }
+      },
+      {
+        "type": "ExpressionStatement",
+        "expression": {
+          "type": "CallExpression",
+          "callee": {
+            "type": "Identifier",
+            "name": "f"
+          },
+          "arguments": [
+            {
+              "type": "Identifier",
+              "name": "a"
+            },
+            {
+              "type": "SpreadElement",
+              "argument": {
+                "type": "Identifier",
+                "name": "b"
+              }
+            }
+          ]
+        }
+      }
+    ],
+    "directives": []
+  }
+}

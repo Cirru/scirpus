@@ -1,0 +1,110 @@
+{
+  "type": "File",
+  "program": {
+    "type": "Program",
+    "sourceType": "script",
+    "body": [
+      {
+        "type": "ExpressionStatement",
+        "expression": {
+          "type": "CallExpression",
+          "callee": {
+            "type": "MemberExpression",
+            "object": {
+              "type": "CallExpression",
+              "callee": {
+                "type": "MemberExpression",
+                "object": {
+                  "type": "CallExpression",
+                  "callee": {
+                    "type": "MemberExpression",
+                    "object": {
+                      "type": "CallExpression",
+                      "callee": {
+                        "type": "MemberExpression",
+                        "object": {
+                          "type": "CallExpression",
+                          "callee": {
+                            "type": "MemberExpression",
+                            "object": {
+                              "type": "Identifier",
+                              "name": "a"
+                            },
+                            "property": {
+                              "type": "Identifier",
+                              "name": "b"
+                            },
+                            "computed": false
+                          },
+                          "arguments": [
+                            {
+                              "type": "Identifier",
+                              "name": "c"
+                            }
+                          ]
+                        },
+                        "property": {
+                          "type": "Identifier",
+                          "name": "d"
+                        },
+                        "computed": false
+                      },
+                      "arguments": [
+                        {
+                          "type": "Identifier",
+                          "name": "e"
+                        },
+                        {
+                          "type": "Identifier",
+                          "name": "f"
+                        }
+                      ]
+                    },
+                    "property": {
+                      "type": "Identifier",
+                      "name": "g"
+                    },
+                    "computed": false
+                  },
+                  "arguments": [
+                    {
+                      "body": {
+                        "type": "BlockStatement",
+                        "body": [],
+                        "directives": []
+                      },
+                      "params": [],
+                      "generator": false,
+                      "expression": false,
+                      "type": "FunctionExpression",
+                      "id": null
+                    }
+                  ]
+                },
+                "property": {
+                  "type": "Identifier",
+                  "name": "i"
+                },
+                "computed": false
+              },
+              "arguments": []
+            },
+            "property": {
+              "type": "Identifier",
+              "name": "j"
+            },
+            "computed": false
+          },
+          "arguments": [
+            {
+              "type": "Identifier",
+              "name": "k"
+            }
+          ]
+        }
+      }
+    ],
+    "directives": []
+  },
+  "comments": []
+}

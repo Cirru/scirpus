@@ -1,0 +1,56 @@
+{
+  "type": "File",
+  "program": {
+    "type": "Program",
+    "sourceType": "script",
+    "body": [
+      {
+        "type": "TryStatement",
+        "block": {
+          "type": "BlockStatement",
+          "body": [
+            {
+              "type": "ExpressionStatement",
+              "expression": {
+                "type": "CallExpression",
+                "callee": {
+                  "type": "Identifier",
+                  "name": "f1"
+                },
+                "arguments": []
+              }
+            }
+          ],
+          "directives": []
+        },
+        "handler": {
+          "type": "CatchClause",
+          "param": {
+            "type": "Identifier",
+            "name": "error"
+          },
+          "body": {
+            "type": "BlockStatement",
+            "body": [
+              {
+                "type": "ExpressionStatement",
+                "expression": {
+                  "type": "CallExpression",
+                  "callee": {
+                    "type": "Identifier",
+                    "name": "f2"
+                  },
+                  "arguments": []
+                }
+              }
+            ],
+            "directives": []
+          }
+        },
+        "guardedHandlers": [],
+        "finalizer": null
+      }
+    ],
+    "directives": []
+  }
+}
