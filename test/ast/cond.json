@@ -38,6 +38,27 @@
         }
       },
       {
+        "type": "IfStatement",
+        "test": {
+          "type": "Identifier",
+          "name": "a"
+        },
+        "consequent": {
+          "type": "BlockStatement",
+          "body": [
+            {
+              "type": "ExpressionStatement",
+              "expression": {
+                "type": "BooleanLiteral",
+                "value": true
+              }
+            }
+          ],
+          "directives": []
+        },
+        "alternate": null
+      },
+      {
         "type": "ExpressionStatement",
         "expression": {
           "type": "ConditionalExpression",

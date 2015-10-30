@@ -39,6 +39,7 @@ var files $ []
   , :comment
   , :compare
   , :cond
+  , :detect
 
 var s JSON.stringify
 files.forEach $ \ (file)

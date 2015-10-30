@@ -36,6 +36,8 @@ var $ readToken $ \ (text)
   if (in ([] :true :false) text) $ do $ return $ {}
     :type :BooleanLiteral
     :value $ cond (is text :true) true false
+  if (is text :null) $ do $ return $ {}
+    :type :NullLiteral
   if
     and (text.match /^\w) (not (text.match /^\d))
     do $ if (text.match /\.)
@@ -89,6 +91,9 @@ var $ decideSolution $ \ (x environment)
       throw $ new Error $ + ":Unknown chunk: " inStr
 
   if (is environment :statement) $ do
+    if (_.isString x) $ do $ return $ {}
+      :type :ExpressionStatement
+      :expression result
     if (_.isArray x) $ do
       var $ head $ . x 0
       if
@@ -414,7 +419,7 @@ var $ dictionary $ object
 
     return $ object
       :type :MemberExpression
-      :computed true
+      :computed false
       :object $ decideSolution object :expression
       :property $ decideSolution property :expression
 
@@ -464,13 +469,22 @@ var $ dictionary $ object
       test $ . args 0
       consequent $ . args 1
       alternate $ . args 2
+      consequentBody $ consequent.slice 1
 
     return $ object
       :type :IfStatement
       :test $ decideSolution test :expression
-      :consequent $ decideSolution consequent :expression
+      :consequent $ {}
+        :type :BlockStatement
+        :directives $ []
+        :body $ consequentBody.map $ \ (item)
+          decideSolution item :statement
       :alternate $ cond (? alternate)
-        decideSolution alternate :expression
+        {}
+          :type :BlockStatement
+          :directives $ []
+          :body $ ... alternate (slice 1) $ map $ \ (item)
+            decideSolution item :statement
         , null
 
   :do $ \ (args environment)
@@ -655,19 +669,33 @@ var $ dictionary $ object
       :operator :!=
       :left $ decideSolution value :expression
       :right $ object
-        :type :Literal
-        :value null
-        :raw :null
+        :type :NullLiteral
 
   :in $ \ (args environment)
     assert.array args :in
     var
       collection $ . args 0
       value $ . args 1
-      code $ array :>=
-        array (array :. collection ::indexOf) value
-        , :0
-    return $ decideSolution code :expression
+    {}
+      :type :BinaryExpression
+      :left $ {}
+        :type :CallExpression
+        :callee $ {}
+          :type :MemberExpression
+          :object $ decideSolution collection :expression
+          :property $ {}
+            :type :Identifier
+            :name :indexOf
+          :computed false
+        :arguments $ []
+          decideSolution value :expression
+      :operator :>=
+      :right $ {}
+        :type :NumberLiteral
+        :extra $ {}
+          :rawValue 0
+          :raw :0
+        :value 0
 
   :try $ \ (args environment)
     assert.array args :try

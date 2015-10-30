@@ -4,6 +4,9 @@ if (a) {
   false;
 }
 
-a ? true : false;
+if (a) {
+  true;
+}
 
+a ? true : false;
 a ? true : undefined;
