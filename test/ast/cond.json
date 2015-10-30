@@ -54,6 +54,24 @@
             "value": false
           }
         }
+      },
+      {
+        "type": "ExpressionStatement",
+        "expression": {
+          "type": "ConditionalExpression",
+          "test": {
+            "type": "Identifier",
+            "name": "a"
+          },
+          "consequent": {
+            "type": "BooleanLiteral",
+            "value": true
+          },
+          "alternate": {
+            "type": "Identifier",
+            "name": "undefined"
+          }
+        }
       }
     ],
     "directives": []

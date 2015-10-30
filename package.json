@@ -25,6 +25,7 @@
     "gulp-rename": "^1.2.0",
     "immutable": "^3.7.5",
     "json-loader": "^0.5.1",
+    "jsondiffpatch": "^0.1.37",
     "rsyncwrapper": "^0.4.2",
     "run-sequence": "^1.0.2",
     "stir-template": "^0.1.2",

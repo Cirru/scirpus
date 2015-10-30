@@ -86,37 +86,6 @@
         }
       },
       {
-        "type": "ExpressionStatement",
-        "expression": {
-          "body": {
-            "type": "BlockStatement",
-            "body": [
-              {
-                "type": "ReturnStatement",
-                "argument": {
-                  "type": "Identifier",
-                  "name": "b"
-                }
-              }
-            ],
-            "directives": []
-          },
-          "params": [
-            {
-              "type": "Identifier",
-              "name": "a"
-            }
-          ],
-          "extra": {
-            "parenthesized": true
-          },
-          "generator": false,
-          "expression": false,
-          "type": "FunctionExpression",
-          "id": null
-        }
-      },
-      {
         "type": "VariableDeclaration",
         "declarations": [
           {

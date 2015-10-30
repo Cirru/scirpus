@@ -23,6 +23,7 @@ var $ transformOperation $ \ (ast environment)
     do
       = contructor $ . dictionary :__call_expression__
       return $ contructor ast environment
+  , undefined
 
 var $ readToken $ \ (text)
   if (is text :super) $ do
@@ -32,6 +33,9 @@ var $ readToken $ \ (text)
     do $ return $ object
       :type :ThisExpression
   = text $ text.replace /^@ :this.
+  if (in ([] :true :false) text) $ do $ return $ {}
+    :type :BooleanLiteral
+    :value $ cond (is text :true) true false
   if
     and (text.match /^\w) (not (text.match /^\d))
     do $ if (text.match /\.)
@@ -45,18 +49,28 @@ var $ readToken $ \ (text)
           :name text
     do
       var $ value $ dataType.decode text
-      if (_.isRegExp value)
-        do $ return $ object
-          :type :Literal
-          :value value
-          :raw $ String value
-          :regex $ object
-            :pattern $ text.substr 1
-            :flags :
-        do $ return $ object
-          :type :Literal
-          :value value
-          :raw $ String value
+      switch true
+        (_.isRegExp value)
+          return $ object
+            :type :Literal
+            :value value
+            :raw $ String value
+            :regex $ object
+              :pattern $ text.substr 1
+              :flags :
+        (_.isNumber value)
+          return $ {}
+            :type :NumberLiteral
+            :value value
+            :extra $ {}
+              :rawValue value
+              :raw $ String value
+        else
+          return $ object
+            :type :Literal
+            :value value
+            :raw $ String value
+  , undefined
 
 var $ decideSolution $ \ (x environment)
   assert.oneOf environment
@@ -185,6 +199,7 @@ var $ dictionary $ object
       :elements $ args.map $ \ (item)
         if (_.isString item) $ do
           return $ decideSolution item :expression
+        , undefined
         assert.array item ":item in ArrayPattern"
         assert.result (is item.length 1) ":an only item in array"
         assert.string (. item 0) ":simple string in ArrayPattern"
@@ -291,11 +306,12 @@ var $ dictionary $ object
             return $ object
               :type :RestElement
               :argument $ makeIdentifier param
-      :defaults $ array
+        , undefined
       :generator false
       :expression false
       :body $ object
         :type :BlockStatement
+        :directives $ array
         :body $ body.map $ \ (line index)
           if
             and
@@ -337,11 +353,12 @@ var $ dictionary $ object
             return $ object
               :type :RestElement
               :argument $ makeIdentifier param
-      :defaults $ array
+        , undefined
       :generator false
       :expression true
       :body $ object
         :type :BlockStatement
+        :directives $ array
         :body $ body.map $ \ (line index)
           if
             and
@@ -709,10 +726,10 @@ var $ dictionary $ object
         :type :ArrowFunctionExpression
         :id null
         :params $ array
-        :defaults $ array
         :generator false
         :expression true
         :body $ object
+          :directives $ array
           :type :BlockStatement
           :body $ array
             object
@@ -747,6 +764,7 @@ var $ dictionary $ object
       do
         assert.array args ":chain"
         return $ buildChain args
+    , undefined
 
   :class $ \ (args environment)
     assert.array args :class
@@ -805,6 +823,10 @@ var $ dictionary $ object
     environment :statement
     list $ tree.map $ \ (line)
       return $ decideSolution line environment
-  return $ object
-    :type :Program
-    :body list
+  {}
+    :type :File
+    :program $ {}
+      :type :Program
+      :sourceType :script
+      :body list
+      :directives ([])

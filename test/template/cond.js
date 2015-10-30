@@ -5,3 +5,5 @@ if (a) {
 }
 
 a ? true : false;
+
+a ? true : undefined;

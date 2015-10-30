@@ -16,6 +16,7 @@ var
     , :cond
     , :destruction
     , :detect
+    , :empty
     , :keyword
     , :lambda
     , :member
@@ -26,7 +27,7 @@ var
     , :unary
     , :values
 
-var files $ [] :lambda
+-- var files $ [] :empty
 
 var purifyTree $ \ (tree)
   case true
@@ -46,6 +47,7 @@ var re $ \ (x)
   JSON.parse $ JSON.stringify x
 
 files.forEach $ \ (file)
+  console.log :file: file
   var
     filename $ + :template/ file :.js
     jsCode $ fs.readFileSync filename :utf8

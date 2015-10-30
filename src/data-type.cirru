@@ -9,11 +9,11 @@ var
 = exports.getType getType
 
 = exports.encode $ \ (value)
-  switch (getType value)
+  case (getType value)
     :string
-      return $ + :: value
+      + :: value
     else
-      return $ String value
+      String value
 
 = exports.decode $ \ (text)
   if (text.match /^:)
@@ -29,13 +29,13 @@ var
       = content $ content.replace /\/ :\/
       return $ new RegExp (text.substr 1)
 
-  switch text
-    :true $ return true
-    :false $ return false
-    :undefined $ return undefined
-    :null $ return null
-    :Infinity $ return Infinity
+  case text
+    :true true
+    :false false
+    :undefined undefined
+    :null null
+    :Infinity Infinity
     else
       throw $ new Error $ + ":not a valid value: "
         JSON.stringify text
-      return a
+      , a

@@ -1,0 +1,9 @@
+{
+  "type": "File",
+  "program": {
+    "type": "Program",
+    "sourceType": "script",
+    "body": [],
+    "directives": []
+  }
+}
