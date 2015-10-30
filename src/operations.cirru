@@ -54,19 +54,25 @@ var $ readToken $ \ (text)
       switch true
         (_.isRegExp value)
           return $ object
-            :type :Literal
-            :value value
-            :raw $ String value
-            :regex $ object
-              :pattern $ text.substr 1
-              :flags :
+            :type :RegexLiteral
+            :extra $ {}
+              :raw $ String value
+            :pattern $ text.substr 1
+            :flags :
         (_.isNumber value)
           return $ {}
             :type :NumberLiteral
-            :value value
             :extra $ {}
               :rawValue value
               :raw $ String value
+            :value value
+        (_.isString value)
+          return $ {}
+            :type :StringLiteral
+            :extra $ {}
+              :rawValue value
+              :raw $ JSON.stringify value
+            :value value
         else
           return $ object
             :type :Literal
@@ -100,7 +106,11 @@ var $ decideSolution $ \ (x environment)
         and (_.isString head)
           not $ in category.statement head
         do
-          return $ object
+          var names $ [] :ObjectExpression :FunctionExpression
+          if (in names result.type) $ do
+            = result.extra $ {}
+              :parenthesized true
+          return $ {}
             :type :ExpressionStatement
             :expression result
 
@@ -166,7 +176,6 @@ var $ dictionary $ object
     if (_.isString first) $ do
       return $ object
         :type :VariableDeclaration
-        :kind :var
         :declarations $ array
           object
             :type :VariableDeclarator
@@ -174,9 +183,9 @@ var $ dictionary $ object
             :init $ cond init
               decideSolution init :expression
               , null
+        :kind :var
     return $ object
       :type :VariableDeclaration
-      :kind :var
       :declarations $ args.map $ \ (pair)
         assert.array pair ":declarations in var"
         var
@@ -189,6 +198,7 @@ var $ dictionary $ object
           :init $ cond init
             decideSolution init :expression
             , null
+      :kind :var
 
   :array $ \ (args environment)
     assert.array args ":array args"
@@ -384,13 +394,12 @@ var $ dictionary $ object
           init $ . pair 1
         assert.string name ":object property key"
         return $ object
-          :type :Property
+          :type :ObjectProperty
           :key $ object
             :type :Identifier
             :name $ name.substr 1
           :computed false
           :value $ decideSolution init :expression
-          :kind :init
           :method false
           :shorthand false
 
@@ -417,11 +426,20 @@ var $ dictionary $ object
       object $ . args 0
       property $ . args 1
 
-    return $ object
-      :type :MemberExpression
-      :computed false
-      :object $ decideSolution object :expression
-      :property $ decideSolution property :expression
+    cond
+      and (_.isString property) (is (. property 0) ::)
+      {}
+        :type :MemberExpression
+        :computed false
+        :object $ decideSolution object :expression
+        :property $ {}
+          :type :Identifier
+          :name $ property.substr 1
+      {}
+        :type :MemberExpression
+        :computed true
+        :object $ decideSolution object :expression
+        :property $ decideSolution property :expression
 
   :and $ \ (args environment)
     assert.array args ":args for and"
@@ -492,6 +510,7 @@ var $ dictionary $ object
 
     return $ object
       :type :BlockStatement
+      :directives $ []
       :body $ args.map $ \ (line)
         return $ decideSolution line :statement
 
@@ -711,11 +730,14 @@ var $ dictionary $ object
     return $ object
       :type :TryStatement
       :block $ decideSolution block :expression
+      :finalizer null
+      :guardedHandlers $ []
       :handler $ object
         :type :CatchClause
         :param $ makeIdentifier param
         :body $ object
           :type :BlockStatement
+          :directives $ []
           :body $ body.map $ \ (item)
             return $ decideSolution item :statement
 

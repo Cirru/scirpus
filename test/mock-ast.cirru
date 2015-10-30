@@ -6,6 +6,9 @@ var
   Immutable $ require :immutable
   jsondiffpatch $ require :jsondiffpatch
 
+var diffpatcher $ jsondiffpatch.create $ {}
+  :objectHash $ \ (obj) (JSON.stringify obj)
+
 var operations $ require :../src/operations
 
 var
@@ -40,6 +43,14 @@ var files $ []
   , :compare
   , :cond
   , :detect
+  , :empty
+  , :keyword
+  , :member
+  , :object
+  , :this
+  , :try
+  , :unary
+  , :values
 
 var s JSON.stringify
 files.forEach $ \ (file)
