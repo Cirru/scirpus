@@ -1,13 +1,13 @@
 
 var
-  _ $ require :lodash
+  type $ require :type-of
 
 var fmt $ \ (x)
   return $ JSON.stringify x
 
 = exports.string $ \ (x comment)
   if
-    not $ _.isString x
+    isnt (type x) :string
     do
       throw $ new Error $ + ":expects string but got " (fmt x) ": at " comment
       return
@@ -15,7 +15,7 @@ var fmt $ \ (x)
 
 = exports.array $ \ (x comment)
   if
-    not $ _.isArray x
+    isnt (type x) :array
     do
       throw $ new Error $ + ":expects array but got " (fmt x) ": at " comment
       return
@@ -23,7 +23,7 @@ var fmt $ \ (x)
 
 = exports.func $ \ (x comment)
   if
-    not $ _.isFunction x
+    isnt (type x) :function
     do
       throw $ new Error $ + ":expects function but got " (fmt x) ": at " comment
       return

@@ -1,6 +1,6 @@
 
 var
-  _ $ require :lodash
+  type $ require :type-of
 
   assert $ require :./assert
   dataType $ require :./data-type
@@ -8,23 +8,29 @@ var
   category $ require :./category
 
 var bind $ \ (v k) (k v)
+var first $ \ (list) (. list 0)
+var tail $ \ (list) (list.slice 1)
+var getLast $ \ (list)
+  . list (- list.length 1)
+var initial $ \ (list)
+  list.slice 0 (- list.length 1)
 
 var $ transformOperation $ \ (ast environment)
   assert.array ast :transform
   var
-    head $ _.first ast
-    contructor $ . dictionary head
+    head $ first ast
+    ctor $ . dictionary head
   if
     and
-      _.isString head
-      _.isFunction contructor
+      is (type head) :string
+      is (type ctor) :function
     do
       var
         args $ ast.slice 1
-      return $ contructor args environment
+      return $ ctor args environment
     do
-      = contructor $ . dictionary :__call_expression__
-      return $ contructor ast environment
+      = ctor $ . dictionary :__call_expression__
+      return $ ctor ast environment
   , undefined
 
 var $ readToken $ \ (text)
@@ -54,21 +60,21 @@ var $ readToken $ \ (text)
     do
       var $ value $ dataType.decode text
       switch true
-        (_.isRegExp value)
+        (is (type value) :regexp)
           return $ object
             :type :RegexLiteral
             :extra $ {}
               :raw $ String value
             :pattern $ text.substr 1
             :flags :
-        (_.isNumber value)
+        (is (type value) :number)
           return $ {}
             :type :NumberLiteral
             :extra $ {}
               :rawValue value
               :raw $ String value
             :value value
-        (_.isString value)
+        (is (type value) :string)
           return $ {}
             :type :StringLiteral
             :extra $ {}
@@ -87,10 +93,10 @@ var $ decideSolution $ \ (x environment)
     array :statement :expression
     , ":environment"
 
-  if (_.isArray x) $ do
+  if (is (type x) :array) $ do
     var
       result $ transformOperation x :expression
-  if (_.isString x) $ do
+  if (is (type x) :string) $ do
     var
       result $ readToken x
   if (not (? result))
@@ -99,15 +105,15 @@ var $ decideSolution $ \ (x environment)
       throw $ new Error $ + ":Unknown chunk: " inStr
 
   if (is environment :statement) $ do
-    if (_.isString x) $ do $ return $ {}
+    if (is (type x) :string) $ do $ return $ {}
       :type :ExpressionStatement
       :expression result
-    if (_.isArray x) $ do
+    if (is (type x) :array) $ do
       var $ head $ . x 0
       if
         or
-          not (_.isString head)
-          and (_.isString head) (not $ in category.statement head)
+          not (is (type head) :string)
+          and (is (type head) :string) (not $ in category.statement head)
         do
           var names $ [] :ObjectExpression :FunctionExpression
           if (in names result.type) $ do
@@ -129,25 +135,25 @@ var $ buildMembers $ \ (names)
     do
       throw $ new Error ":Cannot build MemberExpression with nothing"
   if (is names.length 1) $ do
-    return $ decideSolution (_.first names) :expression
+    return $ decideSolution (first names) :expression
 
   return $ object
     :type :MemberExpression
     :computed false
-    :object $ buildMembers (_.initial names)
-    :property $ makeIdentifier (_.last names)
+    :object $ buildMembers (initial names)
+    :property $ makeIdentifier (getLast names)
 
 var $ buildChain $ \ (names)
   if (is names.length 1)
-    do $ return $ decideSolution (_.first names) :expression
+    do $ return $ decideSolution (first names) :expression
 
   var
-    initial $ _.initial names
-    last $ _.last names
+    listInitial $ initial names
+    last $ getLast names
   assert.array last ":last of buildChain"
   var
-    method $ _.first last
-    args $ _.rest last
+    method $ first last
+    args $ tail last
   assert.string method ":method of buildChain"
 
   return $ object
@@ -155,7 +161,7 @@ var $ buildChain $ \ (names)
     :callee $ object
       :type :MemberExpression
       :computed false
-      :object $ buildChain initial
+      :object $ buildChain listInitial
       :property $ makeIdentifier method
     :arguments $ args.map $ \ (item)
       return $ decideSolution item :expression
@@ -176,7 +182,7 @@ var $ dictionary $ object
     var
       first $ . args 0
       init $ . args 1
-    if (_.isString first) $ do
+    if (is (type first) :string) $ do
       return $ object
         :type :VariableDeclaration
         :declarations $ array
@@ -218,7 +224,7 @@ var $ dictionary $ object
     return $ object
       :type :ArrayPattern
       :elements $ args.map $ \ (item)
-        if (_.isString item) $ do
+        if (is (type item) :string) $ do
           return $ decideSolution item :expression
         , undefined
         assert.array item ":item in ArrayPattern"
@@ -239,9 +245,9 @@ var $ dictionary $ object
       self $ . dictionary :+
     return $ object
       :type :BinaryExpression
-      :left $ self (_.initial args) :expression
+      :left $ self (initial args) :expression
       :operator :+
-      :right $ decideSolution (_.last args) :expression
+      :right $ decideSolution (getLast args) :expression
 
   :* $ \ (args environment)
     assert.array args ":args for *"
@@ -255,8 +261,8 @@ var $ dictionary $ object
     return $ object
       :type :BinaryExpression
       :operator :*
-      :left $ self (_.initial args) :expression
-      :right $ decideSolution (_.last args) :expression
+      :left $ self (initial args) :expression
+      :right $ decideSolution (getLast args) :expression
 
   :- $ \ (args environment)
     assert.array args ":args for -"
@@ -271,8 +277,8 @@ var $ dictionary $ object
     return $ object
       :type :BinaryExpression
       :operator :-
-      :left $ self (_.initial args) :expression
-      :right $ decideSolution (_.last args) :expression
+      :left $ self (initial args) :expression
+      :right $ decideSolution (getLast args) :expression
 
   :/ $ \ (args environment)
     assert.array args ":args for /"
@@ -287,8 +293,8 @@ var $ dictionary $ object
     return $ object
       :type :BinaryExpression
       :operator :/
-      :left $ self (_.initial args) :expression
-      :right $ decideSolution (_.last args) :expression
+      :left $ self (initial args) :expression
+      :right $ decideSolution (getLast args) :expression
 
   :% $ \ (args environment)
     assert.array args ":args for %"
@@ -303,8 +309,8 @@ var $ dictionary $ object
     return $ object
       :type :BinaryExpression
       :operator :%
-      :left $ self (_.initial args) :expression
-      :right $ decideSolution (_.last args) :expression
+      :left $ self (initial args) :expression
+      :right $ decideSolution (getLast args) :expression
 
   :\ $ \ (args environment)
     assert.array args :function
@@ -327,7 +333,7 @@ var $ dictionary $ object
           return $ decideSolution line :statement
         :directives $ array
       :params $ params.map $ \ (item)
-        if (_.isString item)
+        if (is (type item) :string)
           do
             return $ makeIdentifier item
           do
@@ -364,7 +370,7 @@ var $ dictionary $ object
       :type :ArrowFunctionExpression
       :id null
       :params $ params.map $ \ (item)
-        if (_.isString item)
+        if (is (type item) :string)
           do
             return $ makeIdentifier item
           do
@@ -437,7 +443,7 @@ var $ dictionary $ object
       property $ . args 1
 
     cond
-      and (_.isString property) (is (. property 0) ::)
+      and (is (type property) :string) (is (. property 0) ::)
       {}
         :type :MemberExpression
         :computed false
@@ -463,8 +469,8 @@ var $ dictionary $ object
     return $ object
       :type :LogicalExpression
       :operator :&&
-      :left $ self (_.initial args) :expression
-      :right $ decideSolution (_.last args) :expression
+      :left $ self (initial args) :expression
+      :right $ decideSolution (getLast args) :expression
 
   :or $ \ (args environment)
     assert.array args ":args for or"
@@ -478,8 +484,8 @@ var $ dictionary $ object
     return $ object
       :type :LogicalExpression
       :operator :||
-      :left $ self (_.initial args) :expression
-      :right $ decideSolution (_.last args) :expression
+      :left $ self (initial args) :expression
+      :right $ decideSolution (getLast args) :expression
 
   :not $ \ (args environment)
     assert.array args ":not"
@@ -487,7 +493,7 @@ var $ dictionary $ object
     return $ object
       :type :UnaryExpression
       :operator :!
-      :argument $ decideSolution (_.first args) :expression
+      :argument $ decideSolution (first args) :expression
       :prefix true
 
   :if $ \ (args environment)
@@ -789,13 +795,13 @@ var $ dictionary $ object
   :class $ \ (args environment)
     assert.array args :class
     var
-      className $ _.first args
+      className $ first args
       superClass null
-      classMethods $ _.tail args
-    if (_.isArray className) $ do
+      classMethods $ tail args
+    if (is (type className) :array) $ do
       assert.result (is className.length 2) ":class declarations"
-      = superClass $ _.last className
-      = className $ _.first className
+      = superClass $ getLast className
+      = className $ first className
     return $ object
       :type :ClassDeclaration
       :id $ makeIdentifier className
@@ -807,14 +813,14 @@ var $ dictionary $ object
         :body $ classMethods.map $ \ (pair)
           assert.result (is pair.length 2) ":MethodDefinition"
           var
-            keyName $ _.first pair
+            keyName $ first pair
             prefix $ array
-            definition $ _.last pair
+            definition $ getLast pair
             kind :method
             isStatic false
-          if (_.isArray keyName) $ do
-            = prefix $ _.initial keyName
-            = keyName $ _.last keyName
+          if (is (type keyName) :array) $ do
+            = prefix $ initial keyName
+            = keyName $ getLast keyName
           if (in prefix :get) $ do
             = kind :get
           if (in prefix :set) $ do
