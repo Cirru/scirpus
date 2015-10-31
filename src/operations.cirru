@@ -420,13 +420,14 @@ var $ dictionary $ object
         assert.string property ":property in ObjectPattern"
         var $ pattern $ makeIdentifier property
         return $ object
-          :type :Property
-          :key pattern
-          :computed false
-          :value pattern
-          :kind :init
           :method false
-          :shorthand false
+          :shorthand true
+          :computed false
+          :extra $ {}
+            :shorthand true
+          :value pattern
+          :type :ObjectProperty
+          :key pattern
 
   :. $ \ (args environment)
     assert.array args ":args for member"
@@ -645,48 +646,6 @@ var $ dictionary $ object
     return $ object
       :type :ThrowStatement
       :argument $ decideSolution argument :expression
-
-  :while $ \ (args environment)
-    assert.array args :while
-    var
-      test $ . args 0
-      body $ args.slice 1
-    return $ object
-      :type :WhileStatement
-      :test $ decideSolution test :expression
-      :body $ object
-        :type :BlockStatement
-        :body $ body.map $ \ (item)
-          return $ decideSolution item :statement
-
-  :for $ \ (args environment)
-    assert.array args :for
-    var
-      names $ . args 0
-      body $ args.slice 1
-
-    assert.array names
-    var
-      right $ . names 0
-      left $ . names 1
-      valueName $ . names 2
-    assert.string left ":left of for"
-    assert.string valueName ":valueName of for"
-    var
-      leftCode $ array :var (array left)
-      bodyCode $ listUtil.prepend body
-        array :var
-          array valueName $ array :. right left
-
-    return $ object
-      :type :ForInStatement
-      :left $ decideSolution leftCode :expression
-      :right $ makeIdentifier right
-      :body $ object
-        :type :BlockStatement
-        :body $ bodyCode.map $ \ (item)
-          return $ decideSolution item :expression
-      :each false
 
   :? $ \ (args environment)
     assert.array args :?
