@@ -57,4 +57,4 @@ files.forEach $ \ (file)
   var
     generated $ generator.default res
   fs.writeFileSync (+ :ast/ file :.json) (JSON.stringify res null 2)
-  fs.writeFileSync (+ :compiled/ file :.js) generated.code
+  fs.writeFileSync (+ :formatted/ file :.js) generated.code
