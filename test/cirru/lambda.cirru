@@ -1,8 +1,9 @@
 
-\ (a) (return b)
-
 \ (a) b
+
 \\ (a) b
+
+\\ (a) b c
 
 var f $ \ (x) (+ x 1)
 

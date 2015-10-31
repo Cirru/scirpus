@@ -4,9 +4,10 @@
 
 a => b;
 
-(function (a) {
-  return b;
-});
+a => {
+  b;
+  return c;
+};
 
 var f = function f(x) {
   return x + 1;

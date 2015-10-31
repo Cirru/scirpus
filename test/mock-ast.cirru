@@ -34,7 +34,6 @@ var
     , :values
 
 var files $ []
-  , :empty
   , :array
   , :assignment
   , :binary
@@ -51,6 +50,9 @@ var files $ []
   , :try
   , :unary
   , :values
+  , :switch
+  , :lambda
+  , :destruction
 
 var s JSON.stringify
 files.forEach $ \ (file)

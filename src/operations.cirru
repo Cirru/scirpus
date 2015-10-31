@@ -7,6 +7,8 @@ var
   listUtil $ require :./list-util
   category $ require :./category
 
+var bind $ \ (v k) (k v)
+
 var $ transformOperation $ \ (ast environment)
   assert.array ast :transform
   var
@@ -103,8 +105,9 @@ var $ decideSolution $ \ (x environment)
     if (_.isArray x) $ do
       var $ head $ . x 0
       if
-        and (_.isString head)
-          not $ in category.statement head
+        or
+          not (_.isString head)
+          and (_.isString head) (not $ in category.statement head)
         do
           var names $ [] :ObjectExpression :FunctionExpression
           if (in names result.type) $ do
@@ -181,7 +184,10 @@ var $ dictionary $ object
             :type :VariableDeclarator
             :id $ makeIdentifier first
             :init $ cond init
-              decideSolution init :expression
+              bind (decideSolution init :expression) $ \ (result)
+                if (is result.type :FunctionExpression) $ do
+                  = result.id $ makeIdentifier first
+                return result
               , null
         :kind :var
     return $ object
@@ -233,8 +239,8 @@ var $ dictionary $ object
       self $ . dictionary :+
     return $ object
       :type :BinaryExpression
-      :operator :+
       :left $ self (_.initial args) :expression
+      :operator :+
       :right $ decideSolution (_.last args) :expression
 
   :* $ \ (args environment)
@@ -309,8 +315,17 @@ var $ dictionary $ object
     assert.array params :params
 
     return $ object
-      :type :FunctionExpression
-      :id null
+      :body $ object
+        :type :BlockStatement
+        :body $ body.map $ \ (line index)
+          if
+            and
+              is index (- body.length 1)
+              isnt (. line 0) :return
+            do
+              = line $ [] :return line
+          return $ decideSolution line :statement
+        :directives $ array
       :params $ params.map $ \ (item)
         if (_.isString item)
           do
@@ -324,17 +339,8 @@ var $ dictionary $ object
         , undefined
       :generator false
       :expression false
-      :body $ object
-        :type :BlockStatement
-        :directives $ array
-        :body $ body.map $ \ (line index)
-          if
-            and
-              is index (- body.length 1)
-              isnt (. line 0) :return
-            do
-              = line $ [] :return line
-          return $ decideSolution line :statement
+      :type :FunctionExpression
+      :id null
 
   :return $ \ (args environment)
     assert.array args :return
@@ -370,18 +376,21 @@ var $ dictionary $ object
               :argument $ makeIdentifier param
         , undefined
       :generator false
-      :expression true
-      :body $ object
-        :type :BlockStatement
-        :directives $ array
-        :body $ body.map $ \ (line index)
-          if
-            and
-              is index (- body.length 1)
-              isnt (. line 0) :return
-            do
-              = line $ [] :return line
-          return $ decideSolution line :statement
+      :expression (is body.length 1)
+      :body $ cond (is body.length 1)
+        decideSolution (. body 0) :expression
+        object
+          :type :BlockStatement
+          :body $ body.map $ \ (line index)
+            if
+              and
+                is index (- body.length 1)
+                isnt (. line 0) :return
+              do
+                = line $ [] :return line
+            decideSolution line :statement
+          :directives $ []
+        :directives $ []
 
   :object $ \ (args environment)
     assert.array args ":args for object"
@@ -494,15 +503,15 @@ var $ dictionary $ object
       :test $ decideSolution test :expression
       :consequent $ {}
         :type :BlockStatement
-        :directives $ []
         :body $ consequentBody.map $ \ (item)
           decideSolution item :statement
+        :directives $ []
       :alternate $ cond (? alternate)
         {}
           :type :BlockStatement
-          :directives $ []
           :body $ ... alternate (slice 1) $ map $ \ (item)
             decideSolution item :statement
+          :directives $ []
         , null
 
   :do $ \ (args environment)
@@ -510,9 +519,9 @@ var $ dictionary $ object
 
     return $ object
       :type :BlockStatement
-      :directives $ []
       :body $ args.map $ \ (line)
-        return $ decideSolution line :statement
+        decideSolution line :statement
+      :directives $ []
 
   :cond $ \ (args environment)
     assert.array args :cond
@@ -737,9 +746,9 @@ var $ dictionary $ object
         :param $ makeIdentifier param
         :body $ object
           :type :BlockStatement
-          :directives $ []
           :body $ body.map $ \ (item)
             return $ decideSolution item :statement
+          :directives $ []
 
   :switch $ \ (args environment)
     assert.array args :switch
@@ -758,10 +767,10 @@ var $ dictionary $ object
           consequentCode $ listUtil.append consequent (array :break)
         return $ object
           :type :SwitchCase
+          :consequent $ consequentCode.map $ \ (item)
+            decideSolution item :statement
           :test $ cond (is test :else) null
             decideSolution test :expression
-          :consequent $ consequentCode.map $ \ (item)
-            return $ decideSolution item :statement
 
   :case $ \ (args environment)
     assert.array args :case
@@ -773,13 +782,14 @@ var $ dictionary $ object
       :type :CallExpression
       :arguments $ array
       :callee $ object
-        :type :ArrowFunctionExpression
+        :type :FunctionExpression
         :id null
         :params $ array
         :generator false
-        :expression true
+        :expression false
+        :extra $ {}
+          :parenthesized true
         :body $ object
-          :directives $ array
           :type :BlockStatement
           :body $ array
             object
@@ -800,6 +810,7 @@ var $ dictionary $ object
                         :type :ReturnStatement
                         :argument $ decideSolution item :expression
                       decideSolution item :expression
+          :directives $ array
 
   :... $ \ (args environment)
     if (is args.length 1)
