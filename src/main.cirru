@@ -10,7 +10,7 @@ var
 
 require :./layout.css
 
-req.open :GET :./examples/cond.cirru
+req.open :GET :./test/cirru/cond.cirru
 = req.onload $ \ (res)
   var $ code req.responseText
   = source.value code
@@ -25,10 +25,12 @@ var $ render $ \ (code)
     display $ JSON.stringify result null 2
   console.log :ast: ast
 
+  console.log babel
+
   = compiled.value display
   console.log :result: display
   console.log ":generated code:"
-  console.log $ . (babel.fromAst result null (object)) :code
+  console.log $ . (babel.transfomFromAst result null (object)) :code
   -- console.log $ escodegen.generate result
 
 var $ tryRender $ \ (code)
@@ -39,6 +41,7 @@ var $ tryRender $ \ (code)
         message err.message
         stack err.stack
       = compiled.value $ + message ":\n\n" stack
+  , undefined
 
 source.addEventListener :input $ \ (event)
   tryRender event.target.value
