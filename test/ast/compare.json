@@ -14,7 +14,7 @@
           },
           "operator": "===",
           "right": {
-            "type": "NumberLiteral",
+            "type": "NumericLiteral",
             "extra": {
               "rawValue": 2,
               "raw": "2"
@@ -33,7 +33,7 @@
           },
           "operator": "!==",
           "right": {
-            "type": "NumberLiteral",
+            "type": "NumericLiteral",
             "extra": {
               "rawValue": 2,
               "raw": "2"
@@ -52,7 +52,7 @@
           },
           "operator": ">",
           "right": {
-            "type": "NumberLiteral",
+            "type": "NumericLiteral",
             "extra": {
               "rawValue": 1,
               "raw": "1"
@@ -71,7 +71,7 @@
           },
           "operator": ">=",
           "right": {
-            "type": "NumberLiteral",
+            "type": "NumericLiteral",
             "extra": {
               "rawValue": 1,
               "raw": "1"
@@ -90,7 +90,7 @@
           },
           "operator": "<",
           "right": {
-            "type": "NumberLiteral",
+            "type": "NumericLiteral",
             "extra": {
               "rawValue": 3,
               "raw": "3"
@@ -109,7 +109,7 @@
           },
           "operator": "<=",
           "right": {
-            "type": "NumberLiteral",
+            "type": "NumericLiteral",
             "extra": {
               "rawValue": 3,
               "raw": "3"

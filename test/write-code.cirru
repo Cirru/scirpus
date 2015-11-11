@@ -2,7 +2,8 @@
 var
   fs $ require :fs
   parser $ require :cirru-parser
-  babel $ require :babel-core
+  babel $ require :../node_modules/babel-core
+  es2015 $ require :babel-preset-es2015
 
   operations $ require :../src/operations
 
@@ -35,6 +36,6 @@ files.forEach $ \ (file)
     ast $ operations.transform cirruAST
     result $ babel.transformFromAst ast :
       {}
-        :presets $ [] :es2015
+        :presets $ [] es2015
   fs.writeFileSync (+ :generated/ file :.js) result.code
   console.log :done: file

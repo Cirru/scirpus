@@ -14,7 +14,7 @@
               "name": "a"
             },
             "init": {
-              "type": "NumberLiteral",
+              "type": "NumericLiteral",
               "extra": {
                 "rawValue": 1,
                 "raw": "1"
@@ -76,7 +76,7 @@
               "name": "f"
             },
             "init": {
-              "type": "RegexLiteral",
+              "type": "RegExpLiteral",
               "extra": {
                 "raw": "/\\d\\/\\w/"
               },

@@ -9,7 +9,7 @@
         "expression": {
           "type": "BinaryExpression",
           "left": {
-            "type": "NumberLiteral",
+            "type": "NumericLiteral",
             "extra": {
               "rawValue": 1,
               "raw": "1"
@@ -18,7 +18,7 @@
           },
           "operator": "+",
           "right": {
-            "type": "NumberLiteral",
+            "type": "NumericLiteral",
             "extra": {
               "rawValue": 2,
               "raw": "2"
@@ -32,7 +32,7 @@
         "expression": {
           "type": "BinaryExpression",
           "left": {
-            "type": "NumberLiteral",
+            "type": "NumericLiteral",
             "extra": {
               "rawValue": 1,
               "raw": "1"
@@ -41,7 +41,7 @@
           },
           "operator": "+",
           "right": {
-            "type": "NumberLiteral",
+            "type": "NumericLiteral",
             "extra": {
               "rawValue": 0,
               "raw": "0"
@@ -57,7 +57,7 @@
           "left": {
             "type": "BinaryExpression",
             "left": {
-              "type": "NumberLiteral",
+              "type": "NumericLiteral",
               "extra": {
                 "rawValue": 1,
                 "raw": "1"
@@ -66,7 +66,7 @@
             },
             "operator": "*",
             "right": {
-              "type": "NumberLiteral",
+              "type": "NumericLiteral",
               "extra": {
                 "rawValue": 2,
                 "raw": "2"
@@ -76,7 +76,7 @@
           },
           "operator": "*",
           "right": {
-            "type": "NumberLiteral",
+            "type": "NumericLiteral",
             "extra": {
               "rawValue": 3,
               "raw": "3"
@@ -122,7 +122,7 @@
           "left": {
             "type": "BinaryExpression",
             "left": {
-              "type": "NumberLiteral",
+              "type": "NumericLiteral",
               "extra": {
                 "rawValue": 1,
                 "raw": "1"
@@ -131,7 +131,7 @@
             },
             "operator": "-",
             "right": {
-              "type": "NumberLiteral",
+              "type": "NumericLiteral",
               "extra": {
                 "rawValue": 2,
                 "raw": "2"
@@ -141,7 +141,7 @@
           },
           "operator": "-",
           "right": {
-            "type": "NumberLiteral",
+            "type": "NumericLiteral",
             "extra": {
               "rawValue": 4,
               "raw": "4"
@@ -157,7 +157,7 @@
           "left": {
             "type": "BinaryExpression",
             "left": {
-              "type": "NumberLiteral",
+              "type": "NumericLiteral",
               "extra": {
                 "rawValue": 1,
                 "raw": "1"
@@ -166,7 +166,7 @@
             },
             "operator": "/",
             "right": {
-              "type": "NumberLiteral",
+              "type": "NumericLiteral",
               "extra": {
                 "rawValue": 2,
                 "raw": "2"
@@ -176,7 +176,7 @@
           },
           "operator": "/",
           "right": {
-            "type": "NumberLiteral",
+            "type": "NumericLiteral",
             "extra": {
               "rawValue": 3,
               "raw": "3"
@@ -192,7 +192,7 @@
           "left": {
             "type": "BinaryExpression",
             "left": {
-              "type": "NumberLiteral",
+              "type": "NumericLiteral",
               "extra": {
                 "rawValue": 113,
                 "raw": "113"
@@ -201,7 +201,7 @@
             },
             "operator": "%",
             "right": {
-              "type": "NumberLiteral",
+              "type": "NumericLiteral",
               "extra": {
                 "rawValue": 18,
                 "raw": "18"
@@ -211,7 +211,7 @@
           },
           "operator": "%",
           "right": {
-            "type": "NumberLiteral",
+            "type": "NumericLiteral",
             "extra": {
               "rawValue": 7,
               "raw": "7"

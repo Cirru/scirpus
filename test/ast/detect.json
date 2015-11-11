@@ -45,7 +45,7 @@
           },
           "operator": ">=",
           "right": {
-            "type": "NumberLiteral",
+            "type": "NumericLiteral",
             "extra": {
               "rawValue": 0,
               "raw": "0"

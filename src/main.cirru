@@ -2,7 +2,7 @@
 var
   parser $ require :cirru-parser
   escodegen $ require :escodegen
-  babel $ require :babel-core/browser
+  babel $ require :babel-core/lib/transformation/pipeline
   operations $ require :./operations
   req $ new XMLHttpRequest
   source $ document.querySelector :#source
@@ -30,7 +30,7 @@ var $ render $ \ (code)
   = compiled.value display
   console.log :result: display
   console.log ":generated code:"
-  console.log $ . (babel.transfomFromAst result null (object)) :code
+  -- console.log $ . (babel.transfomFromAst result null (object)) :code
   -- console.log $ escodegen.generate result
 
 var $ tryRender $ \ (code)

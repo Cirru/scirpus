@@ -36,6 +36,7 @@ var purifyTree $ \ (tree)
         if (is key :start) $ do $ return false
         if (is key :end) $ do $ return false
         if (is key :loc) $ do $ return false
+        if (is key :parenStart) $ do $ return false
         , true
       map $ \ (item)
         purifyTree item

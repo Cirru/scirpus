@@ -62,14 +62,14 @@ var $ readToken $ \ (text)
       switch true
         (is (type value) :regexp)
           return $ object
-            :type :RegexLiteral
+            :type :RegExpLiteral
             :extra $ {}
               :raw $ String value
             :pattern $ text.substr 1
             :flags :
         (is (type value) :number)
           return $ {}
-            :type :NumberLiteral
+            :type :NumericLiteral
             :extra $ {}
               :rawValue value
               :raw $ String value
@@ -493,8 +493,10 @@ var $ dictionary $ object
     return $ object
       :type :UnaryExpression
       :operator :!
-      :argument $ decideSolution (first args) :expression
       :prefix true
+      :extra $ object
+        :parenthesizedArgument false
+      :argument $ decideSolution (first args) :expression
 
   :if $ \ (args environment)
     assert.array args ":if"
@@ -684,7 +686,7 @@ var $ dictionary $ object
           decideSolution value :expression
       :operator :>=
       :right $ {}
-        :type :NumberLiteral
+        :type :NumericLiteral
         :extra $ {}
           :rawValue 0
           :raw :0

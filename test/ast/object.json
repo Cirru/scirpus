@@ -14,7 +14,7 @@
               "shorthand": false,
               "computed": false,
               "value": {
-                "type": "NumberLiteral",
+                "type": "NumericLiteral",
                 "extra": {
                   "rawValue": 1,
                   "raw": "1"
@@ -35,7 +35,7 @@
                 "type": "ArrayExpression",
                 "elements": [
                   {
-                    "type": "NumberLiteral",
+                    "type": "NumericLiteral",
                     "extra": {
                       "rawValue": 2,
                       "raw": "2"
@@ -43,7 +43,7 @@
                     "value": 2
                   },
                   {
-                    "type": "NumberLiteral",
+                    "type": "NumericLiteral",
                     "extra": {
                       "rawValue": 3,
                       "raw": "3"
@@ -70,7 +70,7 @@
                     "shorthand": false,
                     "computed": false,
                     "value": {
-                      "type": "NumberLiteral",
+                      "type": "NumericLiteral",
                       "extra": {
                         "rawValue": 4,
                         "raw": "4"

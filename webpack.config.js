@@ -24,7 +24,7 @@ module.exports = {
       {test: /\.css$/, loader: 'style!css'},
     ],
     noParse: [
-      path.resolve('./node_modules/babel-core/browser.js')
+      path.resolve('./node_modules/babel-browser/browser.js')
     ]
   },
   plugins: []
