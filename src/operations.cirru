@@ -167,7 +167,7 @@ var $ buildChain $ \ (names)
       return $ decideSolution item :expression
 
 var $ dictionary $ object
-  := $ \ (args environment)
+  :assign $ \ (args environment)
     var
       name $ . args 0
       value $ . args 1
@@ -845,6 +845,7 @@ var $ dictionary $ object
 = (. dictionary :[]~) (. dictionary :array~)
 = (. dictionary :{}) dictionary.object
 = (. dictionary :{}~) (. dictionary :object~)
+= (. dictionary :=) (. dictionary :assign)
 
 = exports.transform $ \ (tree)
   var
