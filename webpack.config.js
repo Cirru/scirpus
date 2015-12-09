@@ -15,7 +15,7 @@ module.exports = {
     publicPath: 'http://localhost:8080/build/'
   },
   resolve: {
-    extensions: ['', '.js', '.cirru']
+    extensions: ['', '.js', '.json', '.cirru']
   },
   module: {
     loaders: [
@@ -26,6 +26,11 @@ module.exports = {
     noParse: [
       path.resolve('./node_modules/babel-browser/browser.js')
     ]
+  },
+  node: {
+    fs: 'empty',
+    module: 'empty',
+    net: 'empty'
   },
   plugins: []
 }

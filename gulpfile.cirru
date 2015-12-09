@@ -13,7 +13,7 @@ gulp.task :rsync $ \ (cb)
   wrapper.rsync
     object
       :ssh true
-      :src $ array :index.html :build :examples
+      :src $ array :index.html :build :test
       :recursive true
       :args $ array :--verbose
       :dest :tiye:~/repo/cirru/scirpus/

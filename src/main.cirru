@@ -2,7 +2,7 @@
 var
   parser $ require :cirru-parser
   escodegen $ require :escodegen
-  babel $ require :babel-core/lib/transformation/pipeline
+  babel $ require :babel-core
   operations $ require :./operations
   req $ new XMLHttpRequest
   source $ document.querySelector :#source
@@ -45,4 +45,3 @@ var $ tryRender $ \ (code)
 
 source.addEventListener :input $ \ (event)
   tryRender event.target.value
-
