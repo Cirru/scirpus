@@ -96,6 +96,53 @@
             "parenthesized": true
           }
         }
+      },
+      {
+        "type": "ExpressionStatement",
+        "expression": {
+          "type": "ObjectExpression",
+          "properties": [
+            {
+              "method": false,
+              "shorthand": false,
+              "computed": false,
+              "value": {
+                "type": "NumericLiteral",
+                "extra": {
+                  "rawValue": 1,
+                  "raw": "1"
+                },
+                "value": 1
+              },
+              "type": "ObjectProperty",
+              "key": {
+                "type": "Identifier",
+                "name": "a"
+              }
+            },
+            {
+              "method": false,
+              "shorthand": false,
+              "computed": false,
+              "value": {
+                "type": "NumericLiteral",
+                "extra": {
+                  "rawValue": 2,
+                  "raw": "2"
+                },
+                "value": 2
+              },
+              "type": "ObjectProperty",
+              "key": {
+                "type": "Identifier",
+                "name": "b"
+              }
+            }
+          ],
+          "extra": {
+            "parenthesized": true
+          }
+        }
       }
     ],
     "directives": []

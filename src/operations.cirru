@@ -400,6 +400,8 @@ var $ dictionary $ object
 
   :object $ \ (args environment)
     assert.array args ":args for object"
+    if (is (type (. args 0)) :string) $ do
+      = args $ listUtil.foldPair args
     return $ object
       :type :ObjectExpression
       :properties $ args.map $ \ (pair)
