@@ -137,6 +137,28 @@
                 "type": "Identifier",
                 "name": "b"
               }
+            },
+            {
+              "method": false,
+              "shorthand": false,
+              "computed": false,
+              "value": {
+                "type": "StringLiteral",
+                "extra": {
+                  "rawValue": "add",
+                  "raw": "\"add\""
+                },
+                "value": "add"
+              },
+              "type": "ObjectProperty",
+              "key": {
+                "type": "StringLiteral",
+                "extra": {
+                  "rawValue": "+",
+                  "raw": "\"+\""
+                },
+                "value": "+"
+              }
             }
           ],
           "extra": {

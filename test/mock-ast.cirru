@@ -67,6 +67,7 @@ files.forEach $ \ (file)
       console.log :test :ok: file
     do
       console.log :failed: file
+      console.log :delta: (JSON.stringify delta)
       fs.writeFileSync :tmp/result.json (s jsAST null 2)
       fs.writeFileSync :tmp/expected.json (s ast null 2)
   , undefined

@@ -412,9 +412,16 @@ var $ dictionary $ object
         assert.string name ":object property key"
         return $ object
           :type :ObjectProperty
-          :key $ object
-            :type :Identifier
-            :name $ name.substr 1
+          :key $ cond (? $ name.match /^:\w[\w\d_$]*$)
+            object
+              :type :Identifier
+              :name $ name.substr 1
+            object
+              :type :StringLiteral
+              :extra $ object
+                :rawValue $ name.substr 1
+                :raw $ JSON.stringify (name.substr 1)
+              :value $ name.substr 1
           :computed false
           :value $ decideSolution init :expression
           :method false
