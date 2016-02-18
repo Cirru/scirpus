@@ -453,6 +453,7 @@ var $ dictionary $ object
 
     cond
       and (is (type property) :string) (is (. property 0) ::)
+        ? $ ... (property.slice 1) (match /^\w[\w\d_]*$)
       {}
         :type :MemberExpression
         :computed false
@@ -758,7 +759,7 @@ var $ dictionary $ object
       :type :CallExpression
       :arguments $ array
       :callee $ object
-        :type :FunctionExpression
+        :type :ArrowFunctionExpression
         :id null
         :params $ array
         :generator false

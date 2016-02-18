@@ -8,7 +8,7 @@ switch (a) {
     break;
 }
 
-(function () {
+(() => {
   switch (a) {
     case 1:
       return "one";

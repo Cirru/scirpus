@@ -44,6 +44,25 @@
           "type": "MemberExpression",
           "object": {
             "type": "Identifier",
+            "name": "b"
+          },
+          "property": {
+            "type": "StringLiteral",
+            "extra": {
+              "rawValue": "+",
+              "raw": "\"+\""
+            },
+            "value": "+"
+          },
+          "computed": true
+        }
+      },
+      {
+        "type": "ExpressionStatement",
+        "expression": {
+          "type": "MemberExpression",
+          "object": {
+            "type": "Identifier",
             "name": "c"
           },
           "property": {
