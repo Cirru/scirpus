@@ -1,8 +1,8 @@
 
-/build
-/examples
-/src
-/gulpfile.*
-/index.*
-/webpack.*
-/template.cirru
+dist/
+src/
+test/
+index.html
+template.cirru
+webpack.*
+yarn.lock
