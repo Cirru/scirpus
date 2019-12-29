@@ -19,6 +19,8 @@ Also read:
 
 ### Usage
 
+![](https://img.shields.io/npm/v/scirpus.svg)
+
 CommonJS:
 
 ```text

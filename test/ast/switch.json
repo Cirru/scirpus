@@ -200,7 +200,8 @@
             "generator": false,
             "expression": false,
             "type": "ArrowFunctionExpression",
-            "id": null
+            "id": null,
+            "async": false
           },
           "arguments": []
         }
