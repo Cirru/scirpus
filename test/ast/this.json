@@ -89,7 +89,8 @@
           "generator": false,
           "expression": false,
           "type": "FunctionExpression",
-          "id": null
+          "id": null,
+          "async": false
         }
       }
     ],

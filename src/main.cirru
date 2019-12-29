@@ -2,7 +2,7 @@
 var
   parser $ require :cirru-parser
   escodegen $ require :escodegen
-  babel $ require :babel-core
+  babel $ require :@babel/standalone
   operations $ require :./operations
   req $ new XMLHttpRequest
   source $ document.querySelector :#source

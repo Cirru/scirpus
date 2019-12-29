@@ -2,7 +2,7 @@
 var
   fs $ require :fs
   parser $ require :cirru-parser
-  babel $ require :../node_modules/babel-core
+  babel $ require :@babel/standalone
   es2015 $ require :babel-preset-es2015
 
   operations $ require :../src/operations

@@ -32,7 +32,8 @@
           "generator": false,
           "expression": false,
           "type": "FunctionExpression",
-          "id": null
+          "id": null,
+          "async": false
         }
       },
       {
@@ -51,7 +52,8 @@
           "generator": false,
           "expression": true,
           "type": "ArrowFunctionExpression",
-          "id": null
+          "id": null,
+          "async": false
         }
       },
       {
@@ -86,7 +88,8 @@
           "generator": false,
           "expression": false,
           "type": "ArrowFunctionExpression",
-          "id": null
+          "id": null,
+          "async": false
         }
       },
       {
@@ -136,7 +139,8 @@
               "id": {
                 "type": "Identifier",
                 "name": "f"
-              }
+              },
+              "async": false
             }
           }
         ],
@@ -241,7 +245,8 @@
           "generator": false,
           "expression": false,
           "type": "FunctionExpression",
-          "id": null
+          "id": null,
+          "async": false
         }
       },
       {

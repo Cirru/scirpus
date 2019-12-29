@@ -1,8 +1,7 @@
 
-/build/
+/dist/
 /lib/
 /node_modules/
 /index.html
-/compiled
 
 /test/tmp/

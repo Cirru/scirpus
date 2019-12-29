@@ -10,12 +10,12 @@
           "type": "UnaryExpression",
           "operator": "!",
           "prefix": true,
-          "extra": {
-            "parenthesizedArgument": false
-          },
           "argument": {
             "type": "Identifier",
             "name": "a"
+          },
+          "extra": {
+            "parenthesizedArgument": false
           }
         }
       }
