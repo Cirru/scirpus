@@ -15,26 +15,7 @@ var diffpatcher $ jsondiffpatch.create $ {}
 
 var operations $ require :../src/operations
 
-var files $ []
-  , :array
-  , :assignment
-  , :binary
-  , :chain
-  , :comment
-  , :compare
-  , :cond
-  , :destruction
-  , :detect
-  , :empty
-  , :keyword
-  , :lambda
-  , :member
-  , :object
-  , :switch
-  , :this
-  , :try
-  , :unary
-  , :values
+var files $ require :./files-index
 
 var s JSON.stringify
 files.forEach $ \ (file)
