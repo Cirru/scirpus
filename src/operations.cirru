@@ -859,6 +859,7 @@ var $ dictionary $ object
 = (. dictionary :{}) dictionary.object
 = (. dictionary :{}~) (. dictionary :object~)
 = (. dictionary :=) (. dictionary :__assgin__)
+= (. dictionary :;) (. dictionary :--)
 
 = exports.transform $ \ (tree)
   var
