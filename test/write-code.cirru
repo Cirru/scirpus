@@ -1,4 +1,6 @@
 
+-- "File to try generating code from Cirru files"
+
 var
   fs $ require :fs
   parser $ require :cirru-parser
@@ -7,27 +9,7 @@ var
 
   operations $ require :../src/operations
 
-var
-  files $ []
-    , :array
-    , :assignment
-    , :binary
-    , :chain
-    , :comment
-    , :compare
-    , :cond
-    , :destruction
-    , :detect
-    , :empty
-    , :keyword
-    , :lambda
-    , :member
-    , :object
-    , :switch
-    , :this
-    , :try
-    , :unary
-    , :values
+var files $ require :./files-index
 
 files.forEach $ \ (file)
   var

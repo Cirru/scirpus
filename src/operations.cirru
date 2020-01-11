@@ -384,6 +384,7 @@ var $ dictionary $ object
         , undefined
       :generator false
       :expression (is body.length 1)
+      :async false
       :body $ cond (is body.length 1)
         decideSolution (. body 0) :expression
         object
@@ -763,10 +764,11 @@ var $ dictionary $ object
         :type :ArrowFunctionExpression
         :id null
         :params $ array
-        :generator false
-        :expression false
         :extra $ {}
           :parenthesized true
+        :generator false
+        :expression false
+        :async false
         :body $ object
           :type :BlockStatement
           :body $ array
@@ -857,6 +859,7 @@ var $ dictionary $ object
 = (. dictionary :{}) dictionary.object
 = (. dictionary :{}~) (. dictionary :object~)
 = (. dictionary :=) (. dictionary :__assgin__)
+= (. dictionary :;) (. dictionary :--)
 
 = exports.transform $ \ (tree)
   var

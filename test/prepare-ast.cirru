@@ -1,31 +1,13 @@
 
+-- "File to generate AST from templates"
+
 var
   fs $ require :fs
   babylon $ require :babylon
   generator $ require :babel-generator
   Immutable $ require :immutable
 
-var
-  files $ []
-    , :array
-    , :assignment
-    , :binary
-    , :chain
-    , :comment
-    , :compare
-    , :cond
-    , :destruction
-    , :detect
-    , :empty
-    , :keyword
-    , :lambda
-    , :member
-    , :object
-    , :switch
-    , :this
-    , :try
-    , :unary
-    , :values
+var files $ require :./files-index
 
 -- var files $ [] :empty
 
@@ -55,7 +37,6 @@ files.forEach $ \ (file)
     result $ babylon.parse jsCode
     res $ purifyTree $ Immutable.fromJS (re result)
   = res $ re $ ... res (delete :tokens) (delete :comments)
-  var
-    generated $ generator.default res
   fs.writeFileSync (+ :ast/ file :.json) (JSON.stringify res null 2)
-  fs.writeFileSync (+ :formatted/ file :.js) generated.code
+  -- var generated $ generator.default res
+  -- fs.writeFileSync (+ :generated/ file :.js) generated.code
