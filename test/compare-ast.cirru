@@ -3,7 +3,6 @@ var
   fs $ require :fs
   assert $ require :assert
   parser $ require :cirru-parser
-  Immutable $ require :immutable
   jsondiffpatch $ require :jsondiffpatch
 
 var diffpatcher $ jsondiffpatch.create $ {}
@@ -58,7 +57,7 @@ var s JSON.stringify
 files.forEach $ \ (file)
   var
     cirruCode $ fs.readFileSync (+ :cirru/ file :.cirru) :utf8
-    ast $ require (+ :./ast/ file :.json)
+    ast $ require (+ :../explore/ast/ file :.json)
     cirruAST $ parser.pare cirruCode :
     jsAST $ operations.transform cirruAST
     delta $ jsondiffpatch.diff ast jsAST

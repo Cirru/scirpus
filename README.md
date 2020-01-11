@@ -33,6 +33,10 @@ ast = scirpus.transform [['cirru tree']]
 # generates ES6 AST from Cirru AST
 ```
 
+### Explore
+
+`explore/` folder contains example of JavaScript AST generated from Babel.
+
 ### License
 
 MIT

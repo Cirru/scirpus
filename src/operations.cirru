@@ -139,9 +139,9 @@ var $ buildMembers $ \ (names)
 
   return $ object
     :type :MemberExpression
-    :computed false
     :object $ buildMembers (initial names)
     :property $ makeIdentifier (getLast names)
+    :computed false
 
 var $ buildChain $ \ (names)
   if (is names.length 1)
@@ -160,9 +160,9 @@ var $ buildChain $ \ (names)
     :type :CallExpression
     :callee $ object
       :type :MemberExpression
-      :computed false
       :object $ buildChain listInitial
       :property $ makeIdentifier method
+      :computed false
     :arguments $ args.map $ \ (item)
       return $ decideSolution item :expression
 
@@ -347,6 +347,7 @@ var $ dictionary $ object
       :expression false
       :type :FunctionExpression
       :id null
+      :async false
 
   :return $ \ (args environment)
     assert.array args :return
@@ -422,10 +423,10 @@ var $ dictionary $ object
                 :rawValue $ name.substr 1
                 :raw $ JSON.stringify (name.substr 1)
               :value $ name.substr 1
-          :computed false
           :value $ decideSolution init :expression
           :method false
           :shorthand false
+          :computed false
 
   :object~ $ \ (args environment)
     assert.array args ":args for ObjectPattern"
@@ -437,12 +438,12 @@ var $ dictionary $ object
         return $ object
           :method false
           :shorthand true
-          :computed false
           :extra $ {}
             :shorthand true
           :value pattern
           :type :ObjectProperty
           :key pattern
+          :computed false
 
   :. $ \ (args environment)
     assert.array args ":args for member"
@@ -456,16 +457,16 @@ var $ dictionary $ object
         ? $ ... (property.slice 1) (match /^\w[\w\d_]*$)
       {}
         :type :MemberExpression
-        :computed false
         :object $ decideSolution object :expression
         :property $ {}
           :type :Identifier
           :name $ property.substr 1
+        :computed false
       {}
         :type :MemberExpression
-        :computed true
         :object $ decideSolution object :expression
         :property $ decideSolution property :expression
+        :computed true
 
   :and $ \ (args environment)
     assert.array args ":args for and"

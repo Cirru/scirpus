@@ -9,18 +9,18 @@ body {
 }
 
 textarea {
-    flex: 1;
-    border: none;
-    outline: none;
-    resize: none;
-    align-items: stretch;
-    display: flex;
-    font-size: 14px;
-    font-family: Menlo, monospace;
-    padding: 1em;
+  flex: 1;
+  border: none;
+  outline: none;
+  resize: none;
+  align-items: stretch;
+  display: flex;
+  font-size: 14px;
+  font-family: Menlo, monospace;
+  padding: 1em;
 }
 
 textarea#compiled {
-    background: hsl(0, 0%, 96%);
-    font-size: 12px;
+  background: hsl(0, 0%, 96%);
+  font-size: 12px;
 }
