@@ -1,4 +1,6 @@
 
+-- "File to try generating code from Cirru files"
+
 var
   fs $ require :fs
   parser $ require :cirru-parser
