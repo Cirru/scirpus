@@ -10,6 +10,8 @@
     "html": "cirru-script template.cirru",
     "release-html": "env=release cirru-script template.cirru",
     "up": "yarn release && tiye-up",
+    "compile": "rm -rfv lib/* && cirruscript compile src lib",
+    "prepare": "yarn compile",
     "test": "cirruscript test/test.cirru"
   },
   "author": "jiyinyiyong",
