@@ -4,7 +4,7 @@
 var
   fs $ require :fs
   parser $ require :cirru-parser
-  babel $ require :@babel/standalone
+  babel $ require :@babel/core
   es2015 $ require :babel-preset-es2015
 
   operations $ require :../src/operations
