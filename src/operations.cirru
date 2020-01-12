@@ -35,10 +35,10 @@ var $ transformOperation $ \ (ast environment)
 
 var $ readToken $ \ (text)
   if (is text :super) $ do
-    return $ object (:type :Super)
+    return $ {} (:type :Super)
   if
     or (is text :this) (is text :@)
-    do $ return $ object
+    do $ return $ {}
       :type :ThisExpression
   = text $ text.replace /^@ :this.
   if (in ([] :true :false) text) $ do $ return $ {}
@@ -54,14 +54,14 @@ var $ readToken $ \ (text)
           names $ text.split :.
         return $ buildMembers names
       do
-        return $ object
+        return $ {}
           :type :Identifier
           :name text
     do
       var $ value $ dataType.decode text
       switch true
         (is (type value) :regexp)
-          return $ object
+          return $ {}
             :type :RegExpLiteral
             :extra $ {}
               :raw $ String value
@@ -82,7 +82,7 @@ var $ readToken $ \ (text)
               :raw $ JSON.stringify value
             :value value
         else
-          return $ object
+          return $ {}
             :type :Literal
             :value value
             :raw $ String value
@@ -90,7 +90,7 @@ var $ readToken $ \ (text)
 
 var $ decideSolution $ \ (x environment)
   assert.oneOf environment
-    array :statement :expression
+    [] :statement :expression
     , ":environment"
 
   if (is (type x) :array) $ do
@@ -126,7 +126,7 @@ var $ decideSolution $ \ (x environment)
   return result
 
 var $ makeIdentifier $ \ (name)
-  return $ object
+  return $ {}
     :type :Identifier
     :name name
 
@@ -137,7 +137,7 @@ var $ buildMembers $ \ (names)
   if (is names.length 1) $ do
     return $ decideSolution (first names) :expression
 
-  return $ object
+  return $ {}
     :type :MemberExpression
     :object $ buildMembers (initial names)
     :property $ makeIdentifier (getLast names)
@@ -156,9 +156,9 @@ var $ buildChain $ \ (names)
     args $ tail last
   assert.string method ":method of buildChain"
 
-  return $ object
+  return $ {}
     :type :CallExpression
-    :callee $ object
+    :callee $ {}
       :type :MemberExpression
       :object $ buildChain listInitial
       :property $ makeIdentifier method
@@ -166,12 +166,12 @@ var $ buildChain $ \ (names)
     :arguments $ args.map $ \ (item)
       return $ decideSolution item :expression
 
-var $ dictionary $ object
+var $ dictionary $ {}
   :__assgin__ $ \ (args environment)
     var
       name $ . args 0
       value $ . args 1
-    return $ object
+    return $ {}
       :type :AssignmentExpression
       :operator :=
       :left $ decideSolution name :expression
@@ -183,10 +183,10 @@ var $ dictionary $ object
       first $ . args 0
       init $ . args 1
     if (is (type first) :string) $ do
-      return $ object
+      return $ {}
         :type :VariableDeclaration
-        :declarations $ array
-          object
+        :declarations $ []
+          {}
             :type :VariableDeclarator
             :id $ makeIdentifier first
             :init $ cond init
@@ -196,7 +196,7 @@ var $ dictionary $ object
                 return result
               , null
         :kind :var
-    return $ object
+    return $ {}
       :type :VariableDeclaration
       :declarations $ args.map $ \ (pair)
         assert.array pair ":declarations in var"
@@ -204,7 +204,7 @@ var $ dictionary $ object
           name $ . pair 0
         var
           init $ . pair 1
-        return $ object
+        return $ {}
           :type :VariableDeclarator
           :id $ decideSolution name :expression
           :init $ cond init
@@ -212,16 +212,16 @@ var $ dictionary $ object
             , null
       :kind :var
 
-  :array $ \ (args environment)
+  :[] $ \ (args environment)
     assert.array args ":array args"
-    return $ object
+    return $ {}
       :type :ArrayExpression
       :elements $ args.map $ \ (item)
         return $ decideSolution item :expression
 
-  :array~ $ \ (args environment)
+  :[]~ $ \ (args environment)
     assert.array args :ArrayPattern
-    return $ object
+    return $ {}
       :type :ArrayPattern
       :elements $ args.map $ \ (item)
         if (is (type item) :string) $ do
@@ -230,7 +230,7 @@ var $ dictionary $ object
         assert.array item ":item in ArrayPattern"
         assert.result (is item.length 1) ":an only item in array"
         assert.string (. item 0) ":simple string in ArrayPattern"
-        return $ object
+        return $ {}
           :type :RestElement
           :argument $ makeIdentifier (. item 0)
 
@@ -243,7 +243,7 @@ var $ dictionary $ object
 
     var
       self $ . dictionary :+
-    return $ object
+    return $ {}
       :type :BinaryExpression
       :left $ self (initial args) :expression
       :operator :+
@@ -258,7 +258,7 @@ var $ dictionary $ object
 
     var
       self $ . dictionary :*
-    return $ object
+    return $ {}
       :type :BinaryExpression
       :operator :*
       :left $ self (initial args) :expression
@@ -274,7 +274,7 @@ var $ dictionary $ object
 
     var
       self $ . dictionary :-
-    return $ object
+    return $ {}
       :type :BinaryExpression
       :operator :-
       :left $ self (initial args) :expression
@@ -290,7 +290,7 @@ var $ dictionary $ object
 
     var
       self $ . dictionary :/
-    return $ object
+    return $ {}
       :type :BinaryExpression
       :operator :/
       :left $ self (initial args) :expression
@@ -306,7 +306,7 @@ var $ dictionary $ object
 
     var
       self $ . dictionary :%
-    return $ object
+    return $ {}
       :type :BinaryExpression
       :operator :%
       :left $ self (initial args) :expression
@@ -320,8 +320,8 @@ var $ dictionary $ object
       body $ args.slice 1
     assert.array params :params
 
-    return $ object
-      :body $ object
+    return $ {}
+      :body $ {}
         :type :BlockStatement
         :body $ body.map $ \ (line index)
           if
@@ -331,7 +331,7 @@ var $ dictionary $ object
             do
               = line $ [] :return line
           return $ decideSolution line :statement
-        :directives $ array
+        :directives $ []
       :params $ params.map $ \ (item)
         if (is (type item) :string)
           do
@@ -339,7 +339,7 @@ var $ dictionary $ object
           do
             var $ param $ . item 0
             assert.string param ":rest of params"
-            return $ object
+            return $ {}
               :type :RestElement
               :argument $ makeIdentifier param
         , undefined
@@ -352,7 +352,7 @@ var $ dictionary $ object
     assert.array args :return
     var
       argument $ . args 0
-    return $ object
+    return $ {}
       :type :ReturnStatement
       :argument $ cond (? argument)
         decideSolution argument :expression
@@ -366,7 +366,7 @@ var $ dictionary $ object
       body $ args.slice 1
     assert.array params :params
 
-    return $ object
+    return $ {}
       :type :ArrowFunctionExpression
       :id null
       :params $ params.map $ \ (item)
@@ -377,7 +377,7 @@ var $ dictionary $ object
             var
               param $ . item 0
             assert.string param ":rest of params"
-            return $ object
+            return $ {}
               :type :RestElement
               :argument $ makeIdentifier param
         , undefined
@@ -385,7 +385,7 @@ var $ dictionary $ object
       :async false
       :body $ cond (is body.length 1)
         decideSolution (. body 0) :expression
-        object
+        {}
           :type :BlockStatement
           :body $ body.map $ \ (line index)
             if
@@ -398,11 +398,11 @@ var $ dictionary $ object
           :directives $ []
         :directives $ []
 
-  :object $ \ (args environment)
+  :{} $ \ (args environment)
     assert.array args ":args for object"
     if (is (type (. args 0)) :string) $ do
       = args $ listUtil.foldPair args
-    return $ object
+    return $ {}
       :type :ObjectExpression
       :properties $ args.map $ \ (pair)
         assert.array pair ":object property"
@@ -410,15 +410,15 @@ var $ dictionary $ object
           name $ . pair 0
           init $ . pair 1
         assert.string name ":object property key"
-        return $ object
+        return $ {}
           :type :ObjectProperty
           :key $ cond (? $ name.match /^:\w[\w\d_$]*$)
-            object
+            {}
               :type :Identifier
               :name $ name.substr 1
-            object
+            {}
               :type :StringLiteral
-              :extra $ object
+              :extra $ {}
                 :rawValue $ name.substr 1
                 :raw $ JSON.stringify (name.substr 1)
               :value $ name.substr 1
@@ -427,14 +427,14 @@ var $ dictionary $ object
           :shorthand false
           :computed false
 
-  :object~ $ \ (args environment)
+  :{}~ $ \ (args environment)
     assert.array args ":args for ObjectPattern"
-    return $ object
+    return $ {}
       :type :ObjectPattern
       :properties $ args.map $ \ (property)
         assert.string property ":property in ObjectPattern"
         var $ pattern $ makeIdentifier property
-        return $ object
+        return $ {}
           :method false
           :shorthand true
           :extra $ {}
@@ -476,7 +476,7 @@ var $ dictionary $ object
 
     var
       self $ . dictionary :and
-    return $ object
+    return $ {}
       :type :LogicalExpression
       :operator :&&
       :left $ self (initial args) :expression
@@ -491,7 +491,7 @@ var $ dictionary $ object
 
     var
       self $ . dictionary :or
-    return $ object
+    return $ {}
       :type :LogicalExpression
       :operator :||
       :left $ self (initial args) :expression
@@ -500,7 +500,7 @@ var $ dictionary $ object
   :not $ \ (args environment)
     assert.array args ":not"
 
-    return $ object
+    return $ {}
       :type :UnaryExpression
       :operator :!
       :prefix true
@@ -515,7 +515,7 @@ var $ dictionary $ object
       alternate $ . args 2
       consequentBody $ consequent.slice 1
 
-    return $ object
+    return $ {}
       :type :IfStatement
       :test $ decideSolution test :expression
       :consequent $ {}
@@ -534,7 +534,7 @@ var $ dictionary $ object
   :do $ \ (args environment)
     assert.array args ":do"
 
-    return $ object
+    return $ {}
       :type :BlockStatement
       :body $ args.map $ \ (line)
         decideSolution line :statement
@@ -554,18 +554,18 @@ var $ dictionary $ object
     if (? alternate)
       do $ var alternateAst
         decideSolution alternate :expression
-      do $ var alternateAst $ object
+      do $ var alternateAst $ {}
         :type :Identifier
         :name :undefined
 
-    return $ object
+    return $ {}
       :type :ConditionalExpression
       :test $ decideSolution test :expression
       :consequent $ decideSolution consequent :expression
       :alternate alternateAst
 
   :-- $ \ (args environment)
-    return $ object
+    return $ {}
       :type :Identifier
       :name :undefined
 
@@ -575,7 +575,7 @@ var $ dictionary $ object
       callee $ . args 0
       args $ args.slice 1
 
-    return $ object
+    return $ {}
       :type :CallExpression
       :callee $ decideSolution callee :expression
       :arguments $ args.map $ \ (item)
@@ -583,7 +583,7 @@ var $ dictionary $ object
 
   :is $ \ (args environment)
     assert.array args :is
-    return $ object
+    return $ {}
       :type :BinaryExpression
       :operator :===
       :left $ decideSolution (. args 0) :expression
@@ -591,7 +591,7 @@ var $ dictionary $ object
 
   :isnt $ \ (args environment)
     assert.array args :isnt
-    return $ object
+    return $ {}
       :type :BinaryExpression
       :operator :!==
       :left $ decideSolution (. args 0) :expression
@@ -599,7 +599,7 @@ var $ dictionary $ object
 
   :> $ \ (args environment)
     assert.array args :>
-    return $ object
+    return $ {}
       :type :BinaryExpression
       :operator :>
       :left $ decideSolution (. args 0) :expression
@@ -607,7 +607,7 @@ var $ dictionary $ object
 
   :>= $ \ (args environment)
     assert.array args :>=
-    return $ object
+    return $ {}
       :type :BinaryExpression
       :operator :>=
       :left $ decideSolution (. args 0) :expression
@@ -615,7 +615,7 @@ var $ dictionary $ object
 
   :< $ \ (args environment)
     assert.array args :<
-    return $ object
+    return $ {}
       :type :BinaryExpression
       :operator :<
       :left $ decideSolution (. args 0) :expression
@@ -623,23 +623,23 @@ var $ dictionary $ object
 
   :<= $ \ (args environment)
     assert.array args :<=
-    return $ object
+    return $ {}
       :type :BinaryExpression
       :operator :<=
       :left $ decideSolution (. args 0) :expression
       :right $ decideSolution (. args 1) :expression
 
   :debugger $ \ (args environment)
-    return $ object
+    return $ {}
       :type :DebuggerStatement
 
   :continue $ \ (args environment)
-    return $ object
+    return $ {}
       :type :ContinueStatement
       :label null
 
   :break $ \ (args environment)
-    return $ object
+    return $ {}
       :type :BreakStatement
       :label null
 
@@ -648,7 +648,7 @@ var $ dictionary $ object
     var
       callee $ . args 0
       args $ args.slice 1
-    return $ object
+    return $ {}
       :type :NewExpression
       :callee $ decideSolution callee :expression
       :arguments $ args.map $ \ (item)
@@ -659,7 +659,7 @@ var $ dictionary $ object
     var
       argument $ . args 0
     assert.defined argument ":argument of throw"
-    return $ object
+    return $ {}
       :type :ThrowStatement
       :argument $ decideSolution argument :expression
 
@@ -667,11 +667,11 @@ var $ dictionary $ object
     assert.array args :?
     var
       value $ . args 0
-    return $ object
+    return $ {}
       :type :BinaryExpression
       :operator :!=
       :left $ decideSolution value :expression
-      :right $ object
+      :right $ {}
         :type :NullLiteral
 
   :in $ \ (args environment)
@@ -711,14 +711,14 @@ var $ dictionary $ object
       body $ handler.slice 1
     assert.string param ":param of try"
     assert.array body ":body of try"
-    return $ object
+    return $ {}
       :type :TryStatement
       :block $ decideSolution block :expression
       :finalizer null
-      :handler $ object
+      :handler $ {}
         :type :CatchClause
         :param $ makeIdentifier param
-        :body $ object
+        :body $ {}
           :type :BlockStatement
           :body $ body.map $ \ (item)
             return $ decideSolution item :statement
@@ -730,7 +730,7 @@ var $ dictionary $ object
       discriminant $ . args 0
       cases $ args.slice 1
     assert.array cases ":cases of switch"
-    return $ object
+    return $ {}
       :type :SwitchStatement
       :discriminant $ decideSolution discriminant :expression
       :cases $ cases.map $ \ (item)
@@ -739,7 +739,7 @@ var $ dictionary $ object
           test $ . item 0
           consequent $ item.slice 1
           consequentCode $ listUtil.append consequent (array :break)
-        return $ object
+        return $ {}
           :type :SwitchCase
           :consequent $ consequentCode.map $ \ (item)
             decideSolution item :statement
@@ -752,20 +752,20 @@ var $ dictionary $ object
       discriminant $ . args 0
       cases $ args.slice 1
     assert.array cases  ":cases of case"
-    return $ object
+    return $ {}
       :type :CallExpression
-      :arguments $ array
-      :callee $ object
+      :arguments $ []
+      :callee $ {}
         :type :ArrowFunctionExpression
         :id null
-        :params $ array
+        :params $ []
         :extra $ {}
           :parenthesized true
         :generator false
         :async false
-        :body $ object
+        :body $ {}
           :type :BlockStatement
-          :body $ array
+          :body $ []
             object
               :type :SwitchStatement
               :discriminant $ decideSolution discriminant :expression
@@ -774,7 +774,7 @@ var $ dictionary $ object
                 var
                   test $ . item 0
                   consequent $ item.slice 1
-                return $ object
+                return $ {}
                   :type :SwitchCase
                   :test $ cond (is test :else) null
                     decideSolution test :expression
@@ -784,7 +784,7 @@ var $ dictionary $ object
                         :type :ReturnStatement
                         :argument $ decideSolution item :expression
                       decideSolution item :expression
-          :directives $ array
+          :directives $ []
 
   :... $ \ (args environment)
     if (is args.length 1)
@@ -793,7 +793,7 @@ var $ dictionary $ object
         var
           argument $ . args 0
         assert.string :argument ":argument of spread"
-        return $ object
+        return $ {}
           :type :SpreadElement
           :argument $ makeIdentifier argument
       do
@@ -811,19 +811,19 @@ var $ dictionary $ object
       assert.result (is className.length 2) ":class declarations"
       = superClass $ getLast className
       = className $ first className
-    return $ object
+    return $ {}
       :type :ClassDeclaration
       :id $ makeIdentifier className
       :superClass $ cond (? superClass)
         makeIdentifier superClass
         , null
-      :body $ object
+      :body $ {}
         :type :ClassBody
         :body $ classMethods.map $ \ (pair)
           assert.result (is pair.length 2) ":MethodDefinition"
           var
             keyName $ first pair
-            prefix $ array
+            prefix $ []
             definition $ getLast pair
             kind :method
             isStatic false
@@ -840,7 +840,7 @@ var $ dictionary $ object
             = kind :constructor
           assert.string keyName ":keyName in class"
           assert.array definition ":definition in class"
-          return $ object
+          return $ {}
             :type :MethodDefinition
             :key $ makeIdentifier keyName
             :value $ decideSolution definition :expression
@@ -848,10 +848,6 @@ var $ dictionary $ object
             :static isStatic
             :computed false
 
-= (. dictionary :[]) dictionary.array
-= (. dictionary :[]~) (. dictionary :array~)
-= (. dictionary :{}) dictionary.object
-= (. dictionary :{}~) (. dictionary :object~)
 = (. dictionary :=) (. dictionary :__assgin__)
 = (. dictionary :;) (. dictionary :--)
 
