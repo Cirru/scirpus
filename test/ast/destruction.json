@@ -1,8 +1,10 @@
 {
   "type": "File",
+  "errors": [],
   "program": {
     "type": "Program",
     "sourceType": "script",
+    "interpreter": null,
     "body": [
       {
         "type": "VariableDeclaration",

@@ -1,8 +1,10 @@
 {
   "type": "File",
+  "errors": [],
   "program": {
     "type": "Program",
     "sourceType": "script",
+    "interpreter": null,
     "body": [
       {
         "type": "SwitchStatement",
@@ -198,7 +200,6 @@
               "parenthesized": true
             },
             "generator": false,
-            "expression": false,
             "type": "ArrowFunctionExpression",
             "id": null,
             "async": false

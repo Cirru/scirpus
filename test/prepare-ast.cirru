@@ -3,8 +3,8 @@
 
 var
   fs $ require :fs
-  babylon $ require :babylon
-  generator $ require :babel-generator
+  babelParser $ require :@babel/parser
+  generator $ require :@babel/generator
   Immutable $ require :immutable
 
 var files $ require :./files-index
@@ -34,7 +34,7 @@ files.forEach $ \ (file)
   var
     filename $ + :template/ file :.js
     jsCode $ fs.readFileSync filename :utf8
-    result $ babylon.parse jsCode
+    result $ babelParser.parse jsCode
     res $ purifyTree $ Immutable.fromJS (re result)
   = res $ re $ ... res (delete :tokens) (delete :comments)
   fs.writeFileSync (+ :ast/ file :.json) (JSON.stringify res null 2)

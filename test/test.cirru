@@ -9,6 +9,7 @@ var
   jsondiffpatch $ require :jsondiffpatch
   equal $ require :fast-deep-equal
   chalk $ require :chalk
+  sortJson $ require :sort-json
 
 var diffpatcher $ jsondiffpatch.create $ {}
   :objectHash $ \ (obj) (JSON.stringify obj)
@@ -31,8 +32,8 @@ files.forEach $ \ (file)
       console.log :failed: file
       var delta $ jsondiffpatch.diff ast jsAST
       console.log :delta: (JSON.stringify delta)
-      fs.writeFileSync (path.join __dirname :tmp/result.json) (s jsAST null 2)
-      fs.writeFileSync (path.join __dirname :tmp/expected.json) (s ast null 2)
+      fs.writeFileSync (path.join __dirname :tmp/result.json) (s (sortJson jsAST) null 2)
+      fs.writeFileSync (path.join __dirname :tmp/expected.json) (s (sortJson ast) null 2)
       console.log $ chalk.red ":Failed test" file
       process.exit 1
   , undefined

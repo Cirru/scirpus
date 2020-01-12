@@ -344,7 +344,6 @@ var $ dictionary $ object
               :argument $ makeIdentifier param
         , undefined
       :generator false
-      :expression false
       :type :FunctionExpression
       :id null
       :async false
@@ -383,7 +382,6 @@ var $ dictionary $ object
               :argument $ makeIdentifier param
         , undefined
       :generator false
-      :expression (is body.length 1)
       :async false
       :body $ cond (is body.length 1)
         decideSolution (. body 0) :expression
@@ -506,8 +504,6 @@ var $ dictionary $ object
       :type :UnaryExpression
       :operator :!
       :prefix true
-      :extra $ object
-        :parenthesizedArgument false
       :argument $ decideSolution (first args) :expression
 
   :if $ \ (args environment)
@@ -719,7 +715,6 @@ var $ dictionary $ object
       :type :TryStatement
       :block $ decideSolution block :expression
       :finalizer null
-      :guardedHandlers $ []
       :handler $ object
         :type :CatchClause
         :param $ makeIdentifier param
@@ -767,7 +762,6 @@ var $ dictionary $ object
         :extra $ {}
           :parenthesized true
         :generator false
-        :expression false
         :async false
         :body $ object
           :type :BlockStatement
@@ -868,8 +862,10 @@ var $ dictionary $ object
       return $ decideSolution line environment
   {}
     :type :File
+    :errors $ []
     :program $ {}
       :type :Program
       :sourceType :script
+      :interpreter null
       :body list
       :directives ([])

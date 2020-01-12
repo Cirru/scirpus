@@ -1,8 +1,10 @@
 {
   "type": "File",
+  "errors": [],
   "program": {
     "type": "Program",
     "sourceType": "script",
+    "interpreter": null,
     "body": [
       {
         "type": "ExpressionStatement",
@@ -75,7 +77,6 @@
                       },
                       "params": [],
                       "generator": false,
-                      "expression": false,
                       "type": "FunctionExpression",
                       "id": null,
                       "async": false

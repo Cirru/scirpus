@@ -1,8 +1,10 @@
 {
   "type": "File",
+  "errors": [],
   "program": {
     "type": "Program",
     "sourceType": "script",
+    "interpreter": null,
     "body": [
       {
         "type": "ExpressionStatement",
@@ -30,7 +32,6 @@
             "parenthesized": true
           },
           "generator": false,
-          "expression": false,
           "type": "FunctionExpression",
           "id": null,
           "async": false
@@ -50,7 +51,6 @@
             }
           ],
           "generator": false,
-          "expression": true,
           "type": "ArrowFunctionExpression",
           "id": null,
           "async": false
@@ -86,7 +86,6 @@
             }
           ],
           "generator": false,
-          "expression": false,
           "type": "ArrowFunctionExpression",
           "id": null,
           "async": false
@@ -134,7 +133,6 @@
                 }
               ],
               "generator": false,
-              "expression": false,
               "type": "FunctionExpression",
               "id": {
                 "type": "Identifier",
@@ -243,7 +241,6 @@
             "parenthesized": true
           },
           "generator": false,
-          "expression": false,
           "type": "FunctionExpression",
           "id": null,
           "async": false
