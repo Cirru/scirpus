@@ -5,29 +5,28 @@ var
   fs $ require :fs
   babelParser $ require :@babel/parser
   generator $ require :@babel/generator
-  Immutable $ require :immutable
+  bind $ \ (v f) (f v)
+  type $ require :type-of
 
 var files $ require :./files-index
 
 -- var files $ [] :empty
 
 var purifyTree $ \ (tree)
+  var nodeType $ type tree
   case true
-    (Immutable.Map.isMap tree) $ ... tree
-      filter $ \ (item key)
-        if (is key :start) $ do $ return false
-        if (is key :end) $ do $ return false
-        if (is key :loc) $ do $ return false
-        if (is key :parenStart) $ do $ return false
-        , true
-      map $ \ (item)
-        purifyTree item
-    (Immutable.List.isList tree) $ tree.map $ \ (item)
+    (is :array nodeType) $ tree.forEach $ \ (item)
       purifyTree item
+    (is :string nodeType) tree
+    (is :number nodeType) tree
+    (is :object nodeType) $ bind tree $ \ (item)
+      = item.start undefined
+      = item.end undefined
+      = item.loc undefined
+      = item.parenStart undefined
+      (. (Object.values item) :forEach) $ \ (x)
+        purifyTree x
     else tree
-
-var re $ \ (x)
-  JSON.parse $ JSON.stringify x
 
 files.forEach $ \ (file)
   console.log :file: file
@@ -40,8 +39,10 @@ files.forEach $ \ (file)
     result $ babelParser.parse jsCode
       {}
         :sourceType sourceType
-    res $ purifyTree $ Immutable.fromJS (re result)
-  = res $ re $ ... res (delete :tokens) (delete :comments)
-  fs.writeFileSync (+ :ast/ file :.json) (JSON.stringify res null 2)
-  -- var generated $ generator.default res
+
+  purifyTree result
+  = result.tokens undefined
+  = result.comments undefined
+  fs.writeFileSync (+ :ast/ file :.json) (JSON.stringify result null 2)
+  -- var generated $ generator.default result
   -- fs.writeFileSync (+ :generated/ file :.js) generated.code

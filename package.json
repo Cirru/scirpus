@@ -29,7 +29,6 @@
     "fast-deep-equal": "^3.1.1",
     "file-loader": "^5.0.2",
     "http-server": "^0.12.0",
-    "immutable": "^3.7.5",
     "jsondiffpatch": "^0.4.1",
     "sort-json": "^2.0.0",
     "stir-template": "^0.2.2",

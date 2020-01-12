@@ -9,6 +9,11 @@
       {
         "type": "ExpressionStatement",
         "expression": {
+          "type": "FunctionExpression",
+          "id": null,
+          "generator": false,
+          "async": false,
+          "params": [],
           "body": {
             "type": "BlockStatement",
             "body": [
@@ -84,14 +89,9 @@
             ],
             "directives": []
           },
-          "params": [],
           "extra": {
             "parenthesized": true
-          },
-          "generator": false,
-          "type": "FunctionExpression",
-          "id": null,
-          "async": false
+          }
         }
       }
     ],
