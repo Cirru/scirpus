@@ -110,6 +110,8 @@ var $ decideSolution $ \ (x environment)
       :expression result
     if (is (type x) :array) $ do
       var $ head $ . x 0
+      if (is head :import) $ do
+        return result
       if
         or
           not (is (type head) :string)
@@ -799,6 +801,38 @@ var $ dictionary $ {}
       do
         assert.array args ":chain"
         return $ buildChain args
+    , undefined
+
+  :import $ \ (args environment)
+    if (not (= args.length 2) )
+      do
+        throw $ new Error ":length need to be 2"
+    var source (. args 0)
+    assert.string source ":Path should be a string"
+    = source $ source.slice 1
+    if (is :string (type (. args 1)))
+      do
+        var target $ . args 1
+        return $ {} (:type :ImportDeclaration)
+          :specifiers $ []
+            {} (:type :ImportDefaultSpecifier)
+              :local $ {} (:type :Identifier) (:name target)
+          :source $ {} (:type :StringLiteral)
+            :extra $ {} (:rawValue source) (:raw (JSON.stringify source))
+            :value source
+      do
+        var targets $ . args 1
+        assert.array targets ":targets should be array"
+        var specifiers $ targets.map $ \ (x)
+          assert.string x ":a specifier is a string"
+          return $ {} (:type :ImportSpecifier)
+            :imported $ {} (:type :Identifier) (:name x)
+            :local $ {} (:type :Identifier) (:name x)
+        return $ {} (:type :ImportDeclaration)
+          :specifiers specifiers
+          :source $ {} (:type :StringLiteral)
+            :extra $ {} (:rawValue source) (:raw (JSON.stringify source))
+            :value source
     , undefined
 
   :class $ \ (args environment)

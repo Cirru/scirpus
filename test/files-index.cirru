@@ -10,6 +10,7 @@
   , :destruction
   , :detect
   , :empty
+  , :import
   , :keyword
   , :lambda
   , :member
@@ -19,4 +20,5 @@
   , :try
   , :unary
   , :values
-  , :import
+
+= module.exports $ [] :import

@@ -1,4 +1,6 @@
 
-import {b} from 'a'
+import a from "a"
+
+import {b} from "a"
 
 export let c = 1
