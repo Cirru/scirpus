@@ -18,10 +18,8 @@
     "cirru"
   ],
   "devDependencies": {
-    "@babel/core": "^7.8.0",
     "@babel/generator": "^7.8.0",
     "@babel/parser": "^7.8.0",
-    "@babel/standalone": "^7.8.0",
     "assets-webpack-plugin": "^3.9.10",
     "cirru-parser": "^0.10.2",
     "cirru-script": "^0.6.0-a1",

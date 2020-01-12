@@ -1,7 +1,7 @@
 
 var
   parser $ require :cirru-parser
-  babel $ require :@babel/standalone
+  generator $ require :@babel/generator
   operations $ require :./operations
   req $ new XMLHttpRequest
   source $ document.querySelector :#source
@@ -24,12 +24,10 @@ var $ render $ \ (code)
     display $ JSON.stringify result null 2
   console.log :ast: ast
 
-  console.log babel
-
   = compiled.value display
   console.log :result: display
   console.log ":generated code:"
-  -- console.log $ . (babel.transfomFromAst result null (object)) :code
+  console.log $ . (generator.default result ({}) code) :code
 
 var $ tryRender $ \ (code)
   try

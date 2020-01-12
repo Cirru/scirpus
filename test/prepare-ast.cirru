@@ -34,7 +34,12 @@ files.forEach $ \ (file)
   var
     filename $ + :template/ file :.js
     jsCode $ fs.readFileSync filename :utf8
+    sourceType $ case true
+      (? (jsCode.match /\nimport\s)) :module
+      else :script
     result $ babelParser.parse jsCode
+      {}
+        :sourceType sourceType
     res $ purifyTree $ Immutable.fromJS (re result)
   = res $ re $ ... res (delete :tokens) (delete :comments)
   fs.writeFileSync (+ :ast/ file :.json) (JSON.stringify res null 2)
