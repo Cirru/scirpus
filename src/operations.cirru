@@ -111,6 +111,8 @@ var $ decideSolution $ \ (x environment)
     return result
   if (is :export head) $ do
     return result
+  if (is :let head) $ do
+    return result
 
   if (is environment :statement) $ do
     if (is (type x) :string) $ do $ return $ {}
@@ -221,6 +223,41 @@ var $ dictionary $ {}
             decideSolution init :expression
             , null
       :kind :var
+
+  :let $ \ (args environment)
+    assert.array args ":variable declarations"
+    var
+      first $ . args 0
+      init $ . args 1
+    if (is (type first) :string) $ do
+      return $ {}
+        :type :VariableDeclaration
+        :declarations $ []
+          {}
+            :type :VariableDeclarator
+            :id $ makeIdentifier first
+            :init $ cond init
+              bind (decideSolution init :expression) $ \ (result)
+                if (is result.type :FunctionExpression) $ do
+                  = result.id $ makeIdentifier first
+                return result
+              , null
+        :kind :let
+    return $ {}
+      :type :VariableDeclaration
+      :declarations $ args.map $ \ (pair)
+        assert.array pair ":declarations in let"
+        var
+          name $ . pair 0
+        var
+          init $ . pair 1
+        return $ {}
+          :type :VariableDeclarator
+          :id $ decideSolution name :expression
+          :init $ cond init
+            decideSolution init :expression
+            , null
+      :kind :let
 
   :[] $ \ (args environment)
     assert.array args ":array args"

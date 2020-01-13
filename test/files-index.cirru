@@ -13,6 +13,7 @@
   , :import
   , :keyword
   , :lambda
+  , :let
   , :member
   , :object
   , :switch
