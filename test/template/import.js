@@ -3,4 +3,7 @@ import a from "a"
 
 import {b} from "a"
 
-export let c = 1
+export default d
+
+export var c
+
