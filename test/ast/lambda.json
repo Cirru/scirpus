@@ -1,12 +1,24 @@
 {
   "type": "File",
+  "errors": [],
   "program": {
     "type": "Program",
     "sourceType": "script",
+    "interpreter": null,
     "body": [
       {
         "type": "ExpressionStatement",
         "expression": {
+          "type": "FunctionExpression",
+          "id": null,
+          "generator": false,
+          "async": false,
+          "params": [
+            {
+              "type": "Identifier",
+              "name": "a"
+            }
+          ],
           "body": {
             "type": "BlockStatement",
             "body": [
@@ -20,45 +32,43 @@
             ],
             "directives": []
           },
+          "extra": {
+            "parenthesized": true
+          }
+        }
+      },
+      {
+        "type": "ExpressionStatement",
+        "expression": {
+          "type": "ArrowFunctionExpression",
+          "id": null,
+          "generator": false,
+          "async": false,
           "params": [
             {
               "type": "Identifier",
               "name": "a"
             }
           ],
-          "extra": {
-            "parenthesized": true
-          },
-          "generator": false,
-          "expression": false,
-          "type": "FunctionExpression",
-          "id": null,
-          "async": false
-        }
-      },
-      {
-        "type": "ExpressionStatement",
-        "expression": {
           "body": {
             "type": "Identifier",
             "name": "b"
-          },
+          }
+        }
+      },
+      {
+        "type": "ExpressionStatement",
+        "expression": {
+          "type": "ArrowFunctionExpression",
+          "id": null,
+          "generator": false,
+          "async": false,
           "params": [
             {
               "type": "Identifier",
               "name": "a"
             }
           ],
-          "generator": false,
-          "expression": true,
-          "type": "ArrowFunctionExpression",
-          "id": null,
-          "async": false
-        }
-      },
-      {
-        "type": "ExpressionStatement",
-        "expression": {
           "body": {
             "type": "BlockStatement",
             "body": [
@@ -78,18 +88,7 @@
               }
             ],
             "directives": []
-          },
-          "params": [
-            {
-              "type": "Identifier",
-              "name": "a"
-            }
-          ],
-          "generator": false,
-          "expression": false,
-          "type": "ArrowFunctionExpression",
-          "id": null,
-          "async": false
+          }
         }
       },
       {
@@ -102,6 +101,19 @@
               "name": "f"
             },
             "init": {
+              "type": "FunctionExpression",
+              "id": {
+                "type": "Identifier",
+                "name": "f"
+              },
+              "generator": false,
+              "async": false,
+              "params": [
+                {
+                  "type": "Identifier",
+                  "name": "x"
+                }
+              ],
               "body": {
                 "type": "BlockStatement",
                 "body": [
@@ -126,21 +138,7 @@
                   }
                 ],
                 "directives": []
-              },
-              "params": [
-                {
-                  "type": "Identifier",
-                  "name": "x"
-                }
-              ],
-              "generator": false,
-              "expression": false,
-              "type": "FunctionExpression",
-              "id": {
-                "type": "Identifier",
-                "name": "f"
-              },
-              "async": false
+              }
             }
           }
         ],
@@ -221,11 +219,10 @@
       {
         "type": "ExpressionStatement",
         "expression": {
-          "body": {
-            "type": "BlockStatement",
-            "body": [],
-            "directives": []
-          },
+          "type": "FunctionExpression",
+          "id": null,
+          "generator": false,
+          "async": false,
           "params": [
             {
               "type": "Identifier",
@@ -239,14 +236,14 @@
               }
             }
           ],
+          "body": {
+            "type": "BlockStatement",
+            "body": [],
+            "directives": []
+          },
           "extra": {
             "parenthesized": true
-          },
-          "generator": false,
-          "expression": false,
-          "type": "FunctionExpression",
-          "id": null,
-          "async": false
+          }
         }
       },
       {

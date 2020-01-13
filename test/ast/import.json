@@ -1,0 +1,82 @@
+{
+  "type": "File",
+  "errors": [],
+  "program": {
+    "type": "Program",
+    "sourceType": "module",
+    "interpreter": null,
+    "body": [
+      {
+        "type": "ImportDeclaration",
+        "specifiers": [
+          {
+            "type": "ImportDefaultSpecifier",
+            "local": {
+              "type": "Identifier",
+              "name": "a"
+            }
+          }
+        ],
+        "source": {
+          "type": "StringLiteral",
+          "extra": {
+            "rawValue": "a",
+            "raw": "\"a\""
+          },
+          "value": "a"
+        }
+      },
+      {
+        "type": "ImportDeclaration",
+        "specifiers": [
+          {
+            "type": "ImportSpecifier",
+            "imported": {
+              "type": "Identifier",
+              "name": "b"
+            },
+            "local": {
+              "type": "Identifier",
+              "name": "b"
+            }
+          }
+        ],
+        "source": {
+          "type": "StringLiteral",
+          "extra": {
+            "rawValue": "a",
+            "raw": "\"a\""
+          },
+          "value": "a"
+        }
+      },
+      {
+        "type": "ExportNamedDeclaration",
+        "specifiers": [],
+        "source": null,
+        "declaration": {
+          "type": "VariableDeclaration",
+          "declarations": [
+            {
+              "type": "VariableDeclarator",
+              "id": {
+                "type": "Identifier",
+                "name": "c"
+              },
+              "init": {
+                "type": "NumericLiteral",
+                "extra": {
+                  "rawValue": 1,
+                  "raw": "1"
+                },
+                "value": 1
+              }
+            }
+          ],
+          "kind": "let"
+        }
+      }
+    ],
+    "directives": []
+  }
+}

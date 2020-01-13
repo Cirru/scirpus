@@ -1,8 +1,10 @@
 {
   "type": "File",
+  "errors": [],
   "program": {
     "type": "Program",
     "sourceType": "script",
+    "interpreter": null,
     "body": [
       {
         "type": "ExpressionStatement",
@@ -10,9 +12,14 @@
           "type": "ObjectExpression",
           "properties": [
             {
+              "type": "ObjectProperty",
               "method": false,
-              "shorthand": false,
+              "key": {
+                "type": "Identifier",
+                "name": "a"
+              },
               "computed": false,
+              "shorthand": false,
               "value": {
                 "type": "NumericLiteral",
                 "extra": {
@@ -20,17 +27,17 @@
                   "raw": "1"
                 },
                 "value": 1
-              },
-              "type": "ObjectProperty",
-              "key": {
-                "type": "Identifier",
-                "name": "a"
               }
             },
             {
+              "type": "ObjectProperty",
               "method": false,
-              "shorthand": false,
+              "key": {
+                "type": "Identifier",
+                "name": "b"
+              },
               "computed": false,
+              "shorthand": false,
               "value": {
                 "type": "ArrayExpression",
                 "elements": [
@@ -51,24 +58,29 @@
                     "value": 3
                   }
                 ]
-              },
-              "type": "ObjectProperty",
-              "key": {
-                "type": "Identifier",
-                "name": "b"
               }
             },
             {
+              "type": "ObjectProperty",
               "method": false,
-              "shorthand": false,
+              "key": {
+                "type": "Identifier",
+                "name": "c"
+              },
               "computed": false,
+              "shorthand": false,
               "value": {
                 "type": "ObjectExpression",
                 "properties": [
                   {
+                    "type": "ObjectProperty",
                     "method": false,
-                    "shorthand": false,
+                    "key": {
+                      "type": "Identifier",
+                      "name": "d"
+                    },
                     "computed": false,
+                    "shorthand": false,
                     "value": {
                       "type": "NumericLiteral",
                       "extra": {
@@ -76,19 +88,9 @@
                         "raw": "4"
                       },
                       "value": 4
-                    },
-                    "type": "ObjectProperty",
-                    "key": {
-                      "type": "Identifier",
-                      "name": "d"
                     }
                   }
                 ]
-              },
-              "type": "ObjectProperty",
-              "key": {
-                "type": "Identifier",
-                "name": "c"
               }
             }
           ],
@@ -103,9 +105,14 @@
           "type": "ObjectExpression",
           "properties": [
             {
+              "type": "ObjectProperty",
               "method": false,
-              "shorthand": false,
+              "key": {
+                "type": "Identifier",
+                "name": "a"
+              },
               "computed": false,
+              "shorthand": false,
               "value": {
                 "type": "NumericLiteral",
                 "extra": {
@@ -113,17 +120,17 @@
                   "raw": "1"
                 },
                 "value": 1
-              },
-              "type": "ObjectProperty",
-              "key": {
-                "type": "Identifier",
-                "name": "a"
               }
             },
             {
+              "type": "ObjectProperty",
               "method": false,
-              "shorthand": false,
+              "key": {
+                "type": "Identifier",
+                "name": "b"
+              },
               "computed": false,
+              "shorthand": false,
               "value": {
                 "type": "NumericLiteral",
                 "extra": {
@@ -131,26 +138,11 @@
                   "raw": "2"
                 },
                 "value": 2
-              },
-              "type": "ObjectProperty",
-              "key": {
-                "type": "Identifier",
-                "name": "b"
               }
             },
             {
-              "method": false,
-              "shorthand": false,
-              "computed": false,
-              "value": {
-                "type": "StringLiteral",
-                "extra": {
-                  "rawValue": "add",
-                  "raw": "\"add\""
-                },
-                "value": "add"
-              },
               "type": "ObjectProperty",
+              "method": false,
               "key": {
                 "type": "StringLiteral",
                 "extra": {
@@ -158,6 +150,16 @@
                   "raw": "\"+\""
                 },
                 "value": "+"
+              },
+              "computed": false,
+              "shorthand": false,
+              "value": {
+                "type": "StringLiteral",
+                "extra": {
+                  "rawValue": "add",
+                  "raw": "\"add\""
+                },
+                "value": "add"
               }
             }
           ],

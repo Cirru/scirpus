@@ -1,8 +1,10 @@
 {
   "type": "File",
+  "errors": [],
   "program": {
     "type": "Program",
     "sourceType": "script",
+    "interpreter": null,
     "body": [
       {
         "type": "VariableDeclaration",
@@ -13,37 +15,37 @@
               "type": "ObjectPattern",
               "properties": [
                 {
+                  "type": "ObjectProperty",
                   "method": false,
-                  "shorthand": true,
-                  "computed": false,
-                  "extra": {
-                    "shorthand": true
+                  "key": {
+                    "type": "Identifier",
+                    "name": "a"
                   },
+                  "computed": false,
+                  "shorthand": true,
                   "value": {
                     "type": "Identifier",
                     "name": "a"
                   },
-                  "type": "ObjectProperty",
-                  "key": {
-                    "type": "Identifier",
-                    "name": "a"
+                  "extra": {
+                    "shorthand": true
                   }
                 },
                 {
+                  "type": "ObjectProperty",
                   "method": false,
-                  "shorthand": true,
-                  "computed": false,
-                  "extra": {
-                    "shorthand": true
+                  "key": {
+                    "type": "Identifier",
+                    "name": "b"
                   },
+                  "computed": false,
+                  "shorthand": true,
                   "value": {
                     "type": "Identifier",
                     "name": "b"
                   },
-                  "type": "ObjectProperty",
-                  "key": {
-                    "type": "Identifier",
-                    "name": "b"
+                  "extra": {
+                    "shorthand": true
                   }
                 }
               ]

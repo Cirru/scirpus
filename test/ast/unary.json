@@ -1,8 +1,10 @@
 {
   "type": "File",
+  "errors": [],
   "program": {
     "type": "Program",
     "sourceType": "script",
+    "interpreter": null,
     "body": [
       {
         "type": "ExpressionStatement",
@@ -13,9 +15,6 @@
           "argument": {
             "type": "Identifier",
             "name": "a"
-          },
-          "extra": {
-            "parenthesizedArgument": false
           }
         }
       }
