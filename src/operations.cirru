@@ -93,7 +93,10 @@ var $ decideSolution $ \ (x environment)
     [] :statement :expression
     , ":environment"
 
+  var head
+
   if (is (type x) :array) $ do
+    = head $ first x
     var
       result $ transformOperation x :expression
   if (is (type x) :string) $ do
@@ -103,6 +106,13 @@ var $ decideSolution $ \ (x environment)
     do
       var inStr $ JSON.stringify x
       throw $ new Error $ + ":Unknown chunk: " inStr
+
+  if (is :import head) $ do
+    return result
+  if (is :export head) $ do
+    return result
+  if (is :let head) $ do
+    return result
 
   if (is environment :statement) $ do
     if (is (type x) :string) $ do $ return $ {}
@@ -213,6 +223,41 @@ var $ dictionary $ {}
             decideSolution init :expression
             , null
       :kind :var
+
+  :let $ \ (args environment)
+    assert.array args ":variable declarations"
+    var
+      first $ . args 0
+      init $ . args 1
+    if (is (type first) :string) $ do
+      return $ {}
+        :type :VariableDeclaration
+        :declarations $ []
+          {}
+            :type :VariableDeclarator
+            :id $ makeIdentifier first
+            :init $ cond init
+              bind (decideSolution init :expression) $ \ (result)
+                if (is result.type :FunctionExpression) $ do
+                  = result.id $ makeIdentifier first
+                return result
+              , null
+        :kind :let
+    return $ {}
+      :type :VariableDeclaration
+      :declarations $ args.map $ \ (pair)
+        assert.array pair ":declarations in let"
+        var
+          name $ . pair 0
+        var
+          init $ . pair 1
+        return $ {}
+          :type :VariableDeclarator
+          :id $ decideSolution name :expression
+          :init $ cond init
+            decideSolution init :expression
+            , null
+      :kind :let
 
   :[] $ \ (args environment)
     assert.array args ":array args"
@@ -804,7 +849,7 @@ var $ dictionary $ {}
     , undefined
 
   :import $ \ (args environment)
-    if (not (= args.length 2) )
+    if (not (is args.length 2) )
       do
         throw $ new Error ":length need to be 2"
     var source (. args 0)
@@ -833,6 +878,26 @@ var $ dictionary $ {}
           :source $ {} (:type :StringLiteral)
             :extra $ {} (:rawValue source) (:raw (JSON.stringify source))
             :value source
+    , undefined
+
+  :export $ \ (args environment)
+    if (not (is args.length 2))
+      do $ throw $ new Error ":export expects 1 argument"
+    var target $ . args 0
+    switch target
+      :default $ do
+        var expression $ . args 1
+        return $ {} (:type :ExportDefaultDeclaration)
+          :declaration $ cond (is :string (type expression))
+            readToken expression
+            transformOperation expression
+      :var
+        return $ {} (:type :ExportNamedDeclaration) (:specifiers $ []) (:source null)
+          :declaration $ transformOperation args
+      :let
+        throw $ new Error ":TODO export let"
+      else
+        throw $ new Error ":Unknown export"
     , undefined
 
   :class $ \ (args environment)
@@ -888,14 +953,21 @@ var $ dictionary $ {}
 = exports.transform $ \ (tree)
   var
     environment :statement
+    isModule false
     list $ tree.map $ \ (line)
+      if (is :import (. line 0)) $ do
+        = isModule true
+      if (is :export (. line 0)) $ do
+        = isModule true
+
       return $ decideSolution line environment
+
   {}
     :type :File
     :errors $ []
     :program $ {}
       :type :Program
-      :sourceType :script
+      :sourceType $ cond isModule :module :script
       :interpreter null
       :body list
       :directives ([])

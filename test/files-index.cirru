@@ -13,6 +13,7 @@
   , :import
   , :keyword
   , :lambda
+  , :let
   , :member
   , :object
   , :switch
@@ -21,4 +22,4 @@
   , :unary
   , :values
 
-= module.exports $ [] :import
+-- = module.exports $ [] :import
