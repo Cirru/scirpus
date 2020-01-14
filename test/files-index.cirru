@@ -15,6 +15,7 @@
   , :lambda
   , :let
   , :member
+  , :method
   , :object
   , :switch
   , :this
@@ -22,4 +23,4 @@
   , :unary
   , :values
 
--- = module.exports $ [] :import
+-- = module.exports $ [] :method
