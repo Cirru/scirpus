@@ -94,14 +94,19 @@ var $ decideSolution $ \ (x environment)
     , ":environment"
 
   var head
+  var result
 
   if (is (type x) :array) $ do
     = head $ first x
-    var
-      result $ transformOperation x :expression
+
+    if (and (is :string (type head)) (head.match "/^\\.\\w+$"))
+      do
+        = result $ callMethod x
+      do
+        = result $ transformOperation x :expression
+
   if (is (type x) :string) $ do
-    var
-      result $ readToken x
+    = result $ readToken x
   if (not (? result))
     do
       var inStr $ JSON.stringify x
@@ -177,6 +182,20 @@ var $ buildChain $ \ (names)
       :computed false
     :arguments $ args.map $ \ (item)
       return $ decideSolution item :expression
+
+var callMethod $ \ (args)
+  var method $ . args 0
+  var property $ method.slice 1
+  var object $ . args 1
+  var params $ args.slice 2
+
+  return $ {} (:type :CallExpression)
+    :callee $ {} (:type :MemberExpression)
+      :object $ decideSolution object :expression
+      :property $ {} (:type :Identifier) (:name property)
+      :computed false
+    :arguments $ params.map $ \ (x)
+      decideSolution x :expression
 
 var $ dictionary $ {}
   :__assgin__ $ \ (args environment)
