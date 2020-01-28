@@ -966,6 +966,43 @@ var $ dictionary $ {}
             :static isStatic
             :computed false
 
+  :-> $ \ (args environment)
+    if (< args.length 1)
+      do $ throw $ new Error ":missing arguments for ->"
+    let
+      head $ . args 0
+      body $ args.slice 1
+
+    if (body.some $ \ (x) (is x.length 0))
+      do $ throw $ new Error ":empty item passed to ->"
+
+    body.forEach $ \ (x)
+      if (is :string (type x))
+        do $ = head $ [] x head
+        do $ = head $ .concat ([] (. x 0) head) (x.slice 1)
+      return undefined
+
+    decideSolution head :expression
+
+  :->> $ \ (args environment)
+    if (< args.length 1)
+      do $ throw $ new Error ":missing arguments for ->"
+    let
+      head $ . args 0
+      body $ args.slice 1
+
+    if (body.some $ \ (x) (is x.length 0))
+      do $ throw $ new Error ":empty item passed to ->"
+
+    body.forEach $ \ (x)
+      if (is :string (type x))
+        do $ = head $ [] x head
+        do $ = head $ x.concat $ [] head
+      return undefined
+
+    decideSolution head :expression
+
+
 = (. dictionary :=) (. dictionary :__assgin__)
 = (. dictionary :;) (. dictionary :--)
 
