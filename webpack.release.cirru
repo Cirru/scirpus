@@ -24,7 +24,7 @@ var
     :module $ {}
       :rules $ []
         {} (:test /\.cirru$) (:loader :cirru-script-loader) (:exclude /node_modules)
-        {} (:test "/\.(png|jpg)$") (:loader :url-loader)
+        {} (:test "/\\.(png|jpg)$") (:loader :url-loader)
           :query $ {} (:limit 100)
         {} (:test /\.css$) $ :loaders $ [] :style-loader :css-loader
     :stats $ {}

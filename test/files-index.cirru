@@ -19,6 +19,7 @@
   , :object
   , :switch
   , :this
+  , :thread
   , :try
   , :unary
   , :values
