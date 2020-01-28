@@ -1,6 +1,6 @@
 {
   "name": "scirpus",
-  "version": "0.6.1",
+  "version": "0.6.2-a1",
   "description": "Generate JavaScript AST from Cirru Grammer",
   "main": "lib/operations.js",
   "scripts": {
