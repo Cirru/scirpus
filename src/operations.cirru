@@ -804,7 +804,7 @@ var $ dictionary $ {}
         var
           test $ . item 0
           consequent $ item.slice 1
-          consequentCode $ listUtil.append consequent (array :break)
+          consequentCode $ listUtil.append consequent ([] :break)
         return $ {}
           :type :SwitchCase
           :consequent $ consequentCode.map $ \ (item)
@@ -832,7 +832,7 @@ var $ dictionary $ {}
         :body $ {}
           :type :BlockStatement
           :body $ []
-            object
+            {}
               :type :SwitchStatement
               :discriminant $ decideSolution discriminant :expression
               :cases $ cases.map $ \ (item)
@@ -846,7 +846,7 @@ var $ dictionary $ {}
                     decideSolution test :expression
                   :consequent $ consequent.map $ \ (item index)
                     return $ cond (is index (- consequent.length 1))
-                      object
+                      {}
                         :type :ReturnStatement
                         :argument $ decideSolution item :expression
                       decideSolution item :expression
