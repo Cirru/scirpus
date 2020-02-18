@@ -1,6 +1,6 @@
 {
   "name": "scirpus",
-  "version": "0.6.2",
+  "version": "0.6.3-a1",
   "description": "Generate JavaScript AST from Cirru Grammer",
   "main": "lib/operations.js",
   "scripts": {
@@ -11,7 +11,6 @@
     "release-html": "env=release cirruscript template.cirru",
     "up": "yarn release && tiye-up",
     "compile": "rm -rfv lib/* && cirruscript compile src lib",
-    "prepare": "yarn compile",
     "test": "cirruscript test/test.cirru"
   },
   "author": "jiyinyiyong",

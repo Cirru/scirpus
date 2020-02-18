@@ -1,0 +1,74 @@
+{
+  "type": "File",
+  "errors": [],
+  "program": {
+    "type": "Program",
+    "sourceType": "script",
+    "interpreter": null,
+    "body": [
+      {
+        "type": "ExpressionStatement",
+        "expression": {
+          "type": "ArrowFunctionExpression",
+          "id": null,
+          "generator": false,
+          "async": true,
+          "params": [],
+          "body": {
+            "type": "BlockStatement",
+            "body": [
+              {
+                "type": "ExpressionStatement",
+                "expression": {
+                  "type": "AwaitExpression",
+                  "argument": {
+                    "type": "Identifier",
+                    "name": "a"
+                  }
+                }
+              }
+            ],
+            "directives": []
+          }
+        }
+      },
+      {
+        "type": "VariableDeclaration",
+        "declarations": [
+          {
+            "type": "VariableDeclarator",
+            "id": {
+              "type": "Identifier",
+              "name": "b"
+            },
+            "init": {
+              "type": "FunctionExpression",
+              "id": null,
+              "generator": false,
+              "async": true,
+              "params": [],
+              "body": {
+                "type": "BlockStatement",
+                "body": [
+                  {
+                    "type": "ExpressionStatement",
+                    "expression": {
+                      "type": "AwaitExpression",
+                      "argument": {
+                        "type": "Identifier",
+                        "name": "a"
+                      }
+                    }
+                  }
+                ],
+                "directives": []
+              }
+            }
+          }
+        ],
+        "kind": "let"
+      }
+    ],
+    "directives": []
+  }
+}
