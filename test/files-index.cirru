@@ -2,6 +2,7 @@
 = module.exports $ []
   , :array
   , :assignment
+  , :async
   , :binary
   , :chain
   , :comment

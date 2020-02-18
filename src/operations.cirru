@@ -222,8 +222,10 @@ var $ dictionary $ {}
             :id $ makeIdentifier first
             :init $ cond init
               bind (decideSolution init :expression) $ \ (result)
-                if (is result.type :FunctionExpression) $ do
-                  = result.id $ makeIdentifier first
+                if
+                  and (is result.type :FunctionExpression) (not result.async)
+                  do
+                    = result.id $ makeIdentifier first
                 return result
               , null
         :kind :var
@@ -257,8 +259,10 @@ var $ dictionary $ {}
             :id $ makeIdentifier first
             :init $ cond init
               bind (decideSolution init :expression) $ \ (result)
-                if (is result.type :FunctionExpression) $ do
-                  = result.id $ makeIdentifier first
+                if
+                  and (is result.type :FunctionExpression) (not result.async)
+                  do
+                    = result.id $ makeIdentifier first
                 return result
               , null
         :kind :let
@@ -414,6 +418,36 @@ var $ dictionary $ {}
       :id null
       :async false
 
+  :\~ $ \ (args environment)
+    assert.array args ":async function"
+
+    var
+      params $ . args 0
+      body $ args.slice 1
+    assert.array params :params
+
+    return $ {}
+      :body $ {}
+        :type :BlockStatement
+        :body $ body.map $ \ (line index)
+          return $ decideSolution line :statement
+        :directives $ []
+      :params $ params.map $ \ (item)
+        if (is (type item) :string)
+          do
+            return $ makeIdentifier item
+          do
+            var $ param $ . item 0
+            assert.string param ":rest of params"
+            return $ {}
+              :type :RestElement
+              :argument $ makeIdentifier param
+        , undefined
+      :generator false
+      :type :FunctionExpression
+      :id null
+      :async true
+
   :return $ \ (args environment)
     assert.array args :return
     var
@@ -423,6 +457,39 @@ var $ dictionary $ {}
       :argument $ cond (? argument)
         decideSolution argument :expression
         , null
+
+  :\\~ $ \ (args environment)
+    assert.array args ":async function"
+
+    var
+      params $ . args 0
+      body $ args.slice 1
+    assert.array params :params
+
+    return $ {}
+      :type :ArrowFunctionExpression
+      :id null
+      :params $ params.map $ \ (item)
+        if (is (type item) :string)
+          do
+            return $ makeIdentifier item
+          do
+            var
+              param $ . item 0
+            assert.string param ":rest of params"
+            return $ {}
+              :type :RestElement
+              :argument $ makeIdentifier param
+        , undefined
+      :generator false
+      :async true
+      :body
+        {}
+          :type :BlockStatement
+          :body $ body.map $ \ (line index)
+            decideSolution line :statement
+          :directives $ []
+        :directives $ []
 
   :\\ $ \ (args environment)
     assert.array args :function
@@ -570,6 +637,13 @@ var $ dictionary $ {}
       :type :UnaryExpression
       :operator :!
       :prefix true
+      :argument $ decideSolution (first args) :expression
+
+  :await $ \ (args environment)
+    assert.array args ":await"
+
+    return $ {}
+      :type :AwaitExpression
       :argument $ decideSolution (first args) :expression
 
   :if $ \ (args environment)
